@@ -14,7 +14,7 @@ Google認証を使用するには、Google Cloud Consoleでの設定が**必須*
 
 2. **プロジェクトの作成**
    - 「プロジェクトを選択」→「新しいプロジェクト」
-   - プロジェクト名: `ScheduleAvailable` (任意の名前でOK)
+   - プロジェクト名: `TimeSync` (任意の名前でOK)
    - 「作成」をクリック
 
 3. **Google Calendar APIの有効化**
@@ -28,14 +28,14 @@ Google認証を使用するには、Google Cloud Consoleでの設定が**必須*
    - 「+ 認証情報を作成」→「OAuth クライアント ID」
    - 同意画面の設定が求められた場合:
      - ユーザータイプ: 「外部」を選択
-     - アプリ名: `ScheduleAvailable`
+     - アプリ名: `TimeSync`
      - サポートメール: あなたのメールアドレス
      - 開発者の連絡先: あなたのメールアドレス
      - 「保存して次へ」
 
 5. **OAuthクライアントIDの作成**
    - アプリケーションの種類: 「ウェブ アプリケーション」
-   - 名前: `ScheduleAvailable Local` (任意)
+   - 名前: `TimeSync Local` (任意)
    
    **承認済みのJavaScriptオリジン**に以下を追加:
    ```

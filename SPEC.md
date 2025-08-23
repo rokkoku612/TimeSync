@@ -1,7 +1,7 @@
 # TimeSync 仕様書
 
 ## プロジェクト概要
-- **プロジェクト名**: TimeSync（旧ScheduleAvailable）
+- **プロジェクト名**: TimeSync（旧TimeSync）
 - **バージョン**: 1.2.0
 - **最終更新**: 2025-01-23
 - **概要**: Googleカレンダーと連携して空き時間を自動検出し、日程調整を効率化するWebアプリケーション
@@ -208,7 +208,7 @@ interface LanguageStrings {
 ```bash
 # リポジトリをクローン
 git clone [repository-url]
-cd ScheduleAvailable
+cd TimeSync
 
 # 依存関係をインストール
 npm install

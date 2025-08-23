@@ -9,7 +9,7 @@
 ### Step 2: プロジェクトの作成
 1. 上部のプロジェクトセレクターをクリック
 2. 「新しいプロジェクト」をクリック
-3. プロジェクト名を入力（例：`ScheduleAvailable`）
+3. プロジェクト名を入力（例：`TimeSync`）
 4. 「作成」をクリック
 
 ### Step 3: Google Calendar API の有効化
@@ -23,7 +23,7 @@
 2. 「+ 認証情報を作成」→「OAuth クライアント ID」を選択
 3. 初回の場合、OAuth 同意画面の設定が必要：
    - ユーザータイプ：「外部」を選択
-   - アプリ名：`ScheduleAvailable`
+   - アプリ名：`TimeSync`
    - ユーザーサポートメール：あなたのメールアドレス
    - デベロッパーの連絡先情報：あなたのメールアドレス
    - スコープ：以下を追加
@@ -32,7 +32,7 @@
 
 ### Step 5: OAuth クライアント ID の作成
 1. アプリケーションの種類：「ウェブ アプリケーション」を選択
-2. 名前：`ScheduleAvailable Web Client`
+2. 名前：`TimeSync Web Client`
 3. 承認済みの JavaScript 生成元：
    ```
    http://localhost:5173

@@ -56,17 +56,17 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
         {isOpen ? <X size={18} /> : <Menu size={18} />}
       </button>
 
-      {/* Overlay - Complete dark background */}
+      {/* Overlay - Dark background when menu is open */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-[100]"
+          className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
           onClick={() => onToggle(false)}
         />
       )}
 
       {/* Menu Panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-float border-l border-mist z-[101] transform transition-transform duration-300 ease-out ${
+        className={`fixed top-0 right-0 h-full w-80 bg-gradient-to-b from-white to-soft-white shadow-2xl z-50 transform transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -82,8 +82,8 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
             </button>
           </div>
 
-          {/* Menu Items */}
-          <nav className="space-y-2 bg-soft-white rounded-lg p-2 border border-mist">
+          {/* Menu Items - Enhanced visibility with shadow and better contrast */}
+          <nav className="space-y-2 bg-white rounded-xl p-3 shadow-lg border border-mist/30 backdrop-blur-sm">
             <button
               onClick={handleManualClick}
               className="w-full flex items-center gap-3 p-3 text-left text-charcoal hover:text-ink hover:bg-pearl rounded-md transition-all duration-200 group"
@@ -122,14 +122,6 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
               <ChevronRight size={16} className="ml-auto text-graphite group-hover:text-ink transition-colors duration-200" />
             </button>
           </nav>
-
-          {/* Footer - Positioned at bottom */}
-          <div className="mt-auto">
-            <div className="text-xs text-graphite text-center">
-              <div className="mb-2">TimeSync</div>
-              <div>Version 1.2.0</div>
-            </div>
-          </div>
         </div>
       </div>
     </>

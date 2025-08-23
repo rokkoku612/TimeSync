@@ -15,16 +15,16 @@ const ContactPage: React.FC<ContactPageProps> = ({ isOpen, onClose, language }) 
     ja: {
       title: 'お問い合わせ',
       subtitle: 'ご意見・ご要望をお聞かせください',
-      description: 'ScheduleAvailableへのご意見、ご要望、不具合のご報告など、お気軽にお問い合わせください。',
+      description: 'TimeSyncへのご意見、ご要望、不具合のご報告など、お気軽にお問い合わせください。',
       contactMethods: 'お問い合わせ方法',
       emailTitle: 'メール',
-      emailDesc: 'support@scheduleav.com',
+      emailDesc: 'support@timesync.com',
       emailNote: '営業日2-3日以内に返信いたします',
       githubTitle: 'GitHub Issues',
       githubDesc: 'バグ報告・機能リクエスト',
       githubNote: '技術的な問題や機能要望はこちら',
       twitterTitle: 'Twitter',
-      twitterDesc: '@ScheduleAvailable',
+      twitterDesc: '@TimeSync',
       twitterNote: '最新情報やアップデートをお知らせ',
       faqTitle: 'よくある質問',
       faq1Q: 'Googleカレンダーと連携できません',
@@ -41,16 +41,16 @@ const ContactPage: React.FC<ContactPageProps> = ({ isOpen, onClose, language }) 
     en: {
       title: 'Contact',
       subtitle: 'We\'d love to hear from you',
-      description: 'Feel free to contact us with your feedback, suggestions, or bug reports about ScheduleAvailable.',
+      description: 'Feel free to contact us with your feedback, suggestions, or bug reports about TimeSync.',
       contactMethods: 'Contact Methods',
       emailTitle: 'Email',
-      emailDesc: 'support@scheduleav.com',
+      emailDesc: 'support@timesync.com',
       emailNote: 'We\'ll respond within 2-3 business days',
       githubTitle: 'GitHub Issues',
       githubDesc: 'Bug reports & Feature requests',
       githubNote: 'For technical issues and feature requests',
       twitterTitle: 'Twitter',
-      twitterDesc: '@ScheduleAvailable',
+      twitterDesc: '@TimeSync',
       twitterNote: 'Latest news and updates',
       faqTitle: 'Frequently Asked Questions',
       faq1Q: 'Cannot connect to Google Calendar',
@@ -110,7 +110,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ isOpen, onClose, language }) 
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <a
-                href="mailto:support@scheduleav.com"
+                href="mailto:support@timesync.com"
                 className="p-6 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-200 group"
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -124,7 +124,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ isOpen, onClose, language }) 
               </a>
 
               <a
-                href="https://github.com/scheduleav/issues"
+                href="https://github.com/timesync/issues"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-6 bg-white rounded-xl border border-gray-200 hover:border-gray-400 hover:shadow-lg transition-all duration-200 group"
@@ -140,7 +140,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ isOpen, onClose, language }) 
               </a>
 
               <a
-                href="https://twitter.com/ScheduleAv"
+                href="https://twitter.com/TimeSync"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-6 bg-white rounded-xl border border-gray-200 hover:border-sky-300 hover:shadow-lg transition-all duration-200 group"

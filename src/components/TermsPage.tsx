@@ -14,12 +14,12 @@ const TermsPage: React.FC<TermsPageProps> = ({ isOpen, onClose, language }) => {
   const content = {
     ja: {
       title: '利用規約',
-      subtitle: 'ScheduleAvailable サービス利用規約',
+      subtitle: 'TimeSync サービス利用規約',
       lastUpdated: '最終更新日: 2025年1月',
       sections: [
         {
           title: '1. サービスの概要',
-          content: 'ScheduleAvailable（以下「本サービス」）は、Googleカレンダーと連携して空き時間を検索・共有するWebアプリケーションです。本サービスはブラウザ上で動作し、ユーザーのデータを外部サーバーに保存することはありません。'
+          content: 'TimeSync（以下「本サービス」）は、Googleカレンダーと連携して空き時間を検索・共有するWebアプリケーションです。本サービスはブラウザ上で動作し、ユーザーのデータを外部サーバーに保存することはありません。'
         },
         {
           title: '2. 利用条件',
@@ -57,12 +57,12 @@ const TermsPage: React.FC<TermsPageProps> = ({ isOpen, onClose, language }) => {
     },
     en: {
       title: 'Terms of Service',
-      subtitle: 'ScheduleAvailable Terms of Service',
+      subtitle: 'TimeSync Terms of Service',
       lastUpdated: 'Last Updated: January 2025',
       sections: [
         {
           title: '1. Service Overview',
-          content: 'ScheduleAvailable (the "Service") is a web application that searches and shares available time slots by integrating with Google Calendar. The Service operates in your browser and does not store user data on external servers.'
+          content: 'TimeSync (the "Service") is a web application that searches and shares available time slots by integrating with Google Calendar. The Service operates in your browser and does not store user data on external servers.'
         },
         {
           title: '2. Terms of Use',
@@ -164,7 +164,7 @@ const TermsPage: React.FC<TermsPageProps> = ({ isOpen, onClose, language }) => {
           {/* Footer */}
           <div className="mt-12 pt-8 border-t border-mist">
             <p className="text-sm text-graphite text-center">
-              © 2025 ScheduleAvailable. All rights reserved.
+              © 2025 TimeSync. All rights reserved.
             </p>
           </div>
         </div>

@@ -7,7 +7,7 @@ Google Cloud Console > APIs & Services > OAuth consent screen
 
 #### 必須確認項目：
 - [ ] **公開ステータス**: テスト or 本番公開
-- [ ] **アプリ名**: ScheduleAvailable
+- [ ] **アプリ名**: TimeSync
 - [ ] **ユーザーサポートメール**: 設定済み
 - [ ] **開発者連絡先情報**: 設定済み
 - [ ] **承認済みドメイン**: localhost追加（テスト用）
@@ -46,7 +46,7 @@ Google Cloud Console > APIs & Services > Enabled APIs
 Google Cloud Console > IAM & Admin > Settings
 
 - [ ] **プロジェクトID**: `schedule-available-1755885477`
-- [ ] **プロジェクト名**: ScheduleAvailable
+- [ ] **プロジェクト名**: TimeSync
 
 ## ⏱️ 待機時間について
 

@@ -18,7 +18,7 @@
 1. 左メニュー「APIs & Services」→「OAuth consent screen」
 2. 以下を設定：
    - **User Type**: External（外部）を選択
-   - **App name**: ScheduleAvailable
+   - **App name**: TimeSync
    - **User support email**: あなたのメールアドレス
    - **Developer contact information**: あなたのメールアドレス
 3. 「SAVE AND CONTINUE」をクリック
@@ -43,7 +43,7 @@
 3. 「+ CREATE CREDENTIALS」→「OAuth client ID」
 4. 以下を設定：
    - **Application type**: Web application
-   - **Name**: ScheduleAvailable Web Client
+   - **Name**: TimeSync Web Client
    - **Authorized JavaScript origins**:
      ```
      http://localhost:5173

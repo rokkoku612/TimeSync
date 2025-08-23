@@ -94,7 +94,7 @@ http://localhost:5173
 
 `test-oauth-direct.html` ファイルをブラウザで開く：
 ```bash
-open /Users/ayumuyoshino/GitHub/ScheduleAvailable/test-oauth-direct.html
+open /Users/ayumuyoshino/GitHub/TimeSync/test-oauth-direct.html
 ```
 
 リンクをクリックして、Googleの認証画面が表示されるか確認。

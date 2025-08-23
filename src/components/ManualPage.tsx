@@ -25,7 +25,7 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
           <div className="flex items-center justify-between p-6">
             <div>
               <h1 className="text-xl font-medium text-ink tracking-tight">{language.texts.userGuide}</h1>
-              <p className="text-sm text-graphite mt-1">Availability — Serenity Calendar</p>
+              <p className="text-sm text-graphite mt-1">TimeSync — Schedule Management</p>
             </div>
             <button
               onClick={onClose}
@@ -419,8 +419,8 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                 {language.texts.supportDesc}
               </p>
               <div className="text-sm text-graphite">
-                <div>Version 1.0.0</div>
-                <div>© 2024 Availability — Serenity Calendar</div>
+                <div>Version 1.2.0</div>
+                <div>© 2025 TimeSync</div>
               </div>
             </div>
           </section>

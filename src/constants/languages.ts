@@ -5,7 +5,7 @@ export const languages: Language[] = [
     code: 'ja',
     name: '日本語',
     texts: {
-      title: 'Availability',
+      title: 'TimeSync',
       searchParameters: '検索条件',
       period: '期間',
       start: '開始',
@@ -37,8 +37,8 @@ export const languages: Language[] = [
       oneClickCopy: 'ワンクリックコピー',
       timeSettings: '時間制限設定',
       // Manual page texts
-      aboutApp: 'Availabilityについて',
-      aboutDescription: 'Availabilityは、Googleカレンダーと連携して空き時間を自動検出し、相手に共有しやすいテキスト形式で出力するWebアプリケーションです。日程調整ツールのような登録負担をかけることなく、効率的に空き時間を共有できます。',
+      aboutApp: 'TimeSyncについて',
+      aboutDescription: 'TimeSyncは、Googleカレンダーと連携して空き時間を自動検出し、相手に共有しやすいテキスト形式で出力するWebアプリケーションです。日程調整ツールのような登録負担をかけることなく、効率的に空き時間を共有できます。',
       quickStart: 'クイックスタート',
       selectPeriod: '期間を選択',
       selectPeriodDesc: '開始日時と終了日時を設定します。カレンダーから直接選択できます。',
@@ -105,7 +105,7 @@ export const languages: Language[] = [
     code: 'en',
     name: 'English',
     texts: {
-      title: 'Availability',
+      title: 'TimeSync',
       searchParameters: 'Search Parameters',
       period: 'Period',
       start: 'Start',
@@ -137,8 +137,8 @@ export const languages: Language[] = [
       oneClickCopy: 'One-click copy',
       timeSettings: 'Time restriction settings',
       // Manual page texts
-      aboutApp: 'About Availability',
-      aboutDescription: 'Availability is a web application that integrates with Google Calendar to automatically detect free time slots and output them in an easy-to-share text format. You can efficiently share your availability without the registration burden of scheduling tools.',
+      aboutApp: 'About TimeSync',
+      aboutDescription: 'TimeSync is a web application that integrates with Google Calendar to automatically detect free time slots and output them in an easy-to-share text format. You can efficiently share your availability without the registration burden of scheduling tools.',
       quickStart: 'Quick Start',
       selectPeriod: 'Select Period',
       selectPeriodDesc: 'Set the start and end date/time. You can select directly from the calendar.',

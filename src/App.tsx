@@ -90,13 +90,8 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 relative overflow-hidden">
-      {/* Additional overlay when menu is open to cover entire screen */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 bg-black/30 z-[99] pointer-events-none transition-opacity duration-300" />
-      )}
-      
       {/* Background decoration */}
-      <div className={`fixed inset-0 pointer-events-none transition-all duration-300 ${isMenuOpen ? 'brightness-75' : 'brightness-100'}`}>
+      <div className="fixed inset-0 pointer-events-none transition-all duration-300">
         <div className="absolute w-96 h-96 -top-48 -left-48 bg-white/40 rounded-full blur-3xl animate-pulse" />
         <div className="absolute w-80 h-80 -bottom-40 -right-40 bg-white/40 rounded-full blur-3xl animate-pulse animation-delay-1000" />
         <div className="absolute w-64 h-64 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/30 rounded-full blur-3xl animate-pulse animation-delay-2000" />
@@ -129,7 +124,7 @@ const App: React.FC = () => {
         </header>
 
         {/* Main Content */}
-        <main className={`flex-1 px-2 py-4 pb-8 max-w-4xl mx-auto w-full transition-all duration-300 ${isMenuOpen ? 'brightness-75 contrast-90' : 'brightness-100'}`}>
+        <main className="flex-1 px-2 py-4 pb-8 max-w-4xl mx-auto w-full transition-all duration-300">
           {/* Google Login */}
           <div className="mb-6">
             <GoogleLogin
@@ -156,7 +151,7 @@ const App: React.FC = () => {
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`}
               >
-                {currentLanguage.code === 'ja' ? '空き時間検索' : 'Availability Search'}
+                {currentLanguage.code === 'ja' ? '空き時間検索' : 'TimeSync Search'}
               </button>
               
               <div className="flex-1"></div>

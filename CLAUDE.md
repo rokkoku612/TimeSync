@@ -2,7 +2,7 @@
 
 ## プロジェクト概要
 
-TimeSync（旧ScheduleAvailable）は、Googleカレンダーと連携して空き時間を自動検出し、日程調整を効率化するWebアプリケーションです。
+TimeSync（旧TimeSync）は、Googleカレンダーと連携して空き時間を自動検出し、日程調整を効率化するWebアプリケーションです。
 
 ### 技術スタック
 - **フレームワーク**: React 18.3.1 + TypeScript

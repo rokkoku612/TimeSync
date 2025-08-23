@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, User, Code, Heart, Github, Twitter, Globe, Shield, Zap, Globe2, Smartphone } from 'lucide-react';
+import { X, User, Code, Target, Twitter, Globe, Shield, Zap, Globe2, Smartphone } from 'lucide-react';
 import { Language } from '../types';
 
 interface AboutPageProps {
@@ -21,11 +21,11 @@ const AboutPage: React.FC<AboutPageProps> = ({ isOpen, onClose, language }) => {
   const content = {
     ja: {
       title: '開発者情報',
-      subtitle: 'ScheduleAvailableについて',
+      subtitle: 'TimeSyncについて',
       missionTitle: 'ミッション',
       missionContent: '日程調整の煩わしさから解放し、より大切なことに時間を使えるようにする。',
       storyTitle: '開発ストーリー',
-      storyContent: 'ScheduleAvailableは、日々の会議調整に費やす時間を削減したいという思いから生まれました。複数のメールを往復して日程を調整する代わりに、ワンクリックで空き時間を共有できるツールを目指しました。',
+      storyContent: 'TimeSyncは、日々の会議調整に費やす時間を削減したいという思いから生まれました。複数のメールを往復して日程を調整する代わりに、ワンクリックで空き時間を共有できるツールを目指しました。',
       featuresTitle: '特徴',
       features: [
         {
@@ -58,26 +58,24 @@ const AboutPage: React.FC<AboutPageProps> = ({ isOpen, onClose, language }) => {
         { name: 'Vite', desc: 'ビルドツール' }
       ],
       developerTitle: '開発者',
-      developerName: 'ScheduleAvailable Team',
+      developerName: 'Ayumu Yoshino',
       developerRole: 'フルスタック開発者',
-      developerBio: '生産性向上ツールの開発に情熱を注ぐエンジニアチーム。日々の業務を効率化し、人々がより創造的な活動に時間を使えるようなツールを開発しています。',
+      developerBio: '生産性向上ツールの開発に情熱を注ぐエンジニア。日々の業務を効率化し、人々がより創造的な活動に時間を使えるようなツールを開発しています。',
       contactTitle: 'コンタクト',
       version: 'バージョン',
       versionNumber: '1.2.0',
       license: 'ライセンス',
       licenseType: 'MIT License',
-      acknowledgments: '謝辞',
-      acknowledgmentsContent: 'このプロジェクトは多くのオープンソースプロジェクトに支えられています。コントリビューターの皆様に感謝いたします。',
       supportTitle: 'サポート',
-      supportContent: 'もしScheduleAvailableが役に立ったら、GitHubでスターをつけていただけると嬉しいです'
+      supportContent: 'もしTimeSyncが役に立ったら、SNSでシェアしていただけると嬉しいです'
     },
     en: {
       title: 'About',
-      subtitle: 'About ScheduleAvailable',
+      subtitle: 'About TimeSync',
       missionTitle: 'Our Mission',
       missionContent: 'Free people from the hassle of scheduling and let them spend time on what matters most.',
       storyTitle: 'Development Story',
-      storyContent: 'ScheduleAvailable was born from the desire to reduce time spent on daily meeting coordination. Instead of exchanging multiple emails to schedule meetings, we aimed to create a tool that shares available times with just one click.',
+      storyContent: 'TimeSync was born from the desire to reduce time spent on daily meeting coordination. Instead of exchanging multiple emails to schedule meetings, we aimed to create a tool that shares available times with just one click.',
       featuresTitle: 'Features',
       features: [
         {
@@ -110,18 +108,16 @@ const AboutPage: React.FC<AboutPageProps> = ({ isOpen, onClose, language }) => {
         { name: 'Vite', desc: 'Build Tool' }
       ],
       developerTitle: 'Developer',
-      developerName: 'ScheduleAvailable Team',
+      developerName: 'Ayumu Yoshino',
       developerRole: 'Full Stack Developer',
-      developerBio: 'An engineering team passionate about developing productivity tools. We create tools that streamline daily tasks and allow people to spend more time on creative activities.',
+      developerBio: 'An engineer passionate about developing productivity tools. Creating tools that streamline daily tasks and allow people to spend more time on creative activities.',
       contactTitle: 'Contact',
       version: 'Version',
       versionNumber: '1.2.0',
       license: 'License',
       licenseType: 'MIT License',
-      acknowledgments: 'Acknowledgments',
-      acknowledgmentsContent: 'This project is supported by many open source projects. We thank all contributors.',
       supportTitle: 'Support',
-      supportContent: 'If ScheduleAvailable has been helpful, we would appreciate a star on GitHub'
+      supportContent: 'If TimeSync has been helpful, we would appreciate you sharing it on social media'
     }
   };
 
@@ -157,7 +153,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ isOpen, onClose, language }) => {
           <section className="mb-12">
             <div className="bg-gradient-to-r from-pearl to-mist rounded-xl p-6">
               <h2 className="text-lg font-medium text-ink mb-3 flex items-center gap-2">
-                <Heart size={20} className="text-charcoal" />
+                <Target size={20} className="text-charcoal" />
                 {t.missionTitle}
               </h2>
               <p className="text-charcoal leading-relaxed text-lg">
@@ -231,15 +227,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ isOpen, onClose, language }) => {
               </p>
               <div className="flex gap-3">
                 <a
-                  href="https://github.com/scheduleav"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 bg-pure-white rounded-lg hover:bg-pearl transition-colors border border-mist"
-                >
-                  <Github size={20} className="text-charcoal" />
-                </a>
-                <a
-                  href="https://twitter.com/scheduleav"
+                  href="https://twitter.com/ayumuyoshino"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 bg-pure-white rounded-lg hover:bg-pearl transition-colors border border-mist"
@@ -247,7 +235,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ isOpen, onClose, language }) => {
                   <Twitter size={20} className="text-charcoal" />
                 </a>
                 <a
-                  href="https://scheduleav.com"
+                  href="https://ayumuyoshino.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 bg-pure-white rounded-lg hover:bg-pearl transition-colors border border-mist"
@@ -270,17 +258,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ isOpen, onClose, language }) => {
                 <p className="text-ink">{t.licenseType}</p>
               </div>
             </div>
-          </section>
-
-          {/* Acknowledgments */}
-          <section className="mb-12">
-            <h2 className="text-lg font-medium text-ink mb-4 flex items-center gap-2">
-              <Heart size={20} className="text-charcoal" />
-              {t.acknowledgments}
-            </h2>
-            <p className="text-charcoal leading-relaxed">
-              {t.acknowledgmentsContent}
-            </p>
           </section>
 
           {/* Support */}

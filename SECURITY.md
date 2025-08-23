@@ -1,4 +1,4 @@
-# セキュリティガイドライン - ScheduleAvailable
+# セキュリティガイドライン - TimeSync
 
 ## セキュリティ対策一覧
 

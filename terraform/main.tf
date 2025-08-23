@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "google" {
-  project = "schedule-available-1755885477"
+  project = "timesync-project"
   region  = "asia-northeast1"
 }
 
@@ -39,7 +39,7 @@ output "next_steps" {
     ✅ APIs enabled successfully!
     
     Next steps:
-    1. Open: https://console.cloud.google.com/apis/credentials?project=schedule-available-1755885477
+    1. Open: https://console.cloud.google.com/apis/credentials?project=timesync-project
     2. Configure OAuth consent screen (if not done)
     3. Create OAuth 2.0 Client ID
     4. Copy the Client ID and update .env file
