@@ -44,7 +44,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
           }));
           setCalendars(updatedCalendars);
           onCalendarsChange(savedIds);
-        } catch (error) {
+        } catch {
           // Failed to load saved selection
         }
       }
@@ -80,7 +80,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
       if (savedSelection) {
         try {
           savedIds = JSON.parse(savedSelection);
-        } catch (error) {
+        } catch {
           // Failed to parse saved selection
         }
       }
@@ -106,7 +106,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
       if (savedIds.length === 0) {
         localStorage.setItem('selectedCalendarIds', JSON.stringify(selectedIds));
       }
-    } catch (error) {
+    } catch {
       // Failed to load calendars
     } finally {
       setLoading(false);

@@ -3,7 +3,6 @@ import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react'
 import { CalendarPopupProps } from '../types';
 
 const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({ 
-  type, 
   currentDate, 
   calendarYear, 
   calendarMonth, 

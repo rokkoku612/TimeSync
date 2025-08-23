@@ -85,7 +85,7 @@ export const languages: Language[] = [
       faqAuth: 'Googleアカウントの認証が必要ですか？',
       faqAuthAnswer: 'はい。Googleカレンダーの予定を読み取るため、Googleアカウントでの認証が必要です。OAuth 2.0による安全な認証を使用しており、カレンダーの読み取り権限のみを要求します。',
       faqMultiCalendar: '複数のカレンダーに対応していますか？',
-      faqMultiCalendarAnswer: '現在はプライマリカレンダーのみに対応しています。複数カレンダー対応は今後のアップデートで追加予定です。',
+      faqMultiCalendarAnswer: 'はい、複数のGoogleカレンダーに対応しています。ログイン後、カレンダー選択機能で検索対象とするカレンダーを個別に選択できます。共有カレンダーやサブカレンダーも含め、必要なカレンダーのみを選択することで、より正確な空き時間検索が可能です。',
       faqAllDay: '終日の予定は除外されますか？',
       faqAllDayAnswer: 'はい。終日の予定（祝日、休暇など）は空き時間の計算から除外されます。時刻が設定された予定のみが考慮されます。',
       faqDataStorage: 'データは保存されますか？',
@@ -96,7 +96,7 @@ export const languages: Language[] = [
       helpPeriod: '期間設定のヘルプ',
       helpPeriodDesc: '検索したい期間の開始日時と終了日時を設定します。\n\n• カレンダーアイコンをクリックして日付を選択\n• 時刻は15分単位で設定可能\n• 複数日にわたる検索も可能',
       helpMinDuration: '最小時間のヘルプ',
-      helpMinDurationDesc: '検索結果に表示する空き時間の最小単位を指定します。\n\n• 15分: 短い打ち合わせや電話会議\n• 30分: 通常の会議や面談\n• 60分以上: 長時間の会議やワークショップ\n\n設定した時間より短い空きスロットは除外されます。',
+      helpMinDurationDesc: '検索結果に表示する空き時間の最小単位を指定します。\n\n• 15分: 短い打ち合わせや電話会議\n• 30分: 通常の会議や面談\n• 60分: 1時間の会議\n• 90分: 長めの会議\n• 120分: 2時間のワークショップや研修\n\n設定した時間より短い空きスロットは除外されます。',
       helpTimeRestrictions: '時間除外設定のヘルプ',
       helpTimeRestrictionsDesc: '毎日の特定の時間帯を除外して検索できます。\n\n• 以前を除外: 指定時刻より前の時間を毎日除外（例：9:00前を除外）\n• 以降を除外: 指定時刻より後の時間を毎日除外（例：21:00以降を除外）\n\n例：夜中や早朝を除外したい場合\n以前を除外: 09:00, 以降を除外: 21:00 と設定すると\n毎日9:00-21:00の間のみ表示されます'
     }
@@ -185,7 +185,7 @@ export const languages: Language[] = [
       faqAuth: 'Is Google account authentication required?',
       faqAuthAnswer: 'Yes. Authentication with your Google account is required to read Google Calendar events. We use secure OAuth 2.0 authentication and only request calendar read permissions.',
       faqMultiCalendar: 'Does it support multiple calendars?',
-      faqMultiCalendarAnswer: 'Currently only supports the primary calendar. Multiple calendar support is planned for future updates.',
+      faqMultiCalendarAnswer: 'Yes, it supports multiple Google calendars. After logging in, you can use the calendar selector to choose which calendars to include in your search. This includes shared calendars and sub-calendars, allowing you to select only the necessary ones for more accurate availability searches.',
       faqAllDay: 'Are all-day events excluded?',
       faqAllDayAnswer: 'Yes. All-day events (holidays, vacations, etc.) are excluded from free time calculations. Only events with specific times are considered.',
       faqDataStorage: 'Is data stored?',
@@ -196,7 +196,7 @@ export const languages: Language[] = [
       helpPeriod: 'Period Settings Help',
       helpPeriodDesc: 'Set the start and end date/time for the search period.\n\n• Click calendar icon to select dates\n• Time can be set in 15-minute increments\n• Multi-day searches are supported',
       helpMinDuration: 'Minimum Duration Help',
-      helpMinDurationDesc: 'Specify the minimum duration for available time slots to display.\n\n• 15 min: Quick meetings or phone calls\n• 30 min: Regular meetings or interviews\n• 60+ min: Long meetings or workshops\n\nSlots shorter than the set duration will be excluded.',
+      helpMinDurationDesc: 'Specify the minimum duration for available time slots to display.\n\n• 15 min: Quick meetings or phone calls\n• 30 min: Regular meetings or interviews\n• 60 min: 1-hour meetings\n• 90 min: Extended meetings\n• 120 min: 2-hour workshops or training sessions\n\nSlots shorter than the set duration will be excluded.',
       helpTimeRestrictions: 'Time Exclusion Settings Help',
       helpTimeRestrictionsDesc: 'Exclude specific time periods from each day.\n\n• Exclude Before: Exclude time before specified time each day (e.g., exclude before 9:00)\n• Exclude After: Exclude time after specified time each day (e.g., exclude after 21:00)\n\nExample: To exclude nights and early mornings\nSet Exclude Before: 09:00, Exclude After: 21:00\nThis will only show 9:00-21:00 time slots each day'
     }

@@ -62,13 +62,28 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                   1
                 </div>
                 <div>
+                  <h3 className="font-medium text-ink mb-1">
+                    {language.code === 'ja' ? 'Googleカレンダー連携' : 'Connect Google Calendar'}
+                  </h3>
+                  <p className="text-charcoal text-sm">
+                    {language.code === 'ja' 
+                      ? 'Googleアカウントでログインして、カレンダーの予定を自動取得します。' 
+                      : 'Sign in with your Google account to automatically fetch your calendar events.'}
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4 p-4 bg-soft-white rounded-lg border border-mist">
+                <div className="w-8 h-8 bg-ink text-pure-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
+                  2
+                </div>
+                <div>
                   <h3 className="font-medium text-ink mb-1">{language.texts.selectPeriod}</h3>
                   <p className="text-charcoal text-sm">{language.texts.selectPeriodDesc}</p>
                 </div>
               </div>
               <div className="flex gap-4 p-4 bg-soft-white rounded-lg border border-mist">
                 <div className="w-8 h-8 bg-ink text-pure-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
-                  2
+                  3
                 </div>
                 <div>
                   <h3 className="font-medium text-ink mb-1">{language.texts.setMinDuration}</h3>
@@ -77,7 +92,7 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
               </div>
               <div className="flex gap-4 p-4 bg-soft-white rounded-lg border border-mist">
                 <div className="w-8 h-8 bg-ink text-pure-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
-                  3
+                  4
                 </div>
                 <div>
                   <h3 className="font-medium text-ink mb-1">{language.texts.executeSearch}</h3>
@@ -86,11 +101,17 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
               </div>
               <div className="flex gap-4 p-4 bg-soft-white rounded-lg border border-mist">
                 <div className="w-8 h-8 bg-ink text-pure-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">
-                  4
+                  5
                 </div>
                 <div>
-                  <h3 className="font-medium text-ink mb-1">{language.texts.copyResults}</h3>
-                  <p className="text-charcoal text-sm">{language.texts.copyResultsDesc}</p>
+                  <h3 className="font-medium text-ink mb-1">
+                    {language.code === 'ja' ? 'テンプレート選択とコピー' : 'Select Template and Copy'}
+                  </h3>
+                  <p className="text-charcoal text-sm">
+                    {language.code === 'ja' 
+                      ? 'ビジネスシーンに合わせたテンプレートを選択し、空き時間をコピーします。' 
+                      : 'Select a template suited for your business needs and copy your available times.'}
+                  </p>
                 </div>
               </div>
             </div>
@@ -187,12 +208,13 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                   <p className="text-charcoal text-sm leading-relaxed">
                     {language.texts.durationSettingsDesc}
                   </p>
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs">
+                  <div className="grid grid-cols-2 md:grid-cols-6 gap-2 text-xs">
                     <div className="bg-mist p-2 rounded text-center">15 {language.texts.minutes}</div>
                     <div className="bg-mist p-2 rounded text-center">30 {language.texts.minutes}</div>
                     <div className="bg-mist p-2 rounded text-center">45 {language.texts.minutes}</div>
                     <div className="bg-mist p-2 rounded text-center">1 {language.texts.hour}</div>
                     <div className="bg-mist p-2 rounded text-center">90 {language.texts.minutes}</div>
+                    <div className="bg-mist p-2 rounded text-center">2 {language.texts.hours}</div>
                   </div>
                 </div>
               </div>
@@ -245,6 +267,70 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                       <X size={16} className="text-graphite" />
                       <span className="text-sm text-charcoal">{language.texts.deleteIndividual}</span>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Template Function */}
+              <div>
+                <h3 className="font-medium text-ink mb-4 flex items-center gap-2">
+                  <ChevronRight size={16} className="text-graphite" />
+                  {language.code === 'ja' ? 'コピーテンプレート機能' : 'Copy Template Feature'}
+                </h3>
+                <div className="pl-6 space-y-3">
+                  <p className="text-charcoal text-sm leading-relaxed">
+                    {language.code === 'ja' 
+                      ? '空き時間をコピーする際、ビジネスシーンに合わせた8種類のテンプレートから選択できます。前文・後文が自動的に追加され、そのままメールやチャットで送信できます。'
+                      : 'When copying available times, you can choose from 8 templates suited for different business scenarios. Introductory and closing text is automatically added, ready to send via email or chat.'}
+                  </p>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="bg-mist p-2 rounded">
+                      {language.code === 'ja' ? 'シンプル（日程のみ）' : 'Simple (Dates Only)'}
+                    </div>
+                    <div className="bg-mist p-2 rounded">
+                      {language.code === 'ja' ? 'フォーマル' : 'Formal'}
+                    </div>
+                    <div className="bg-mist p-2 rounded">
+                      {language.code === 'ja' ? 'カジュアル' : 'Casual'}
+                    </div>
+                    <div className="bg-mist p-2 rounded">
+                      {language.code === 'ja' ? 'ビジネス' : 'Business'}
+                    </div>
+                    <div className="bg-mist p-2 rounded">
+                      {language.code === 'ja' ? '面接・面談' : 'Interview'}
+                    </div>
+                    <div className="bg-mist p-2 rounded">
+                      {language.code === 'ja' ? 'リマインダー付き' : 'With Reminder'}
+                    </div>
+                    <div className="bg-mist p-2 rounded">
+                      {language.code === 'ja' ? 'クイック調整' : 'Quick Schedule'}
+                    </div>
+                    <div className="bg-mist p-2 rounded">
+                      {language.code === 'ja' ? '国際会議' : 'International'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Calendar Selection */}
+              <div>
+                <h3 className="font-medium text-ink mb-4 flex items-center gap-2">
+                  <ChevronRight size={16} className="text-graphite" />
+                  {language.code === 'ja' ? 'カレンダー選択機能' : 'Calendar Selection'}
+                </h3>
+                <div className="pl-6 space-y-3">
+                  <p className="text-charcoal text-sm leading-relaxed">
+                    {language.code === 'ja' 
+                      ? '複数のGoogleカレンダーを使用している場合、検索対象とするカレンダーを選択できます。共有カレンダーも含め、必要なカレンダーのみを選択することで、より正確な空き時間を検索できます。'
+                      : 'If you use multiple Google calendars, you can select which calendars to include in the search. Including shared calendars, select only the necessary ones for more accurate availability search.'}
+                  </p>
+                  <div className="bg-pearl p-4 rounded-lg">
+                    <p className="text-charcoal text-sm">
+                      <strong>{language.code === 'ja' ? 'ヒント' : 'Tip'}：</strong>
+                      {language.code === 'ja' 
+                        ? '選択したカレンダーは自動的に保存され、次回アクセス時も維持されます。' 
+                        : 'Selected calendars are automatically saved and maintained for your next visit.'}
+                    </p>
                   </div>
                 </div>
               </div>

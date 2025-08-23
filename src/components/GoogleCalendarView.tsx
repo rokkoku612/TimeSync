@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Plus, Edit, Trash2, Clock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Clock } from 'lucide-react';
 import { Language } from '../types';
 import googleCalendar from '../services/googleCalendar';
 import EventModal from './EventModal';
@@ -21,14 +21,12 @@ interface GoogleCalendarViewProps {
   language: Language;
   isSignedIn: boolean;
   isDemoMode?: boolean;
-  onSwitchToSearch?: () => void;
 }
 
 const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
   language,
   isSignedIn,
-  isDemoMode = false,
-  onSwitchToSearch
+  isDemoMode = false
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<Event[]>([]);
@@ -44,7 +42,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
     if (saved) {
       try {
         return JSON.parse(saved);
-      } catch (error) {
+      } catch {
         // Failed to parse saved calendar IDs
       }
     }
@@ -52,7 +50,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
   });
 
   const monthNames = language.texts.monthNames;
-  const weekDays = language.texts.weekDays;
+  const weekDays = language.texts.weekDays || [];
 
   useEffect(() => {
     if (isSignedIn || isDemoMode) {
@@ -72,9 +70,9 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
         endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
       } else {
         // Week view
-        const weekDays = getDaysInWeek();
-        startDate = weekDays[0];
-        endDate = weekDays[6];
+        const weekDates = getDaysInWeek();
+        startDate = weekDates[0];
+        endDate = weekDates[6];
         endDate.setHours(23, 59, 59, 999);
       }
       
@@ -92,7 +90,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
       }));
       
       setEvents(formattedEvents);
-    } catch (error) {
+    } catch {
       // Failed to load events
     } finally {
       setLoading(false);
@@ -189,9 +187,9 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
       return `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
     } else {
       // Week view: show date range
-      const weekDays = getDaysInWeek();
-      const firstDay = weekDays[0];
-      const lastDay = weekDays[6];
+      const weekDates = getDaysInWeek();
+      const firstDay = weekDates[0];
+      const lastDay = weekDates[6];
       
       if (firstDay.getMonth() === lastDay.getMonth()) {
         return `${monthNames[firstDay.getMonth()]} ${firstDay.getDate()}-${lastDay.getDate()}, ${firstDay.getFullYear()}`;
@@ -282,8 +280,8 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
         <>
           {/* Week Header */}
           <div className="grid grid-cols-7 gap-1 mb-2">
-            {weekDays.map(day => (
-              <div key={day} className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+            {weekDays.map((day, index) => (
+              <div key={`weekday-${index}`} className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                 {day}
               </div>
             ))}
@@ -323,7 +321,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
                   </div>
                   
                   <div className="space-y-1">
-                    {dayEvents.slice(0, viewMode === 'week' ? 4 : 2).map((event, eventIndex) => (
+                    {dayEvents.slice(0, viewMode === 'week' ? 4 : 2).map((event) => (
                       <div
                         key={event.id}
                         onClick={(e) => {

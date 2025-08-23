@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { X, Save, Trash2 } from 'lucide-react';
 import { Language } from '../types';
 import googleCalendar from '../services/googleCalendar';
-import { sanitizeInput, validateDate } from '../utils/sanitizer';
 
 interface Event {
   id?: string;
@@ -103,7 +102,7 @@ const EventModal: React.FC<EventModalProps> = ({
 
       onEventUpdated();
       onClose();
-    } catch (error: any) {
+    } catch (error) {
       setError(error.message || 'Failed to save event');
     } finally {
       setLoading(false);
@@ -124,7 +123,7 @@ const EventModal: React.FC<EventModalProps> = ({
       await googleCalendar.deleteEvent(event.id);
       onEventUpdated();
       onClose();
-    } catch (error: any) {
+    } catch (error) {
       setError(error.message || 'Failed to delete event');
     } finally {
       setLoading(false);

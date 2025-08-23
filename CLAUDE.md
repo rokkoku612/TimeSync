@@ -1,8 +1,8 @@
-# ScheduleAvailable - Claude開発ガイド
+# TimeSync - Claude開発ガイド
 
 ## プロジェクト概要
 
-ScheduleAvailableは、Googleカレンダーと連携して空き時間を自動検出し、日程調整を効率化するWebアプリケーションです。
+TimeSync（旧ScheduleAvailable）は、Googleカレンダーと連携して空き時間を自動検出し、日程調整を効率化するWebアプリケーションです。
 
 ### 技術スタック
 - **フレームワーク**: React 18.3.1 + TypeScript
@@ -49,7 +49,7 @@ src/
 5. **結果のコピー機能** - ワンクリックコピー
 6. **レスポンシブデザイン** - モバイル対応
 
-## 🚨 リファクタリング優先項目
+## リファクタリング優先項目
 
 ### 1. App.tsx の分割（最優先）
 現在725行の大きなファイルになっており、以下のコンポーネント分割が必要：
@@ -108,6 +108,18 @@ src/
 - Code splitting with React.lazy
 - Virtual scrolling for large result lists
 - Service Worker for offline functionality
+
+## デザインルール
+
+### 絵文字の使用禁止
+- **ルール**: コード、ドキュメント、UI、コミットメッセージで絵文字を使用しない
+- **理由**: プロフェッショナルで統一された外観を維持するため
+- **適用範囲**: 
+  - ソースコード内のコメント
+  - マークダウンファイル（CLAUDE.md, SPEC.md等）
+  - UIテキスト・ラベル
+  - Git コミットメッセージ
+  - TODO項目・コメント
 
 ## セキュリティ考慮事項
 
@@ -210,7 +222,7 @@ SPEC.md更新を忘れないために、必ずTodoWriteツールを使用する�
 ]
 ```
 
-### 📝 TODO表示ルール
+### TODO表示ルール
 
 #### 1. TODOリストの日本語表記
 すべてのTODOアイテムは日本語で記載し、ユーザーが理解しやすいようにすること：
@@ -218,32 +230,32 @@ SPEC.md更新を忘れないために、必ずTodoWriteツールを使用する�
 **表示形式の例：**
 ```
 現在のTODOリスト:
-✅ 完了: App.tsxの分析
-🔄 作業中: CalendarPopupコンポーネントの作成
-📋 待機中: 型定義の追加
-📋 待機中: テストの作成
-📋 待機中: SPEC.mdの更新
+[完了] App.tsxの分析
+[作業中] CalendarPopupコンポーネントの作成
+[待機中] 型定義の追加
+[待機中] テストの作成
+[待機中] SPEC.mdの更新
 ```
 
 #### 2. ステータス表示のルール
-- `completed` → ✅ 完了
-- `in_progress` → 🔄 作業中
-- `pending` → 📋 待機中
+- `completed` → [完了]
+- `in_progress` → [作業中]
+- `pending` → [待機中]
 
 #### 3. TODO更新時の報告
 TODOリストを更新するたびに、以下の形式で報告すること：
 
 ```
-📝 TODOリストを更新しました：
+TODOリストを更新しました：
 
 新しく追加したタスク:
 - SearchFormコンポーネントの作成
 
 完了したタスク:
-- ✅ CalendarPopupコンポーネントの作成
+- [完了] CalendarPopupコンポーネントの作成
 
 現在作業中:
-- 🔄 SearchFormコンポーネントの作成
+- [作業中] SearchFormコンポーネントの作成
 
 残りのタスク: 3件
 ```
@@ -254,11 +266,11 @@ TODOリストを更新するたびに、以下の形式で報告すること：
 「SearchFormコンポーネントの作成を開始します」
 
 // 作業完了時
-「✅ SearchFormコンポーネントの作成が完了しました」
+「SearchFormコンポーネントの作成が完了しました」
 「次は型定義の追加を行います」
 ```
 
-## 📋 仕様書更新ルール
+## 仕様書更新ルール
 
 ### 必須更新タイミング
 以下の変更を行った場合は、必ず `SPEC.md` を更新すること：
@@ -292,7 +304,7 @@ TODOリストを更新するたびに、以下の形式で報告すること：
 git add . && git commit -m "feat: 機能追加 + 仕様書更新"
 ```
 
-### 🚨 重要な注意事項
+### 重要な注意事項
 **コード変更時は必ずTodoWriteツールでSPEC.md更新タスクを追加すること！**
 
 ```typescript
@@ -307,7 +319,7 @@ TodoWrite.todos = [
 TodoWrite.todos = [
   { content: "CalendarPopupコンポーネントを作成", status: "completed" },
   { content: "Propsの型定義を追加", status: "completed" }
-  // ❌ SPEC.md更新タスクが抜けている！
+  // 注意: SPEC.md更新タスクが抜けている！
 ]
 ```
 

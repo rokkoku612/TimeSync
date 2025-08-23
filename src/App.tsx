@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import HamburgerMenu from './components/HamburgerMenu';
 import ManualPage from './components/ManualPage';
+import ContactPage from './components/ContactPage';
+import TermsPage from './components/TermsPage';
+import AboutPage from './components/AboutPage';
 import SearchForm from './components/SearchForm';
 import ResultsList from './components/ResultsList';
 import EventsDisplay from './components/EventsDisplay';
@@ -15,6 +18,9 @@ import { useGoogleAuth } from './hooks/useGoogleAuth';
 
 const App: React.FC = () => {
   const [showManual, setShowManual] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'calendar' | 'search'>('search');
   const [selectedCalendarIds, setSelectedCalendarIds] = useState<string[]>(() => {
@@ -23,7 +29,7 @@ const App: React.FC = () => {
     if (saved) {
       try {
         return JSON.parse(saved);
-      } catch (error) {
+      } catch {
         // Failed to parse saved IDs
       }
     }
@@ -84,28 +90,36 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 relative overflow-hidden">
+      {/* Additional overlay when menu is open to cover entire screen */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-black/30 z-[99] pointer-events-none transition-opacity duration-300" />
+      )}
+      
       {/* Background decoration */}
-      <div className={`fixed inset-0 pointer-events-none z-0 transition-all duration-300 ${isMenuOpen ? 'brightness-50' : 'brightness-100'}`}>
+      <div className={`fixed inset-0 pointer-events-none transition-all duration-300 ${isMenuOpen ? 'brightness-75' : 'brightness-100'}`}>
         <div className="absolute w-96 h-96 -top-48 -left-48 bg-white/40 rounded-full blur-3xl animate-pulse" />
         <div className="absolute w-80 h-80 -bottom-40 -right-40 bg-white/40 rounded-full blur-3xl animate-pulse animation-delay-1000" />
         <div className="absolute w-64 h-64 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/30 rounded-full blur-3xl animate-pulse animation-delay-2000" />
       </div>
 
-      <div className="relative z-10 flex flex-col min-h-screen">
+      <div className="relative flex flex-col min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 bg-white/95 backdrop-blur-xl border-b border-slate-100 px-3 py-4 z-50 transition-all duration-300">
+        <header className="sticky top-0 bg-white/95 backdrop-blur-xl border-b border-slate-100 px-3 py-4 z-20 transition-all duration-300">
           <div className="max-w-4xl mx-auto flex justify-between items-center">
             <div className="flex items-center gap-3">
               <h1 className="text-lg font-medium text-slate-900 tracking-tight">{currentLanguage.texts.title}</h1>
             </div>
             
-            <div className="flex items-center gap-3 relative z-60">
+            <div className="flex items-center gap-3 relative">
               <LanguageToggle 
                 currentLanguage={currentLanguage} 
                 onToggle={toggleLanguage} 
               />
               <HamburgerMenu 
-                onShowManual={() => setShowManual(true)} 
+                onShowManual={() => setShowManual(true)}
+                onShowContact={() => setShowContact(true)}
+                onShowTerms={() => setShowTerms(true)}
+                onShowAbout={() => setShowAbout(true)}
                 isOpen={isMenuOpen}
                 onToggle={setIsMenuOpen}
                 language={currentLanguage}
@@ -115,7 +129,7 @@ const App: React.FC = () => {
         </header>
 
         {/* Main Content */}
-        <main className={`flex-1 px-2 py-4 pb-8 max-w-4xl mx-auto w-full transition-all duration-300 ${isMenuOpen ? 'brightness-50 contrast-75' : 'brightness-100'}`}>
+        <main className={`flex-1 px-2 py-4 pb-8 max-w-4xl mx-auto w-full transition-all duration-300 ${isMenuOpen ? 'brightness-75 contrast-90' : 'brightness-100'}`}>
           {/* Google Login */}
           <div className="mb-6">
             <GoogleLogin
@@ -151,8 +165,8 @@ const App: React.FC = () => {
                 onClick={() => setActiveTab('calendar')}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   activeTab === 'calendar'
-                    ? 'bg-slate-100 text-slate-900 border border-slate-200'
-                    : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                    ? 'bg-slate-900 text-white shadow-lg'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`}
               >
                 {currentLanguage.code === 'ja' ? 'カレンダー表示' : 'Calendar View'}
@@ -256,6 +270,15 @@ const App: React.FC = () => {
 
       {/* Manual Page */}
       <ManualPage isOpen={showManual} onClose={() => setShowManual(false)} language={currentLanguage} />
+      
+      {/* Contact Page */}
+      <ContactPage isOpen={showContact} onClose={() => setShowContact(false)} language={currentLanguage} />
+      
+      {/* Terms Page */}
+      <TermsPage isOpen={showTerms} onClose={() => setShowTerms(false)} language={currentLanguage} />
+      
+      {/* About Page */}
+      <AboutPage isOpen={showAbout} onClose={() => setShowAbout(false)} language={currentLanguage} />
 
       <style>{`
         @keyframes ping {

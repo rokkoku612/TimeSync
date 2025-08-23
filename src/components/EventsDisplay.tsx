@@ -66,7 +66,7 @@ const EventsDisplay: React.FC<EventsDisplayProps> = ({
       // Sort events by start time
       formattedEvents.sort((a, b) => a.start.getTime() - b.start.getTime());
       setEvents(formattedEvents);
-    } catch (error) {
+    } catch {
       setEvents([]);
     } finally {
       setLoading(false);

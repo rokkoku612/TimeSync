@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Auth Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h1>Google OAuth Test</h1>
+    <button id="signInButton">Sign In with Google</button>
+    <div id="status"></div>
+    <div id="userInfo"></div>
+
+    <script>
+        const CLIENT_ID = '265218873363-fup2h73rn4hqpoccubud3afk243umf.apps.googleusercontent.com';
+        const SCOPES = 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events.readonly';
+        
+        let auth2;
+        
+        function initClient() {
+            gapi.load('client:auth2', () => {
+                gapi.client.init({
+                    clientId: CLIENT_ID,
+                    scope: SCOPES,
+                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
+                }).then(() => {
+                    auth2 = gapi.auth2.getAuthInstance();
+                    
+                    // Listen for sign-in state changes
+                    auth2.isSignedIn.listen(updateSigninStatus);
+                    
+                    // Handle initial sign-in state
+                    updateSigninStatus(auth2.isSignedIn.get());
+                    
+                    document.getElementById('signInButton').onclick = handleAuthClick;
+                }).catch(error => {
+                    console.error('Error initializing:', error);
+                    document.getElementById('status').innerHTML = 'Error: ' + JSON.stringify(error);
+                });
+            });
+        }
+        
+        function updateSigninStatus(isSignedIn) {
+            if (isSignedIn) {
+                const user = auth2.currentUser.get();
+                const profile = user.getBasicProfile();
+                document.getElementById('status').innerHTML = 'Signed in!';
+                document.getElementById('userInfo').innerHTML = `
+                    <p>Name: ${profile.getName()}</p>
+                    <p>Email: ${profile.getEmail()}</p>
+                `;
+                document.getElementById('signInButton').textContent = 'Sign Out';
+            } else {
+                document.getElementById('status').innerHTML = 'Not signed in';
+                document.getElementById('userInfo').innerHTML = '';
+                document.getElementById('signInButton').textContent = 'Sign In with Google';
+            }
+        }
+        
+        function handleAuthClick() {
+            if (auth2.isSignedIn.get()) {
+                auth2.signOut();
+            } else {
+                auth2.signIn();
+            }
+        }
+    </script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="initClient()"></script>
+</body>
+</html>
