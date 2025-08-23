@@ -161,6 +161,79 @@ VITE_API_BASE_URL=your_api_url
    // App.tsx:444-448 toggleLanguage関数
    ```
 
+## GitHub 管理ルール
+
+### プライベートリポジトリ設定
+このプロジェクトは GitHub のプライベートリポジトリで管理されています。
+
+### 自動コミット・プッシュルール
+
+#### 必須: 更新時の自動プッシュ
+**重要**: コード変更を行った際は、必ず以下の手順でコミット・プッシュまで実行すること
+
+1. **変更をステージング**
+   ```bash
+   git add -A
+   ```
+
+2. **意味のあるコミットメッセージで分割コミット**
+   ```bash
+   # 機能追加の例
+   git commit -m "feat: 新機能の説明"
+   
+   # バグ修正の例
+   git commit -m "fix: バグの説明"
+   
+   # リファクタリングの例
+   git commit -m "refactor: リファクタリング内容"
+   
+   # UI/UX改善の例
+   git commit -m "style: デザイン変更の説明"
+   
+   # ドキュメント更新の例
+   git commit -m "docs: ドキュメント更新内容"
+   ```
+
+3. **GitHub にプッシュ**
+   ```bash
+   git push origin main
+   ```
+
+#### コミット分割の基準
+- 機能単位で分ける
+- ファイルタイプ別に分ける（コンポーネント、スタイル、設定など）
+- 大きな変更は複数の小さなコミットに分割
+
+#### コミットメッセージ規約
+```
+<type>: <subject>
+
+<body>（オプション）
+```
+
+**type の種類**:
+- `feat`: 新機能
+- `fix`: バグ修正
+- `refactor`: リファクタリング
+- `style`: スタイル変更
+- `docs`: ドキュメント更新
+- `test`: テスト追加・修正
+- `chore`: ビルド設定など
+
+### GitHub リポジトリ設定手順
+
+1. **GitHub でプライベートリポジトリを作成**
+   - リポジトリ名: `TimeSync`
+   - 可視性: Private
+   - README なしで作成
+
+2. **ローカルリポジトリとリモートを接続**
+   ```bash
+   git remote add origin https://github.com/ayumuyoshino/TimeSync.git
+   git branch -M main
+   git push -u origin main
+   ```
+
 ## 今後の開発計画
 
 ### Phase 1: リファクタリング（優先度: 高）
@@ -184,6 +257,7 @@ VITE_API_BASE_URL=your_api_url
 2. 新しいコンポーネントは適切なディレクトリに配置
 3. TypeScript型定義を必ず追加
 4. 変更時はこのファイルも更新
+5. **変更後は必ず git commit & push を実行**
 
 ## 🗣️ 開発時の表示ルール
 
