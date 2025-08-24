@@ -5,6 +5,7 @@ import googleCalendar from '../services/googleCalendar';
 import EventModal from './EventModal';
 import DayViewModal from './DayViewModal';
 import CalendarSelector from './CalendarSelector';
+import WeekView from './WeekView';
 
 interface Event {
   id: string;
@@ -278,83 +279,105 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
       {/* Calendar Grid */}
       {!loading && (
         <>
-          {/* Week Header */}
-          <div className="grid grid-cols-7 gap-1 mb-2">
-            {weekDays.map((day, index) => (
-              <div key={`weekday-${index}`} className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {day}
-              </div>
-            ))}
-          </div>
-
-          {/* Calendar Days */}
-          <div className="grid grid-cols-7 gap-1">
-            {(viewMode === 'month' ? getDaysInMonth() : getDaysInWeek()).map((date, index) => {
-              const dayEvents = getEventsForDay(date);
-              const isCurrentMonthDay = viewMode === 'week' || isCurrentMonth(date);
-              const isTodayDate = isToday(date);
-
-              return (
-                <div
-                  key={index}
-                  onClick={() => handleDateClick(date)}
-                  className={`
-                    ${viewMode === 'month' ? 'min-h-[80px]' : 'min-h-[120px]'} p-2 border border-slate-100 rounded-lg
-                    ${isTodayDate ? 'bg-blue-50 border-blue-200' : 'bg-white'}
-                    ${!isCurrentMonthDay ? 'opacity-50' : 'opacity-100'}
-                    cursor-pointer hover:bg-slate-50 hover:border-slate-200
-                    transition-colors
-                  `}
-                >
-                  <div className={`
-                    text-sm font-medium mb-2
-                    ${isTodayDate ? 'text-blue-600' : isCurrentMonthDay ? 'text-slate-900' : 'text-slate-400'}
-                  `}>
-                    {viewMode === 'week' ? (
-                      <div>
-                        <div className="text-xs text-slate-500">{weekDays[date.getDay()]}</div>
-                        <div>{date.getDate()}</div>
-                      </div>
-                    ) : (
-                      date.getDate()
-                    )}
+          {viewMode === 'week' ? (
+            // Week View with time axis
+            <div className="max-h-[600px] overflow-y-auto border border-gray-200 rounded-lg">
+              <WeekView
+                dates={getDaysInWeek()}
+                events={events}
+                language={language}
+                onEventClick={(event) => {
+                  setSelectedEvent(event);
+                  setShowEventModal(true);
+                }}
+                onTimeSlotClick={(date, hour) => {
+                  const newEventDate = new Date(date);
+                  newEventDate.setHours(hour, 0, 0, 0);
+                  setSelectedEvent({
+                    id: 'new',
+                    title: '',
+                    start: newEventDate,
+                    end: new Date(newEventDate.getTime() + 60 * 60 * 1000), // 1 hour later
+                  });
+                  setShowEventModal(true);
+                }}
+              />
+            </div>
+          ) : (
+            // Month View (existing)
+            <>
+              {/* Week Header */}
+              <div className="grid grid-cols-7 gap-1 mb-2">
+                {weekDays.map((day, index) => (
+                  <div key={`weekday-${index}`} className="p-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    {day}
                   </div>
-                  
-                  <div className="space-y-1">
-                    {dayEvents.slice(0, viewMode === 'week' ? 4 : 2).map((event) => (
-                      <div
-                        key={event.id}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedEvent(event);
-                          setShowEventModal(true);
-                        }}
-                        className="text-xs p-1 rounded cursor-pointer hover:opacity-80 transition-opacity truncate"
-                        style={{
-                          backgroundColor: event.calendarColor ? `${event.calendarColor}30` : '#f1f5f9',
-                          borderLeft: `3px solid ${event.calendarColor || '#64748b'}`
-                        }}
-                        title={`${event.calendarName ? `[${event.calendarName}] ` : ''}${event.title} (${formatTime(event.start)} - ${formatTime(event.end)})`}
-                      >
-                        {event.calendarName && (
-                          <div style={{ fontSize: '9px', opacity: 0.7, marginBottom: '1px' }}>
-                            {event.calendarName}
+                ))}
+              </div>
+
+              {/* Calendar Days */}
+              <div className="grid grid-cols-7 gap-1">
+                {getDaysInMonth().map((date, index) => {
+                  const dayEvents = getEventsForDay(date);
+                  const isCurrentMonthDay = isCurrentMonth(date);
+                  const isTodayDate = isToday(date);
+
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => handleDateClick(date)}
+                      className={`
+                        min-h-[80px] p-2 border border-slate-100 rounded-lg
+                        ${isTodayDate ? 'bg-blue-50 border-blue-200' : 'bg-white'}
+                        ${!isCurrentMonthDay ? 'opacity-50' : 'opacity-100'}
+                        cursor-pointer hover:bg-slate-50 hover:border-slate-200
+                        transition-colors
+                      `}
+                    >
+                      <div className={`
+                        text-sm font-medium mb-2
+                        ${isTodayDate ? 'text-blue-600' : isCurrentMonthDay ? 'text-slate-900' : 'text-slate-400'}
+                      `}>
+                        {date.getDate()}
+                      </div>
+                      
+                      <div className="space-y-1">
+                        {dayEvents.slice(0, 2).map((event) => (
+                          <div
+                            key={event.id}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedEvent(event);
+                              setShowEventModal(true);
+                            }}
+                            className="text-xs p-1 rounded cursor-pointer hover:opacity-80 transition-opacity truncate"
+                            style={{
+                              backgroundColor: event.calendarColor ? `${event.calendarColor}30` : '#f1f5f9',
+                              borderLeft: `3px solid ${event.calendarColor || '#64748b'}`
+                            }}
+                            title={`${event.calendarName ? `[${event.calendarName}] ` : ''}${event.title} (${formatTime(event.start)} - ${formatTime(event.end)})`}
+                          >
+                            {event.calendarName && (
+                              <div style={{ fontSize: '9px', opacity: 0.7, marginBottom: '1px' }}>
+                                {event.calendarName}
+                              </div>
+                            )}
+                            <div className="font-medium truncate">{event.title}</div>
+                            <div className="text-slate-500">{formatTime(event.start)}</div>
+                          </div>
+                        ))}
+                        {dayEvents.length > 2 && (
+                          <div className="text-xs text-slate-500 text-center">
+                            +{dayEvents.length - 2} more
                           </div>
                         )}
-                        <div className="font-medium truncate">{event.title}</div>
-                        <div className="text-slate-500">{formatTime(event.start)}</div>
                       </div>
-                    ))}
-                    {dayEvents.length > (viewMode === 'week' ? 4 : 2) && (
-                      <div className="text-xs text-slate-500 text-center">
-                        +{dayEvents.length - (viewMode === 'week' ? 4 : 2)} more
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </>
       )}
 
