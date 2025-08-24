@@ -166,57 +166,57 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
       <div className="flex justify-center items-center py-3 bg-gray-50 border-t border-gray-100">
         <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
           {/* Hours */}
-          <div className="flex flex-col items-center">
+          <div className="flex items-center">
             <button
               type="button"
-              onClick={() => incrementTime('hours')}
-              className="w-8 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-all duration-200"
+              onClick={() => decrementTime('hours')}
+              className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             >
-              <ChevronUp size={14} strokeWidth={2} />
+              <ChevronDown size={14} strokeWidth={1.5} />
             </button>
             <input
               type="number"
               min="0"
               max="23"
-              className="w-12 text-center text-base font-medium text-gray-900 bg-transparent border-none outline-none tabular-nums"
+              className="w-9 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
               value={String(currentDate.getHours()).padStart(2, '0')}
               onChange={(e) => updateTime('hours', parseInt(e.target.value) || 0)}
             />
             <button
               type="button"
-              onClick={() => decrementTime('hours')}
-              className="w-8 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-all duration-200"
+              onClick={() => incrementTime('hours')}
+              className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             >
-              <ChevronDown size={14} strokeWidth={2} />
+              <ChevronUp size={14} strokeWidth={1.5} />
             </button>
           </div>
           
-          <div className="text-gray-400 font-medium text-base self-center">:</div>
+          <div className="text-gray-300 font-light text-sm">:</div>
           
           {/* Minutes */}
-          <div className="flex flex-col items-center">
+          <div className="flex items-center">
             <button
               type="button"
-              onClick={() => incrementTime('minutes')}
-              className="w-8 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-all duration-200"
+              onClick={() => decrementTime('minutes')}
+              className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             >
-              <ChevronUp size={14} strokeWidth={2} />
+              <ChevronDown size={14} strokeWidth={1.5} />
             </button>
             <input
               type="number"
               min="0"
               max="59"
               step="15"
-              className="w-12 text-center text-base font-medium text-gray-900 bg-transparent border-none outline-none tabular-nums"
+              className="w-9 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
               value={String(currentDate.getMinutes()).padStart(2, '0')}
               onChange={(e) => updateTime('minutes', parseInt(e.target.value) || 0)}
             />
             <button
               type="button"
-              onClick={() => decrementTime('minutes')}
-              className="w-8 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-all duration-200"
+              onClick={() => incrementTime('minutes')}
+              className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             >
-              <ChevronDown size={14} strokeWidth={2} />
+              <ChevronUp size={14} strokeWidth={1.5} />
             </button>
           </div>
         </div>
