@@ -93,6 +93,10 @@ class GoogleCalendarService {
     if (googleAuthDirect.isSignedIn()) {
       const accessToken = googleAuthDirect.getAccessToken();
       
+      if (!accessToken) {
+        throw new Error('No access token available');
+      }
+      
       const response = await fetch(url, {
         method,
         headers: {

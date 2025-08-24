@@ -156,6 +156,15 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
 
   const selectedCount = calendars.filter(cal => cal.selected).length;
 
+  // メールアドレスの場合は@前だけ表示
+  const formatCalendarName = (name: string) => {
+    if (name.includes('@')) {
+      const parts = name.split('@');
+      return `${parts[0]}`;
+    }
+    return name;
+  };
+
   return (
     <div className="relative">
       <button
@@ -182,7 +191,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
           />
           
           {/* Dropdown */}
-          <div className="absolute top-full mt-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] min-w-[250px] max-w-[350px]">
+          <div className="absolute top-full mt-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] min-w-[280px] max-w-[400px]">
             {/* Quick Actions */}
             <div className="p-2 border-b border-gray-100 flex gap-2">
               <button
@@ -200,7 +209,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
             </div>
 
             {/* Calendar List */}
-            <div className="max-h-[300px] overflow-y-auto p-2">
+            <div className="max-h-[350px] overflow-y-auto p-2">
               {calendars.length === 0 ? (
                 <div className="text-sm text-gray-500 text-center py-4">
                   {loading 
@@ -220,13 +229,15 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
                         className="w-3 h-3 rounded-full flex-shrink-0"
                         style={{ backgroundColor: calendar.backgroundColor || '#4285f4' }}
                       />
-                      <span className="flex-1 text-sm truncate">
-                        {calendar.summary}
-                        {calendar.isPrimary && (
-                          <span className="text-xs text-gray-500 ml-1">
-                            ({language.code === 'ja' ? 'メイン' : 'Primary'})
-                          </span>
-                        )}
+                      <span className="flex-1 text-sm min-w-0">
+                        <span className="block truncate" title={calendar.summary}>
+                          {formatCalendarName(calendar.summary)}
+                          {calendar.isPrimary && (
+                            <span className="text-xs text-gray-500 ml-1">
+                              ({language.code === 'ja' ? 'メイン' : 'Primary'})
+                            </span>
+                          )}
+                        </span>
                       </span>
                       {calendar.selected && (
                         <Check size={14} className="text-blue-600 flex-shrink-0" />

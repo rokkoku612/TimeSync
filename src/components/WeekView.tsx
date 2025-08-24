@@ -17,6 +17,7 @@ interface WeekViewProps {
   dates: Date[];
   events: Event[];
   language: Language;
+  weekStart?: 0 | 1;
   onEventClick: (event: Event) => void;
   onTimeSlotClick: (date: Date, hour: number) => void;
 }
@@ -25,10 +26,15 @@ const WeekView: React.FC<WeekViewProps> = ({
   dates,
   events,
   language,
+  weekStart = 0,
   onEventClick,
   onTimeSlotClick
 }) => {
-  const weekDays = language.texts.weekDays || [];
+  // Adjust weekDays based on weekStart setting
+  const defaultWeekDays = language.texts.weekDays || [];
+  const weekDays = weekStart === 1 
+    ? [...defaultWeekDays.slice(1), defaultWeekDays[0]]
+    : defaultWeekDays;
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -109,7 +115,7 @@ const WeekView: React.FC<WeekViewProps> = ({
                   className={`p-2 text-center border-r border-gray-200 ${isToday(date) ? 'bg-blue-50' : 'bg-white'}`}
                 >
                   <div className="text-xs font-medium text-gray-600">
-                    {weekDays[date.getDay()]}
+                    {weekDays[index]}
                   </div>
                   <div className={`text-sm font-bold ${isToday(date) ? 'text-blue-600' : 'text-gray-900'}`}>
                     {date.getDate()}

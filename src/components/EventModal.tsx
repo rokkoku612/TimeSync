@@ -284,7 +284,7 @@ const EventModal: React.FC<EventModalProps> = ({
               </div>
             ) : (
               // New event - show multiple selection checkboxes
-              <div className="max-h-48 overflow-y-auto border border-gray-300 rounded-lg p-3 space-y-2">
+              <div className="max-h-40 overflow-y-auto border border-gray-300 rounded-lg p-3 space-y-2 relative z-50">
                 <div className="flex items-center">
                   <input
                     type="checkbox"

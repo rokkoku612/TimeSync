@@ -9,6 +9,8 @@ import CalendarSelector from './CalendarSelector';
 interface MainContentProps {
   activeTab: 'calendar' | 'search';
   currentLanguage: Language;
+  isSignedIn: boolean;
+  isDemoMode: boolean;
   // Search form props
   startDateTime: Date;
   endDateTime: Date;
@@ -38,6 +40,8 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({
   activeTab,
   currentLanguage,
+  isSignedIn,
+  isDemoMode,
   startDateTime,
   endDateTime,
   minDuration,
@@ -100,22 +104,35 @@ const MainContent: React.FC<MainContentProps> = ({
           )}
 
           {showResults && !isLoading && (
-            <ResultsList
-              availableSlots={availableSlots}
-              language={currentLanguage}
-              copySuccess={copySuccess}
-              onDeleteSlot={onDeleteSlot}
-              onCopyAll={onCopyAll}
-            />
+            <>
+              <ResultsList
+                availableSlots={availableSlots}
+                language={currentLanguage}
+                copySuccess={copySuccess}
+                onDeleteSlot={onDeleteSlot}
+                onCopyAll={onCopyAll}
+              />
+              
+              {/* Events Display - 空き時間検索期間の予定表示 */}
+              <EventsDisplay
+                language={currentLanguage}
+                isSignedIn={isSignedIn}
+                isDemoMode={isDemoMode}
+                availableSlots={availableSlots}
+                startDateTime={startDateTime}
+                endDateTime={endDateTime}
+                selectedCalendarIds={selectedCalendarIds}
+              />
+            </>
           )}
         </>
       ) : (
         <>
           <GoogleCalendarView
-            selectedCalendarIds={selectedCalendarIds}
+            isSignedIn={isSignedIn}
+            isDemoMode={isDemoMode}
             language={currentLanguage}
           />
-          <EventsDisplay language={currentLanguage} />
         </>
       )}
     </main>

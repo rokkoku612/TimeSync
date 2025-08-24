@@ -6,6 +6,7 @@ import EventModal from './EventModal';
 import DayViewModal from './DayViewModal';
 import CalendarSelector from './CalendarSelector';
 import WeekView from './WeekView';
+import WeekStartSelector from './WeekStartSelector';
 
 interface Event {
   id: string;
@@ -50,15 +51,31 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
     }
     return [];
   });
+  
+  const [weekStart, setWeekStart] = useState<0 | 1>(() => {
+    const saved = localStorage.getItem('weekStart');
+    return saved ? (parseInt(saved) as 0 | 1) : 0; // Default to Sunday (0)
+  });
 
   const monthNames = language.texts.monthNames;
-  const weekDays = language.texts.weekDays || [];
+  
+  // Adjust weekDays based on weekStart setting
+  const getWeekDays = () => {
+    const defaultWeekDays = language.texts.weekDays || [];
+    if (weekStart === 1) {
+      // Monday start - move Sunday to the end
+      return [...defaultWeekDays.slice(1), defaultWeekDays[0]];
+    }
+    return defaultWeekDays;
+  };
+  
+  const weekDays = getWeekDays();
 
   useEffect(() => {
     if (isSignedIn || isDemoMode) {
       loadEvents();
     }
-  }, [currentDate, isSignedIn, isDemoMode, viewMode, selectedCalendarIds]);
+  }, [currentDate, isSignedIn, isDemoMode, viewMode, selectedCalendarIds, weekStart]);
 
   const loadEvents = async () => {
     if (!isSignedIn && !isDemoMode) return;
@@ -93,8 +110,9 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
       }));
       
       setEvents(formattedEvents);
-    } catch {
-      // Failed to load events
+    } catch (error) {
+      console.error('Failed to load events:', error);
+      setEvents([]);
     } finally {
       setLoading(false);
     }
@@ -128,12 +146,30 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
     const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
     
-    // Start from Sunday of the week containing the first day
-    startDate.setDate(startDate.getDate() - startDate.getDay());
+    // Adjust start date based on weekStart setting
+    const dayOfWeek = startDate.getDay();
+    if (weekStart === 0) {
+      // Sunday start - go back to previous Sunday
+      startDate.setDate(startDate.getDate() - dayOfWeek);
+    } else {
+      // Monday start - go back to previous Monday
+      const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+      startDate.setDate(startDate.getDate() - daysToSubtract);
+    }
     
     const days = [];
     const endDate = new Date(lastDay);
-    endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
+    
+    // Adjust end date to complete the last week
+    const endDayOfWeek = endDate.getDay();
+    if (weekStart === 0) {
+      // Sunday start - go forward to next Saturday
+      endDate.setDate(endDate.getDate() + (6 - endDayOfWeek));
+    } else {
+      // Monday start - go forward to next Sunday
+      const daysToAdd = endDayOfWeek === 0 ? 0 : 7 - endDayOfWeek;
+      endDate.setDate(endDate.getDate() + daysToAdd);
+    }
     
     const current = new Date(startDate);
     while (current <= endDate) {
@@ -147,9 +183,16 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
   const getDaysInWeek = () => {
     const days = [];
     const startOfWeek = new Date(currentDate);
+    const dayOfWeek = startOfWeek.getDay();
     
-    // Start from Sunday of the current week
-    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+    if (weekStart === 0) {
+      // Sunday start
+      startOfWeek.setDate(startOfWeek.getDate() - dayOfWeek);
+    } else {
+      // Monday start
+      const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+      startOfWeek.setDate(startOfWeek.getDate() - daysToSubtract);
+    }
     
     for (let i = 0; i < 7; i++) {
       const day = new Date(startOfWeek);
@@ -219,30 +262,31 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
   return (
     <div className="bg-white rounded-xl p-6 border border-slate-200">
       {/* Calendar Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
-          <h2 className="text-lg font-medium text-slate-900">
-            {getHeaderTitle()}
-          </h2>
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => navigateMonth('prev')}
-              className="p-1 rounded-lg hover:bg-gray-100 transition-colors"
-              disabled={loading}
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={() => navigateMonth('next')}
-              className="p-1 rounded-lg hover:bg-gray-100 transition-colors"
-              disabled={loading}
-            >
-              <ChevronRight size={20} />
-            </button>
+      <div className="mb-4">
+        {/* First row - Title and Navigation */}
+        <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center gap-4">
+            <h2 className="text-lg font-medium text-slate-900">
+              {getHeaderTitle()}
+            </h2>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => navigateMonth('prev')}
+                className="p-1 rounded-lg hover:bg-gray-100 transition-colors"
+                disabled={loading}
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                onClick={() => navigateMonth('next')}
+                className="p-1 rounded-lg hover:bg-gray-100 transition-colors"
+                disabled={loading}
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
           </div>
-        </div>
-        
-        <div className="flex items-center gap-2">
+          
           <CalendarSelector
             language={language}
             onCalendarsChange={(ids) => {
@@ -251,12 +295,39 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
             }}
             isDemoMode={isDemoMode}
           />
-          <button
-            onClick={() => setViewMode(viewMode === 'month' ? 'week' : 'month')}
-            className="px-3 py-1 text-xs text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 rounded transition-colors"
-          >
-            {viewMode === 'month' ? 'Week' : 'Month'}
-          </button>
+        </div>
+        
+        {/* Second row - Controls */}
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <WeekStartSelector
+              language={language}
+              onWeekStartChange={(start) => setWeekStart(start)}
+            />
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setViewMode('month')}
+                className={`px-2 py-1 text-xs rounded-l-lg transition-colors ${
+                  viewMode === 'month' 
+                    ? 'bg-slate-700 text-white' 
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                Month
+              </button>
+              <button
+                onClick={() => setViewMode('week')}
+                className={`px-2 py-1 text-xs rounded-r-lg transition-colors ${
+                  viewMode === 'week' 
+                    ? 'bg-slate-700 text-white' 
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                Week
+              </button>
+            </div>
+          </div>
+          
           <button
             onClick={() => {
               setSelectedEvent(null);
@@ -288,6 +359,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
                 dates={getDaysInWeek()}
                 events={events}
                 language={language}
+                weekStart={weekStart}
                 onEventClick={(event) => {
                   setSelectedEvent(event);
                   setShowEventModal(true);

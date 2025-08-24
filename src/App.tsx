@@ -141,6 +141,8 @@ const App: React.FC = () => {
             <MainContent
               activeTab={activeTab}
               currentLanguage={currentLanguage}
+              isSignedIn={isSignedIn}
+              isDemoMode={isDemoMode}
               startDateTime={startDateTime}
               endDateTime={endDateTime}
               minDuration={minDuration}
