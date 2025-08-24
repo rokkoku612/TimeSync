@@ -281,7 +281,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
         <>
           {viewMode === 'week' ? (
             // Week View with time axis
-            <div className="max-h-[600px] overflow-y-auto border border-gray-200 rounded-lg">
+            <div className="h-[600px] border border-gray-200 rounded-lg">
               <WeekView
                 dates={getDaysInWeek()}
                 events={events}

@@ -90,31 +90,17 @@ const WeekView: React.FC<WeekViewProps> = ({
   };
 
   return (
-    <div className="relative">
-      <div className="flex">
-        {/* Time axis - outside the table */}
-        <div className="w-14 flex-shrink-0 mt-[52px] relative">
-          {hours.map(hour => (
-            <div 
-              key={hour} 
-              className="h-[60px] flex items-start justify-end pr-2 text-xs text-gray-500 relative"
-            >
-              <span className="absolute -top-2 right-2">
-                {`${hour.toString().padStart(2, '0')}:00`}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Main calendar grid */}
-        <div className="flex-1 overflow-x-auto">
-          <div className="min-w-[700px]">
-            {/* Header with days */}
-            <div className="grid grid-cols-7 gap-0 border-b border-gray-200 sticky top-0 bg-white z-20">
+    <div className="relative h-full">
+      {/* Fixed header with days */}
+      <div className="sticky top-0 z-30 bg-white border-b border-gray-200">
+        <div className="flex">
+          <div className="w-14 flex-shrink-0"></div>
+          <div className="flex-1 overflow-x-auto">
+            <div className="min-w-[700px] grid grid-cols-7 gap-0">
               {dates.map((date, index) => (
                 <div 
                   key={index} 
-                  className={`p-2 text-center border-r border-gray-200 ${isToday(date) ? 'bg-blue-50' : ''}`}
+                  className={`p-2 text-center border-r border-gray-200 ${isToday(date) ? 'bg-blue-50' : 'bg-white'}`}
                 >
                   <div className="text-xs font-medium text-gray-600">
                     {weekDays[date.getDay()]}
@@ -125,9 +111,30 @@ const WeekView: React.FC<WeekViewProps> = ({
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
 
-            {/* Time grid */}
-            <div className="relative">
+      {/* Scrollable content */}
+      <div className="relative overflow-y-auto" style={{ maxHeight: 'calc(100% - 52px)' }}>
+        <div className="flex">
+          {/* Time axis - outside the table */}
+          <div className="w-14 flex-shrink-0 relative">
+            {hours.map(hour => (
+              <div 
+                key={hour} 
+                className="h-[60px] flex items-start justify-end pr-2 text-xs text-gray-500 relative"
+              >
+                <span className="absolute -top-2 right-2">
+                  {`${hour.toString().padStart(2, '0')}:00`}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Main calendar grid */}
+          <div className="flex-1 overflow-x-auto">
+            <div className="min-w-[700px] relative">
               {/* Current time indicator */}
               {isCurrentTime() && (
                 <div 
