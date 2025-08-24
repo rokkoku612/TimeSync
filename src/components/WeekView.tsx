@@ -85,98 +85,102 @@ const WeekView: React.FC<WeekViewProps> = ({
   };
 
   return (
-    <div className="overflow-x-auto">
-      <div className="min-w-[800px]">
-        {/* Header with days */}
-        <div className="grid grid-cols-8 gap-0 border-b border-gray-200 sticky top-0 bg-white z-20">
-          <div className="p-2 text-xs text-gray-500 border-r border-gray-200">
-            {/* Empty corner cell */}
-          </div>
-          {dates.map((date, index) => (
+    <div className="relative">
+      <div className="flex">
+        {/* Time axis - outside the table */}
+        <div className="w-12 flex-shrink-0 mt-[52px]">
+          {hours.map(hour => (
             <div 
-              key={index} 
-              className={`p-2 text-center border-r border-gray-200 ${isToday(date) ? 'bg-blue-50' : ''}`}
+              key={hour} 
+              className="h-[60px] flex items-start justify-end pr-2 text-xs text-gray-500"
             >
-              <div className="text-xs font-medium text-gray-600">
-                {weekDays[date.getDay()]}
-              </div>
-              <div className={`text-sm font-bold ${isToday(date) ? 'text-blue-600' : 'text-gray-900'}`}>
-                {date.getDate()}
-              </div>
+              {`${hour.toString().padStart(2, '0')}:00`}
             </div>
           ))}
         </div>
 
-        {/* Time grid */}
-        <div className="relative">
-          {/* Current time indicator */}
-          {isCurrentTime() && (
-            <div 
-              className="absolute left-0 right-0 border-t-2 border-red-500 z-20 pointer-events-none"
-              style={{ top: `${getCurrentTimePosition()}px` }}
-            >
-              <div className="absolute left-0 w-2 h-2 bg-red-500 rounded-full -mt-1"></div>
-            </div>
-          )}
-
-          {/* Hours grid */}
-          <div className="grid grid-cols-8 gap-0">
-            {/* Time column */}
-            <div className="border-r border-gray-200">
-              {hours.map(hour => (
+        {/* Main calendar grid */}
+        <div className="flex-1 overflow-x-auto">
+          <div className="min-w-[700px]">
+            {/* Header with days */}
+            <div className="grid grid-cols-7 gap-0 border-b border-gray-200 sticky top-0 bg-white z-20">
+              {dates.map((date, index) => (
                 <div 
-                  key={hour} 
-                  className="h-[60px] px-2 py-1 text-xs text-gray-500 border-b border-gray-100"
+                  key={index} 
+                  className={`p-2 text-center border-r border-gray-200 ${isToday(date) ? 'bg-blue-50' : ''}`}
                 >
-                  {`${hour.toString().padStart(2, '0')}:00`}
+                  <div className="text-xs font-medium text-gray-600">
+                    {weekDays[date.getDay()]}
+                  </div>
+                  <div className={`text-sm font-bold ${isToday(date) ? 'text-blue-600' : 'text-gray-900'}`}>
+                    {date.getDate()}
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Day columns */}
-            {dates.map((date, dateIndex) => (
-              <div key={dateIndex} className="border-r border-gray-200 relative">
-                {hours.map(hour => (
-                  <div
-                    key={hour}
-                    onClick={() => onTimeSlotClick(date, hour)}
-                    className={`h-[60px] border-b border-gray-100 hover:bg-gray-50 cursor-pointer relative
-                      ${isToday(date) ? 'bg-blue-50/20' : ''}
-                    `}
-                  >
-                    {/* Events for this time slot */}
-                    {getEventsForSlot(date, hour).map(event => {
-                      // Only render the event in its starting hour
-                      if (event.start.getHours() === hour) {
-                        return (
-                          <div
-                            key={event.id}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onEventClick(event);
-                            }}
-                            className="absolute inset-x-1 rounded px-1 py-0.5 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
-                            style={{
-                              ...getEventStyle(event, date),
-                              backgroundColor: event.calendarColor ? `${event.calendarColor}30` : '#e2e8f0',
-                              borderLeft: `3px solid ${event.calendarColor || '#64748b'}`,
-                              fontSize: '11px'
-                            }}
-                            title={`${event.title} (${formatTime(event.start)} - ${formatTime(event.end)})`}
-                          >
-                            <div className="font-medium truncate">{event.title}</div>
-                            <div className="text-gray-600 truncate">
-                              {formatTime(event.start)} - {formatTime(event.end)}
-                            </div>
-                          </div>
-                        );
-                      }
-                      return null;
-                    })}
+            {/* Time grid */}
+            <div className="relative">
+              {/* Current time indicator */}
+              {isCurrentTime() && (
+                <div 
+                  className="absolute left-0 right-0 border-t-2 border-red-500 z-20 pointer-events-none"
+                  style={{ top: `${getCurrentTimePosition()}px` }}
+                >
+                  <div className="absolute -left-14 w-12 text-xs text-red-500 font-bold text-right pr-2">
+                    {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
+                  </div>
+                  <div className="absolute left-0 w-2 h-2 bg-red-500 rounded-full -mt-1"></div>
+                </div>
+              )}
+
+              {/* Day columns */}
+              <div className="grid grid-cols-7 gap-0">
+                {dates.map((date, dateIndex) => (
+                  <div key={dateIndex} className="border-r border-gray-200 relative">
+                    {hours.map(hour => (
+                      <div
+                        key={hour}
+                        onClick={() => onTimeSlotClick(date, hour)}
+                        className={`h-[60px] border-b border-gray-100 hover:bg-gray-50 cursor-pointer relative
+                          ${isToday(date) ? 'bg-blue-50/20' : ''}
+                        `}
+                      >
+                        {/* Events for this time slot */}
+                        {getEventsForSlot(date, hour).map(event => {
+                          // Only render the event in its starting hour
+                          if (event.start.getHours() === hour) {
+                            return (
+                              <div
+                                key={event.id}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onEventClick(event);
+                                }}
+                                className="absolute inset-x-1 rounded px-1 py-0.5 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                                style={{
+                                  ...getEventStyle(event, date),
+                                  backgroundColor: event.calendarColor ? `${event.calendarColor}30` : '#e2e8f0',
+                                  borderLeft: `3px solid ${event.calendarColor || '#64748b'}`,
+                                  fontSize: '11px'
+                                }}
+                                title={`${event.title} (${formatTime(event.start)} - ${formatTime(event.end)})`}
+                              >
+                                <div className="font-medium truncate">{event.title}</div>
+                                <div className="text-gray-600 truncate">
+                                  {formatTime(event.start)} - {formatTime(event.end)}
+                                </div>
+                              </div>
+                            );
+                          }
+                          return null;
+                        })}
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
