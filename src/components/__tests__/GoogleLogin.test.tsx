@@ -1,17 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import GoogleLogin from '../GoogleLogin';
-import googleAuthDirect from '../../services/googleAuthDirect';
-
-// Mock the auth service
-vi.mock('../../services/googleAuthDirect', () => ({
-  default: {
-    signIn: vi.fn(),
-    signOut: vi.fn(),
-    isSignedIn: vi.fn(),
-    getCurrentUser: vi.fn(),
-  },
-}));
 
 describe('GoogleLogin', () => {
   const mockLanguage = {
@@ -53,122 +42,157 @@ describe('GoogleLogin', () => {
 
   const mockOnSignIn = vi.fn();
   const mockOnSignOut = vi.fn();
+  const mockOnToggleDemoMode = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders sign in button when not signed in', () => {
-    vi.mocked(googleAuthDirect.isSignedIn).mockReturnValue(false);
-
     render(
       <GoogleLogin
+        isSignedIn={false}
+        isLoading={false}
+        user={null}
         language={mockLanguage}
         onSignIn={mockOnSignIn}
         onSignOut={mockOnSignOut}
+        error={null}
+        isDemoMode={false}
+        onToggleDemoMode={mockOnToggleDemoMode}
       />
     );
 
     expect(screen.getByText('Sign in with Google')).toBeInTheDocument();
   });
 
-  it('renders user info when signed in', async () => {
-    vi.mocked(googleAuthDirect.isSignedIn).mockReturnValue(true);
-    vi.mocked(googleAuthDirect.getCurrentUser).mockResolvedValue({
-      isSignedIn: true,
-      profile: {
-        id: '123',
-        name: 'Test User',
-        email: 'test@example.com',
-        imageUrl: 'https://example.com/avatar.jpg',
-      },
-      accessToken: 'test-token',
-    });
+  it('renders user info when signed in', () => {
+    const mockUser = {
+      name: 'Test User',
+      email: 'test@example.com',
+      imageUrl: 'https://example.com/avatar.jpg',
+    };
 
     render(
       <GoogleLogin
+        isSignedIn={true}
+        isLoading={false}
+        user={mockUser}
         language={mockLanguage}
         onSignIn={mockOnSignIn}
         onSignOut={mockOnSignOut}
+        error={null}
+        isDemoMode={false}
+        onToggleDemoMode={mockOnToggleDemoMode}
       />
     );
 
-    // Wait for user info to load
-    await screen.findByText('Test User');
+    expect(screen.getByText('Test User')).toBeInTheDocument();
     expect(screen.getByText('test@example.com')).toBeInTheDocument();
-    expect(screen.getByText('Sign Out')).toBeInTheDocument();
+    expect(screen.getByText('Sign out')).toBeInTheDocument();
   });
 
   it('calls signIn when sign in button is clicked', () => {
-    vi.mocked(googleAuthDirect.isSignedIn).mockReturnValue(false);
-
     render(
       <GoogleLogin
+        isSignedIn={false}
+        isLoading={false}
+        user={null}
         language={mockLanguage}
         onSignIn={mockOnSignIn}
         onSignOut={mockOnSignOut}
+        error={null}
+        isDemoMode={false}
+        onToggleDemoMode={mockOnToggleDemoMode}
       />
     );
 
     fireEvent.click(screen.getByText('Sign in with Google'));
-    expect(googleAuthDirect.signIn).toHaveBeenCalled();
+    expect(mockOnSignIn).toHaveBeenCalled();
   });
 
-  it('calls signOut when sign out button is clicked', async () => {
-    vi.mocked(googleAuthDirect.isSignedIn).mockReturnValue(true);
-    vi.mocked(googleAuthDirect.getCurrentUser).mockResolvedValue({
-      isSignedIn: true,
-      profile: {
-        id: '123',
-        name: 'Test User',
-        email: 'test@example.com',
-        imageUrl: 'https://example.com/avatar.jpg',
-      },
-      accessToken: 'test-token',
-    });
+  it('calls signOut when sign out button is clicked', () => {
+    const mockUser = {
+      name: 'Test User',
+      email: 'test@example.com',
+      imageUrl: 'https://example.com/avatar.jpg',
+    };
 
     render(
       <GoogleLogin
+        isSignedIn={true}
+        isLoading={false}
+        user={mockUser}
         language={mockLanguage}
         onSignIn={mockOnSignIn}
         onSignOut={mockOnSignOut}
+        error={null}
+        isDemoMode={false}
+        onToggleDemoMode={mockOnToggleDemoMode}
       />
     );
 
-    await screen.findByText('Test User');
-    fireEvent.click(screen.getByText('Sign Out'));
-    
-    expect(googleAuthDirect.signOut).toHaveBeenCalled();
+    fireEvent.click(screen.getByText('Sign out'));
     expect(mockOnSignOut).toHaveBeenCalled();
   });
 
   it('shows demo mode button when not signed in', () => {
-    vi.mocked(googleAuthDirect.isSignedIn).mockReturnValue(false);
-
     render(
       <GoogleLogin
+        isSignedIn={false}
+        isLoading={false}
+        user={null}
         language={mockLanguage}
         onSignIn={mockOnSignIn}
         onSignOut={mockOnSignOut}
+        error={null}
         isDemoMode={false}
+        onToggleDemoMode={mockOnToggleDemoMode}
+      />
+    );
+
+    expect(screen.getByText('Try Demo')).toBeInTheDocument();
+  });
+
+  it('shows demo mode badge when user is in demo mode', () => {
+    const mockUser = {
+      name: 'Demo User',
+      email: 'demo@example.com',
+      imageUrl: '',
+    };
+
+    render(
+      <GoogleLogin
+        isSignedIn={true}
+        isLoading={false}
+        user={mockUser}
+        language={mockLanguage}
+        onSignIn={mockOnSignIn}
+        onSignOut={mockOnSignOut}
+        error={null}
+        isDemoMode={true}
+        onToggleDemoMode={mockOnToggleDemoMode}
       />
     );
 
     expect(screen.getByText('Demo Mode')).toBeInTheDocument();
   });
 
-  it('shows exit demo button in demo mode', () => {
-    vi.mocked(googleAuthDirect.isSignedIn).mockReturnValue(false);
-
+  it('shows loading state', () => {
     render(
       <GoogleLogin
+        isSignedIn={false}
+        isLoading={true}
+        user={null}
         language={mockLanguage}
         onSignIn={mockOnSignIn}
         onSignOut={mockOnSignOut}
-        isDemoMode={true}
+        error={null}
+        isDemoMode={false}
+        onToggleDemoMode={mockOnToggleDemoMode}
       />
     );
 
-    expect(screen.getByText('Exit Demo')).toBeInTheDocument();
+    expect(screen.getByText('Connecting...')).toBeInTheDocument();
   });
 });
