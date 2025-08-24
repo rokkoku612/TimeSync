@@ -1,14 +1,16 @@
-import { useState } from 'react';
 import { Language } from '../types';
 import { languages } from '../constants/languages';
+import { useLocalStorage } from './useLocalStorage';
 
 export const useLanguage = () => {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>(languages[0]); // デフォルトは日本語
+  // 言語設定をローカルストレージに保存
+  const [languageCode, setLanguageCode] = useLocalStorage<'ja' | 'en'>('timeSync_language', 'ja');
+  
+  const currentLanguage: Language = languages.find(lang => lang.code === languageCode) || languages[0];
 
   const toggleLanguage = () => {
-    setCurrentLanguage(prev => 
-      prev.code === 'ja' ? languages[1] : languages[0]
-    );
+    const newCode = languageCode === 'ja' ? 'en' : 'ja';
+    setLanguageCode(newCode);
   };
 
   return {

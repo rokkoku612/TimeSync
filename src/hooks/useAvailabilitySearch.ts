@@ -3,12 +3,14 @@ import { TimeSlot, Language } from '../types';
 import { generateDemoSlots } from '../utils/timeSlotGenerator';
 import googleCalendar from '../services/googleCalendar';
 import googleAuthDirect from '../services/googleAuthDirect';
+import { useLocalStorage } from './useLocalStorage';
 
 export const useAvailabilitySearch = (currentLanguage?: Language) => {
-  const [minDuration, setMinDuration] = useState(30);
-  const [excludeBeforeTime, setExcludeBeforeTime] = useState('');
-  const [excludeAfterTime, setExcludeAfterTime] = useState('');
-  const [showAdvanced, setShowAdvanced] = useState(false);
+  // 設定をローカルストレージに保存
+  const [minDuration, setMinDuration] = useLocalStorage('timeSync_minDuration', 30);
+  const [excludeBeforeTime, setExcludeBeforeTime] = useLocalStorage('timeSync_excludeBefore', '');
+  const [excludeAfterTime, setExcludeAfterTime] = useLocalStorage('timeSync_excludeAfter', '');
+  const [showAdvanced, setShowAdvanced] = useLocalStorage('timeSync_showAdvanced', false);
   const [availableSlots, setAvailableSlots] = useState<(TimeSlot | null)[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
