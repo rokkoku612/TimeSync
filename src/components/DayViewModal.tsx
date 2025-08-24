@@ -168,12 +168,6 @@ const DayViewModal: React.FC<DayViewModalProps> = ({
                 <p className="text-gray-500 text-sm">
                   {language.code === 'ja' ? 'この日は予定がありません' : 'No events scheduled for this day'}
                 </p>
-                <button
-                  onClick={handleNewEvent}
-                  className="mt-3 text-blue-500 hover:text-blue-600 text-sm underline"
-                >
-                  {language.code === 'ja' ? '予定を追加する' : 'Add an event'}
-                </button>
               </div>
             ) : (
               <div className="space-y-3">
