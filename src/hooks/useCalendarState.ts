@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { CalendarState } from '../types';
 
 export const useCalendarState = () => {
   const [startDateTime, setStartDateTime] = useState<Date>(() => {

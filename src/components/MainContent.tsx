@@ -1,0 +1,125 @@
+import React from 'react';
+import { Language } from '../types';
+import SearchForm from './SearchForm';
+import ResultsList from './ResultsList';
+import EventsDisplay from './EventsDisplay';
+import GoogleCalendarView from './GoogleCalendarView';
+import CalendarSelector from './CalendarSelector';
+
+interface MainContentProps {
+  activeTab: 'calendar' | 'search';
+  currentLanguage: Language;
+  // Search form props
+  startDateTime: Date;
+  endDateTime: Date;
+  minDuration: number;
+  excludeBeforeTime: string;
+  excludeAfterTime: string;
+  showAdvanced: boolean;
+  onStartDateTimeChange: (date: Date) => void;
+  onEndDateTimeChange: (date: Date) => void;
+  onMinDurationChange: (duration: number) => void;
+  onExcludeBeforeTimeChange: (time: string) => void;
+  onExcludeAfterTimeChange: (time: string) => void;
+  onShowAdvancedChange: (show: boolean) => void;
+  onSearch: () => void;
+  isLoading: boolean;
+  // Results props
+  availableSlots: any[];
+  copySuccess: boolean;
+  onDeleteSlot: (index: number) => void;
+  onCopyAll: () => void;
+  // Calendar props
+  selectedCalendarIds: string[];
+  onCalendarSelectionChange: (ids: string[]) => void;
+  showResults: boolean;
+}
+
+const MainContent: React.FC<MainContentProps> = ({
+  activeTab,
+  currentLanguage,
+  startDateTime,
+  endDateTime,
+  minDuration,
+  excludeBeforeTime,
+  excludeAfterTime,
+  showAdvanced,
+  onStartDateTimeChange,
+  onEndDateTimeChange,
+  onMinDurationChange,
+  onExcludeBeforeTimeChange,
+  onExcludeAfterTimeChange,
+  onShowAdvancedChange,
+  onSearch,
+  isLoading,
+  availableSlots,
+  copySuccess,
+  onDeleteSlot,
+  onCopyAll,
+  selectedCalendarIds,
+  onCalendarSelectionChange,
+  showResults,
+}) => {
+  return (
+    <main className="flex-1 p-4 space-y-6">
+      {activeTab === 'search' ? (
+        <>
+          <SearchForm
+            startDateTime={startDateTime}
+            endDateTime={endDateTime}
+            minDuration={minDuration}
+            excludeBeforeTime={excludeBeforeTime}
+            excludeAfterTime={excludeAfterTime}
+            showAdvanced={showAdvanced}
+            language={currentLanguage}
+            onStartDateTimeChange={onStartDateTimeChange}
+            onEndDateTimeChange={onEndDateTimeChange}
+            onMinDurationChange={onMinDurationChange}
+            onExcludeBeforeTimeChange={onExcludeBeforeTimeChange}
+            onExcludeAfterTimeChange={onExcludeAfterTimeChange}
+            onShowAdvancedChange={onShowAdvancedChange}
+            onSearch={onSearch}
+            isLoading={isLoading}
+          />
+
+          <CalendarSelector
+            selectedCalendarIds={selectedCalendarIds}
+            onSelectionChange={onCalendarSelectionChange}
+            language={currentLanguage}
+          />
+
+          {/* Loading State */}
+          {isLoading && (
+            <div className="text-center py-12">
+              <div className="inline-block relative w-20 h-20">
+                <div className="absolute inset-0 border-2 border-gray-300 opacity-100 rounded-full animate-ping" />
+                <div className="absolute inset-0 border-2 border-gray-300 opacity-100 rounded-full animate-ping animation-delay-200" />
+              </div>
+              <p className="mt-4 text-gray-500">{currentLanguage.texts.searchingCalendar}</p>
+            </div>
+          )}
+
+          {showResults && !isLoading && (
+            <ResultsList
+              availableSlots={availableSlots}
+              language={currentLanguage}
+              copySuccess={copySuccess}
+              onDeleteSlot={onDeleteSlot}
+              onCopyAll={onCopyAll}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <GoogleCalendarView
+            selectedCalendarIds={selectedCalendarIds}
+            language={currentLanguage}
+          />
+          <EventsDisplay language={currentLanguage} />
+        </>
+      )}
+    </main>
+  );
+};
+
+export default MainContent;

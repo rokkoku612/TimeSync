@@ -5,7 +5,7 @@ import googleCalendar from '../services/googleCalendar';
 import googleAuthDirect from '../services/googleAuthDirect';
 import { useLocalStorage } from './useLocalStorage';
 
-export const useAvailabilitySearch = (currentLanguage?: Language) => {
+export const useAvailabilitySearch = () => {
   // 設定をローカルストレージに保存
   const [minDuration, setMinDuration] = useLocalStorage('timeSync_minDuration', 30);
   const [excludeBeforeTime, setExcludeBeforeTime] = useLocalStorage('timeSync_excludeBefore', '');
@@ -61,8 +61,8 @@ export const useAvailabilitySearch = (currentLanguage?: Language) => {
       }
       
       setShowResults(true);
-    } catch (error: any) {
-      setSearchError(error.message || 'Failed to search calendar');
+    } catch (error) {
+      setSearchError(error instanceof Error ? error.message : 'Failed to search calendar');
       setAvailableSlots([]);
       setShowResults(false);
     } finally {

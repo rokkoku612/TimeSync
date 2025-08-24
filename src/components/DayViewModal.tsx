@@ -11,6 +11,8 @@ interface Event {
   end: Date;
   description?: string;
   location?: string;
+  calendarId?: string;
+  calendarName?: string;
 }
 
 interface DayViewModalProps {
@@ -59,7 +61,9 @@ const DayViewModal: React.FC<DayViewModalProps> = ({
           start: new Date(event.start.dateTime || event.start.date),
           end: new Date(event.end.dateTime || event.end.date),
           description: event.description,
-          location: event.location
+          location: event.location,
+          calendarId: event.calendarId,
+          calendarName: event.calendarName
         }))
         .sort((a, b) => a.start.getTime() - b.start.getTime());
       

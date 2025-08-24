@@ -1,56 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import HamburgerMenu from './components/HamburgerMenu';
 import ManualPage from './components/ManualPage';
 import ContactPage from './components/ContactPage';
 import TermsPage from './components/TermsPage';
 import AboutPage from './components/AboutPage';
-import SearchForm from './components/SearchForm';
-import ResultsList from './components/ResultsList';
-import EventsDisplay from './components/EventsDisplay';
 import LanguageToggle from './components/LanguageToggle';
 import GoogleLogin from './components/GoogleLogin';
-import GoogleCalendarView from './components/GoogleCalendarView';
-import CalendarSelector from './components/CalendarSelector';
+import MainContent from './components/MainContent';
+import TabNavigation from './components/TabNavigation';
 import { useLanguage } from './hooks/useLanguage';
 import { useCalendarState } from './hooks/useCalendarState';
 import { useAvailabilitySearch } from './hooks/useAvailabilitySearch';
 import { useGoogleAuth } from './hooks/useGoogleAuth';
+import { useAppState } from './hooks/useAppState';
 
 const App: React.FC = () => {
-  const [showManual, setShowManual] = useState(false);
-  const [showContact, setShowContact] = useState(false);
-  const [showTerms, setShowTerms] = useState(false);
-  const [showAbout, setShowAbout] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'calendar' | 'search'>('search');
-  const [selectedCalendarIds, setSelectedCalendarIds] = useState<string[]>(() => {
-    // Initialize from localStorage
-    const saved = localStorage.getItem('selectedCalendarIds');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        // Failed to parse saved IDs
-      }
-    }
-    return [];
-  });
+  const {
+    showManual,
+    showContact,
+    showTerms,
+    showAbout,
+    isMenuOpen,
+    activeTab,
+    selectedCalendarIds,
+    setShowManual,
+    setShowContact,
+    setShowTerms,
+    setShowAbout,
+    setIsMenuOpen,
+    setActiveTab,
+    handleCalendarSelectionChange,
+  } = useAppState();
   
   // Custom hooks for state management
   const { currentLanguage, toggleLanguage } = useLanguage();
   const {
     startDateTime,
     endDateTime,
-    startCalendarYear,
-    startCalendarMonth,
-    endCalendarYear,
-    endCalendarMonth,
-    handleStartMonthChange,
-    handleEndMonthChange,
     handleStartDateSelect,
-    handleEndDateSelect,
-    handleStartTimeChange,
-    handleEndTimeChange
+    handleEndDateSelect
   } = useCalendarState();
   
   const {
@@ -66,7 +54,6 @@ const App: React.FC = () => {
     isLoading,
     showResults,
     copySuccess,
-    searchError,
     handleSearch,
     deleteSlot,
     copyToClipboard
@@ -142,123 +129,40 @@ const App: React.FC = () => {
 
           {/* Tab Navigation - Only show when signed in */}
           {isSignedIn && (
-            <div className="flex items-center justify-between mb-8">
-              <button
-                onClick={() => setActiveTab('search')}
-                className={`px-12 py-3 rounded-xl text-base font-medium transition-all min-w-[240px] ${
-                  activeTab === 'search'
-                    ? 'bg-slate-900 text-white shadow-lg'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                {currentLanguage.code === 'ja' ? '空き時間検索' : 'TimeSync Search'}
-              </button>
-              
-              <div className="flex-1"></div>
-              
-              <button
-                onClick={() => setActiveTab('calendar')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  activeTab === 'calendar'
-                    ? 'bg-slate-900 text-white shadow-lg'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                }`}
-              >
-                {currentLanguage.code === 'ja' ? 'カレンダー表示' : 'Calendar View'}
-              </button>
-            </div>
+            <TabNavigation
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              language={currentLanguage}
+            />
           )}
 
-          {/* Calendar View - Show when signed in and calendar tab is active */}
-          {isSignedIn && activeTab === 'calendar' && (
-            <div className="mb-6">
-              <GoogleCalendarView
-                language={currentLanguage}
-                isSignedIn={isSignedIn}
-                isDemoMode={isDemoMode}
-                onSwitchToSearch={() => setActiveTab('search')}
-              />
-            </div>
-          )}
-
-          {/* Search Section - Show when not signed in OR when search tab is active */}
-          {(!isSignedIn || activeTab === 'search') && (
-            <>
-              {/* Calendar Selector for Search */}
-              {isSignedIn && !isDemoMode && (
-                <div className="flex justify-end mb-4">
-                  <CalendarSelector
-                    language={currentLanguage}
-                    onCalendarsChange={(ids) => {
-                      setSelectedCalendarIds(ids);
-                      localStorage.setItem('selectedCalendarIds', JSON.stringify(ids));
-                    }}
-                    isDemoMode={isDemoMode}
-                  />
-                </div>
-              )}
-              
-              {/* Search Form */}
-              <SearchForm
-                startDateTime={startDateTime}
-                endDateTime={endDateTime}
-                minDuration={minDuration}
-                excludeBeforeTime={excludeBeforeTime}
-                excludeAfterTime={excludeAfterTime}
-                showAdvanced={showAdvanced}
-                language={currentLanguage}
-                onStartDateTimeChange={handleStartDateSelect}
-                onEndDateTimeChange={handleEndDateSelect}
-                onMinDurationChange={setMinDuration}
-                onExcludeBeforeTimeChange={setExcludeBeforeTime}
-                onExcludeAfterTimeChange={setExcludeAfterTime}
-                onShowAdvancedChange={setShowAdvanced}
-                onSearch={onSearch}
-                isLoading={isLoading}
-              />
-
-              {/* Loading State */}
-              {isLoading && (
-                <div className="text-center py-12">
-                  <div className="inline-block relative w-20 h-20">
-                    <div className="absolute inset-0 border-2 border-gray-300 opacity-100 rounded-full animate-ping" />
-                    <div className="absolute inset-0 border-2 border-gray-300 opacity-100 rounded-full animate-ping animation-delay-200" />
-                  </div>
-                  <p className="mt-4 text-gray-500">{currentLanguage.texts.searchingCalendar}</p>
-                </div>
-              )}
-
-              {/* Error Display */}
-              {searchError && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-                  <p className="text-red-700">{searchError}</p>
-                </div>
-              )}
-
-              {/* Results */}
-              {showResults && !isLoading && (
-                <>
-                  <ResultsList
-                    availableSlots={availableSlots}
-                    language={currentLanguage}
-                    copySuccess={copySuccess}
-                    onDeleteSlot={deleteSlot}
-                    onCopyAll={copyToClipboard}
-                  />
-                  
-                  {/* Events Display - Show scheduled events in the search period */}
-                  <EventsDisplay
-                    language={currentLanguage}
-                    isSignedIn={isSignedIn}
-                    isDemoMode={isDemoMode}
-                    availableSlots={availableSlots}
-                    startDateTime={startDateTime}
-                    endDateTime={endDateTime}
-                    selectedCalendarIds={selectedCalendarIds}
-                  />
-                </>
-              )}
-            </>
+          {/* Main Content */}
+          {(isSignedIn || !isSignedIn) && (
+            <MainContent
+              activeTab={activeTab}
+              currentLanguage={currentLanguage}
+              startDateTime={startDateTime}
+              endDateTime={endDateTime}
+              minDuration={minDuration}
+              excludeBeforeTime={excludeBeforeTime}
+              excludeAfterTime={excludeAfterTime}
+              showAdvanced={showAdvanced}
+              onStartDateTimeChange={handleStartDateSelect}
+              onEndDateTimeChange={handleEndDateSelect}
+              onMinDurationChange={setMinDuration}
+              onExcludeBeforeTimeChange={setExcludeBeforeTime}
+              onExcludeAfterTimeChange={setExcludeAfterTime}
+              onShowAdvancedChange={setShowAdvanced}
+              onSearch={onSearch}
+              isLoading={isLoading}
+              availableSlots={availableSlots}
+              copySuccess={copySuccess}
+              onDeleteSlot={deleteSlot}
+              onCopyAll={copyToClipboard}
+              selectedCalendarIds={selectedCalendarIds}
+              onCalendarSelectionChange={handleCalendarSelectionChange}
+              showResults={showResults}
+            />
           )}
         </main>
       </div>

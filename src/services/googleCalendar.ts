@@ -1,6 +1,6 @@
 // import googleAuth from './googleAuth'; // Disabled - using direct OAuth
 import googleAuthDirect from './googleAuthDirect';
-import { TimeSlot, Language } from '../types';
+import { TimeSlot } from '../types';
 
 // Demo events for demo mode
 const generateDemoEvents = (startDate: Date, endDate: Date, language: 'ja' | 'en' = 'en') => {
@@ -49,7 +49,7 @@ const generateDemoEvents = (startDate: Date, endDate: Date, language: 'ja' | 'en
     ]
   };
 
-  let currentDate = new Date(startDate);
+  const currentDate = new Date(startDate);
   currentDate.setHours(0, 0, 0, 0);
   
   while (currentDate <= endDate) {
@@ -210,7 +210,7 @@ class GoogleCalendarService {
     
     // Process each day separately to apply daily exclusions
     const availableSlots: TimeSlot[] = [];
-    let currentDate = new Date(startDate);
+    const currentDate = new Date(startDate);
     currentDate.setHours(0, 0, 0, 0);
     
     while (currentDate <= endDate) {
@@ -544,8 +544,12 @@ class GoogleCalendarService {
     end: Date;
     description?: string;
     location?: string;
+    calendarId?: string;
+    attendees?: string[];
+    sendNotifications?: boolean;
+    addGoogleMeet?: boolean;
   }): Promise<any> {
-    const event = {
+    const event: any = {
       summary: eventData.title,
       description: eventData.description,
       location: eventData.location,
@@ -557,10 +561,31 @@ class GoogleCalendarService {
       }
     };
 
+    // Add attendees if provided
+    if (eventData.attendees && eventData.attendees.length > 0) {
+      event.attendees = eventData.attendees.map(email => ({ email }));
+    }
+
+    // Add Google Meet conference if requested
+    if (eventData.addGoogleMeet) {
+      event.conferenceData = {
+        createRequest: {
+          requestId: `meet-${Date.now()}`,
+          conferenceSolutionKey: {
+            type: 'hangoutsMeet'
+          }
+        }
+      };
+    }
+
     // Try direct OAuth implementation first
     if (googleAuthDirect.isSignedIn()) {
       try {
-        const url = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
+        const calendarId = eventData.calendarId || 'primary';
+        const encodedCalendarId = encodeURIComponent(calendarId);
+        const sendNotifications = eventData.sendNotifications !== false; // Default to true
+        const conferenceDataVersion = eventData.addGoogleMeet ? '&conferenceDataVersion=1' : '';
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
         return await this.makeCalendarRequest(url, 'POST', event);
       } catch (error) {
         // Direct API call failed
@@ -576,14 +601,18 @@ class GoogleCalendarService {
     throw new Error('Google Sign-In SDK not available. Please use direct OAuth.');
   }
 
-  async updateEvent(eventId: string, eventData: {
+  async createEventInMultipleCalendars(eventData: {
     title: string;
     start: Date;
     end: Date;
     description?: string;
     location?: string;
-  }): Promise<any> {
-    const event = {
+    calendarIds: string[];
+    attendees?: string[];
+    sendNotifications?: boolean;
+    addGoogleMeet?: boolean;
+  }): Promise<any[]> {
+    const event: any = {
       summary: eventData.title,
       description: eventData.description,
       location: eventData.location,
@@ -595,10 +624,100 @@ class GoogleCalendarService {
       }
     };
 
+    // Add attendees if provided
+    if (eventData.attendees && eventData.attendees.length > 0) {
+      event.attendees = eventData.attendees.map(email => ({ email }));
+    }
+
+    // Add Google Meet conference if requested
+    if (eventData.addGoogleMeet) {
+      event.conferenceData = {
+        createRequest: {
+          requestId: `meet-${Date.now()}`,
+          conferenceSolutionKey: {
+            type: 'hangoutsMeet'
+          }
+        }
+      };
+    }
+
+    if (!googleAuthDirect.isSignedIn()) {
+      throw new Error('User is not signed in');
+    }
+
+    const results: any[] = [];
+    const errors: string[] = [];
+
+    // Create event in each selected calendar
+    const sendNotifications = eventData.sendNotifications !== false; // Default to true
+    const conferenceDataVersion = eventData.addGoogleMeet ? '&conferenceDataVersion=1' : '';
+    for (const calendarId of eventData.calendarIds) {
+      try {
+        const encodedCalendarId = encodeURIComponent(calendarId);
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
+        const result = await this.makeCalendarRequest(url, 'POST', event);
+        results.push({ success: true, calendarId, eventId: result.id });
+      } catch (error) {
+        errors.push(`Failed to add to calendar ${calendarId}`);
+        results.push({ success: false, calendarId, error: error instanceof Error ? error.message : 'Unknown error' });
+      }
+    }
+
+    if (errors.length > 0 && results.every(r => !r.success)) {
+      throw new Error(errors.join(', '));
+    }
+
+    return results;
+  }
+
+  async updateEvent(eventId: string, eventData: {
+    title: string;
+    start: Date;
+    end: Date;
+    description?: string;
+    location?: string;
+    calendarId?: string;
+    attendees?: string[];
+    sendNotifications?: boolean;
+    addGoogleMeet?: boolean;
+  }): Promise<any> {
+    const event: any = {
+      summary: eventData.title,
+      description: eventData.description,
+      location: eventData.location,
+      start: {
+        dateTime: eventData.start.toISOString()
+      },
+      end: {
+        dateTime: eventData.end.toISOString()
+      }
+    };
+
+    // Add attendees if provided
+    if (eventData.attendees && eventData.attendees.length > 0) {
+      event.attendees = eventData.attendees.map(email => ({ email }));
+    }
+
+    // Add Google Meet conference if requested
+    if (eventData.addGoogleMeet) {
+      event.conferenceData = {
+        createRequest: {
+          requestId: `meet-${Date.now()}`,
+          conferenceSolutionKey: {
+            type: 'hangoutsMeet'
+          }
+        }
+      };
+    }
+
     // Try direct OAuth implementation first
     if (googleAuthDirect.isSignedIn()) {
       try {
-        const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`;
+        const calendarId = eventData.calendarId || 'primary';
+        const encodedCalendarId = encodeURIComponent(calendarId);
+        const sendNotifications = eventData.sendNotifications !== false; // Default to true
+        const conferenceDataVersion = eventData.addGoogleMeet ? '&conferenceDataVersion=1' : '';
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events/${eventId}?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
         return await this.makeCalendarRequest(url, 'PUT', event);
       } catch (error) {
         // Direct API call failed
@@ -614,11 +733,13 @@ class GoogleCalendarService {
     throw new Error('Google Sign-In SDK not available. Please use direct OAuth.');
   }
 
-  async deleteEvent(eventId: string): Promise<void> {
+  async deleteEvent(eventId: string, calendarId?: string): Promise<void> {
     // Try direct OAuth implementation first
     if (googleAuthDirect.isSignedIn()) {
       try {
-        const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`;
+        const calId = calendarId || 'primary';
+        const encodedCalendarId = encodeURIComponent(calId);
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events/${eventId}`;
         await this.makeCalendarRequest(url, 'DELETE');
         return;
       } catch (error) {

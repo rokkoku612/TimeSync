@@ -50,7 +50,7 @@ export const generateDemoSlots = (
   excludeAfterTime: string = ''
 ): TimeSlot[] => {
   const slots: TimeSlot[] = [];
-  let currentDate = new Date(start);
+  const currentDate = new Date(start);
   currentDate.setHours(0, 0, 0, 0);
   
   // Process each day separately to apply daily exclusions

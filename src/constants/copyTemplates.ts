@@ -6,7 +6,9 @@ export interface CopyTemplate {
   beforeTextEn: string;
   afterTextJa: string;
   afterTextEn: string;
+  isCustom?: boolean;
 }
+
 
 export const copyTemplates: CopyTemplate[] = [
   {
@@ -40,10 +42,10 @@ export const copyTemplates: CopyTemplate[] = [
     id: 'business',
     nameJa: 'ビジネス',
     nameEn: 'Business',
-    beforeTextJa: 'お世話になっております。\n\n打ち合わせの日程調整をさせていただきたく、下記の通り候補日時をご提案いたします。\n\n━━━━━━━━━━━━━━━\n◆ 候補日時\n━━━━━━━━━━━━━━━',
-    beforeTextEn: 'Dear [Name],\n\nI would like to schedule a meeting with you. Please find my availability below:\n\n────────────────────\n◆ Available Time Slots\n────────────────────',
-    afterTextJa: '\n━━━━━━━━━━━━━━━\n\n上記日程でご都合はいかがでしょうか。\nご確認のほど、よろしくお願いいたします。',
-    afterTextEn: '\n────────────────────\n\nPlease let me know if any of these times work for you.\nLooking forward to your response.'
+    beforeTextJa: 'お世話になっております。\n\n打ち合わせの日程調整をさせていただきたく、下記の通り候補日時をご提案いたします。\n\n────────\n◆ 候補日時\n────────',
+    beforeTextEn: 'Dear [Name],\n\nI would like to schedule a meeting with you. Please find my availability below:\n\n────────\n◆ Available Time Slots\n────────',
+    afterTextJa: '\n────────\n\n上記日程でご都合はいかがでしょうか。\nご確認のほど、よろしくお願いいたします。',
+    afterTextEn: '\n────────\n\nPlease let me know if any of these times work for you.\nLooking forward to your response.'
   },
   {
     id: 'interview',
@@ -90,4 +92,32 @@ export const getDefaultTemplate = (): string => {
 
 export const saveSelectedTemplate = (templateId: string): void => {
   localStorage.setItem('selectedCopyTemplate', templateId);
+};
+
+// カスタムテンプレート管理
+export const getCustomTemplates = (): CopyTemplate[] => {
+  const saved = localStorage.getItem('customTemplates');
+  return saved ? JSON.parse(saved) : [];
+};
+
+export const saveCustomTemplate = (template: CopyTemplate): void => {
+  const customTemplates = getCustomTemplates();
+  const existingIndex = customTemplates.findIndex(t => t.id === template.id);
+  
+  if (existingIndex !== -1) {
+    customTemplates[existingIndex] = template;
+  } else {
+    customTemplates.push(template);
+  }
+  
+  localStorage.setItem('customTemplates', JSON.stringify(customTemplates));
+};
+
+export const deleteCustomTemplate = (templateId: string): void => {
+  const customTemplates = getCustomTemplates().filter(t => t.id !== templateId);
+  localStorage.setItem('customTemplates', JSON.stringify(customTemplates));
+};
+
+export const getAllTemplates = (): CopyTemplate[] => {
+  return [...copyTemplates, ...getCustomTemplates()];
 };

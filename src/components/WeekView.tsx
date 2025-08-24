@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Language } from '../types';
 
 interface Event {
@@ -10,6 +10,7 @@ interface Event {
   location?: string;
   calendarName?: string;
   calendarColor?: string;
+  calendarId?: string;
 }
 
 interface WeekViewProps {
@@ -29,21 +30,12 @@ const WeekView: React.FC<WeekViewProps> = ({
 }) => {
   const weekDays = language.texts.weekDays || [];
   const hours = Array.from({ length: 24 }, (_, i) => i);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  // Get events for a specific day and hour
-  const getEventsForSlot = (date: Date, hour: number) => {
-    return events.filter(event => {
-      const eventDate = event.start.toDateString();
-      const eventHour = event.start.getHours();
-      const eventEndHour = event.end.getHours();
-      return eventDate === date.toDateString() && 
-             eventHour <= hour && 
-             (eventEndHour > hour || (eventEndHour === hour && event.end.getMinutes() > 0));
-    });
-  };
 
   // Calculate event position and height
-  const getEventStyle = (event: Event, date: Date) => {
+  const getEventStyle = (event: Event) => {
     const startHour = event.start.getHours();
     const startMinute = event.start.getMinutes();
     const endHour = event.end.getHours();
@@ -85,17 +77,31 @@ const WeekView: React.FC<WeekViewProps> = ({
   };
 
   const isCurrentTime = () => {
-    const now = new Date();
     return dates.some(date => isToday(date));
   };
+
+  // Sync horizontal scroll between header and content
+  useEffect(() => {
+    const handleContentScroll = () => {
+      if (contentRef.current && headerRef.current) {
+        headerRef.current.scrollLeft = contentRef.current.scrollLeft;
+      }
+    };
+
+    const content = contentRef.current;
+    if (content) {
+      content.addEventListener('scroll', handleContentScroll);
+      return () => content.removeEventListener('scroll', handleContentScroll);
+    }
+  }, []);
 
   return (
     <div className="relative h-full">
       {/* Fixed header with days */}
       <div className="sticky top-0 z-30 bg-white border-b border-gray-200">
         <div className="flex">
-          <div className="w-14 flex-shrink-0"></div>
-          <div className="flex-1 overflow-x-auto">
+          <div className="w-16 flex-shrink-0"></div>
+          <div ref={headerRef} className="flex-1 overflow-x-auto overflow-y-hidden scrollbar-none">
             <div className="min-w-[700px] grid grid-cols-7 gap-0">
               {dates.map((date, index) => (
                 <div 
@@ -119,13 +125,13 @@ const WeekView: React.FC<WeekViewProps> = ({
       <div className="relative overflow-y-auto" style={{ maxHeight: 'calc(100% - 52px)' }}>
         <div className="flex">
           {/* Time axis - outside the table */}
-          <div className="w-14 flex-shrink-0 relative">
+          <div className="w-16 flex-shrink-0 relative bg-white">
             {hours.map(hour => (
               <div 
                 key={hour} 
-                className="h-[60px] flex items-start justify-end pr-2 text-xs text-gray-500 relative"
+                className="h-[60px] flex items-start justify-end pr-1 text-xs text-gray-500 relative"
               >
-                <span className="absolute -top-2 right-2">
+                <span className="absolute -top-2 right-1">
                   {`${hour.toString().padStart(2, '0')}:00`}
                 </span>
               </div>
@@ -133,7 +139,7 @@ const WeekView: React.FC<WeekViewProps> = ({
           </div>
 
           {/* Main calendar grid */}
-          <div className="flex-1 overflow-x-auto">
+          <div ref={contentRef} className="flex-1 overflow-x-auto">
             <div className="min-w-[700px] relative">
               {/* Current time indicator */}
               {isCurrentTime() && (
@@ -141,7 +147,7 @@ const WeekView: React.FC<WeekViewProps> = ({
                   className="absolute left-0 right-0 border-t-2 border-red-500 z-20 pointer-events-none"
                   style={{ top: `${getCurrentTimePosition()}px` }}
                 >
-                  <div className="absolute -left-14 w-12 text-xs text-red-500 font-bold text-right pr-2">
+                  <div className="absolute -left-16 w-14 text-xs text-red-500 font-bold text-right pr-1">
                     {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
                   </div>
                   <div className="absolute left-0 w-2 h-2 bg-red-500 rounded-full -mt-1"></div>
@@ -164,7 +170,7 @@ const WeekView: React.FC<WeekViewProps> = ({
                           }}
                           className="absolute inset-x-1 rounded px-1 py-0.5 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
                           style={{
-                            ...getEventStyle(event, date),
+                            ...getEventStyle(event),
                             backgroundColor: event.calendarColor ? `${event.calendarColor}30` : '#e2e8f0',
                             borderLeft: `3px solid ${event.calendarColor || '#64748b'}`,
                             fontSize: '11px'

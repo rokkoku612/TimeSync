@@ -90,9 +90,6 @@ const TimePicker: React.FC<TimePickerProps> = ({
     return `${h?.padStart(2, '0') || '00'}:${m?.padStart(2, '0') || '00'}`;
   };
 
-  // Generate hour options
-  const hourOptions = Array.from({ length: 24 }, (_, i) => i);
-  const minuteOptions = [0, 15, 30, 45];
 
   return (
     <div className="relative" ref={containerRef}>

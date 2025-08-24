@@ -16,6 +16,7 @@ interface Event {
   location?: string;
   calendarName?: string;
   calendarColor?: string;
+  calendarId?: string;
 }
 
 interface GoogleCalendarViewProps {
@@ -87,7 +88,8 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
         description: event.description,
         location: event.location,
         calendarName: event.calendarName,
-        calendarColor: event.calendarColor
+        calendarColor: event.calendarColor,
+        calendarId: event.calendarId
       }));
       
       setEvents(formattedEvents);

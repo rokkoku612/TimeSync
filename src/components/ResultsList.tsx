@@ -17,38 +17,29 @@ const ResultsList: React.FC<ResultsListProps> = ({
   });
   // Format time slot based on current language
   const formatTimeSlot = (slot: TimeSlot): string => {
-    const formatDate = (date: Date) => {
-      if (language.code === 'ja') {
-        const days = ['日', '月', '火', '水', '木', '金', '土'];
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-        const dayOfWeek = days[date.getDay()];
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        
-        return `${month}月${day}日(${dayOfWeek}) ${hours}:${minutes}`;
-      } else {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        
-        const month = months[date.getMonth()];
-        const day = date.getDate();
-        const dayOfWeek = days[date.getDay()];
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        
-        return `${month} ${day} (${dayOfWeek}) ${hours}:${minutes}`;
-      }
-    };
-
-    const formatTime = (date: Date) => {
-      return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-    };
-
-    const startStr = formatDate(slot.start);
-    const endTime = formatTime(slot.end);
+    const date = new Date(slot.start);
+    const endDate = new Date(slot.end);
     
-    return `${startStr} - ${endTime}`;
+    if (language.code === 'ja') {
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const days = ['日', '月', '火', '水', '木', '金', '土'];
+      const dayOfWeek = days[date.getDay()];
+      const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+      const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
+      
+      return `${month}月${day}日(${dayOfWeek}) ${startTime} - ${endTime}`;
+    } else {
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const month = months[date.getMonth()];
+      const day = date.getDate();
+      const dayOfWeek = days[date.getDay()];
+      const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+      const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
+      
+      return `${month} ${day} (${dayOfWeek}) ${startTime} - ${endTime}`;
+    }
   };
 
   const handleCopyWithTemplate = useCallback(() => {
@@ -71,7 +62,7 @@ const ResultsList: React.FC<ResultsListProps> = ({
       if (typeof onCopyAll === 'function') {
         onCopyAll();
       }
-    }).catch(err => {
+    }).catch(() => {
       // Silently handle copy failure
     });
   }, [availableSlots, selectedTemplate, language, onCopyAll]);
