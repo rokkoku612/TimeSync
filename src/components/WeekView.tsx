@@ -49,9 +49,14 @@ const WeekView: React.FC<WeekViewProps> = ({
     const endHour = event.end.getHours();
     const endMinute = event.end.getMinutes();
     
-    const top = (startHour * 60 + startMinute) * (60 / 60); // 60px per hour
-    const duration = (endHour - startHour) * 60 + (endMinute - startMinute);
-    const height = Math.max(20, duration * (60 / 60)); // Minimum 20px height
+    // Calculate position relative to the hour slot
+    const hourSlotHeight = 60; // 60px per hour
+    const minuteOffset = (startMinute / 60) * hourSlotHeight;
+    const top = startHour * hourSlotHeight + minuteOffset;
+    
+    // Calculate duration and height
+    const durationMinutes = (endHour - startHour) * 60 + (endMinute - startMinute);
+    const height = Math.max(20, (durationMinutes / 60) * hourSlotHeight);
     
     return {
       top: `${top}px`,
@@ -88,13 +93,15 @@ const WeekView: React.FC<WeekViewProps> = ({
     <div className="relative">
       <div className="flex">
         {/* Time axis - outside the table */}
-        <div className="w-12 flex-shrink-0 mt-[52px]">
+        <div className="w-14 flex-shrink-0 mt-[52px] relative">
           {hours.map(hour => (
             <div 
               key={hour} 
-              className="h-[60px] flex items-start justify-end pr-2 text-xs text-gray-500"
+              className="h-[60px] flex items-start justify-end pr-2 text-xs text-gray-500 relative"
             >
-              {`${hour.toString().padStart(2, '0')}:00`}
+              <span className="absolute -top-2 right-2">
+                {`${hour.toString().padStart(2, '0')}:00`}
+              </span>
             </div>
           ))}
         </div>
@@ -138,44 +145,41 @@ const WeekView: React.FC<WeekViewProps> = ({
               <div className="grid grid-cols-7 gap-0">
                 {dates.map((date, dateIndex) => (
                   <div key={dateIndex} className="border-r border-gray-200 relative">
+                    {/* All events for this day */}
+                    {events
+                      .filter(event => event.start.toDateString() === date.toDateString())
+                      .map(event => (
+                        <div
+                          key={event.id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onEventClick(event);
+                          }}
+                          className="absolute inset-x-1 rounded px-1 py-0.5 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                          style={{
+                            ...getEventStyle(event, date),
+                            backgroundColor: event.calendarColor ? `${event.calendarColor}30` : '#e2e8f0',
+                            borderLeft: `3px solid ${event.calendarColor || '#64748b'}`,
+                            fontSize: '11px'
+                          }}
+                          title={`${event.title} (${formatTime(event.start)} - ${formatTime(event.end)})`}
+                        >
+                          <div className="font-medium truncate">{event.title}</div>
+                          <div className="text-gray-600 truncate">
+                            {formatTime(event.start)} - {formatTime(event.end)}
+                          </div>
+                        </div>
+                      ))}
+                    
+                    {/* Hour slots for click events */}
                     {hours.map(hour => (
                       <div
                         key={hour}
                         onClick={() => onTimeSlotClick(date, hour)}
-                        className={`h-[60px] border-b border-gray-100 hover:bg-gray-50 cursor-pointer relative
+                        className={`h-[60px] border-b border-gray-100 hover:bg-gray-50 cursor-pointer
                           ${isToday(date) ? 'bg-blue-50/20' : ''}
                         `}
-                      >
-                        {/* Events for this time slot */}
-                        {getEventsForSlot(date, hour).map(event => {
-                          // Only render the event in its starting hour
-                          if (event.start.getHours() === hour) {
-                            return (
-                              <div
-                                key={event.id}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  onEventClick(event);
-                                }}
-                                className="absolute inset-x-1 rounded px-1 py-0.5 overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
-                                style={{
-                                  ...getEventStyle(event, date),
-                                  backgroundColor: event.calendarColor ? `${event.calendarColor}30` : '#e2e8f0',
-                                  borderLeft: `3px solid ${event.calendarColor || '#64748b'}`,
-                                  fontSize: '11px'
-                                }}
-                                title={`${event.title} (${formatTime(event.start)} - ${formatTime(event.end)})`}
-                              >
-                                <div className="font-medium truncate">{event.title}</div>
-                                <div className="text-gray-600 truncate">
-                                  {formatTime(event.start)} - {formatTime(event.end)}
-                                </div>
-                              </div>
-                            );
-                          }
-                          return null;
-                        })}
-                      </div>
+                      />
                     ))}
                   </div>
                 ))}
