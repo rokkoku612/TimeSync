@@ -202,7 +202,7 @@ VITE_DEFAULT_WEEK_START=1
 4. 環境変数を設定
 5. デプロイ実行
 
-詳細は[CLOUDFLARE_COMPLETE_GUIDE.md](./CLOUDFLARE_COMPLETE_GUIDE.md)を参照
+詳細は[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)を参照
 
 ### その他のプラットフォーム
 
@@ -249,7 +249,7 @@ npm run build
 
 - [開発ガイド](./CLAUDE.md) - 開発者向けガイドライン
 - [仕様書](./SPEC.md) - 詳細な機能仕様
-- [デプロイガイド](./CLOUDFLARE_COMPLETE_GUIDE.md) - 本番環境へのデプロイ手順
+- [デプロイガイド](./DEPLOYMENT_GUIDE.md) - 本番環境への完全デプロイ手順
 - [テスト仕様](./TEST_SPECIFICATION.md) - テストケースと手順
 - [テストレポート](./TEST_REPORT.md) - テスト実行結果
 
