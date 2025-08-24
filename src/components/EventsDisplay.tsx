@@ -23,6 +23,7 @@ interface EventsDisplayProps {
   startDateTime: Date;
   endDateTime: Date;
   selectedCalendarIds?: string[];
+  showResults?: boolean;
 }
 
 const EventsDisplay: React.FC<EventsDisplayProps> = ({
@@ -32,7 +33,8 @@ const EventsDisplay: React.FC<EventsDisplayProps> = ({
   availableSlots,
   startDateTime,
   endDateTime,
-  selectedCalendarIds
+  selectedCalendarIds,
+  showResults = false
 }) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(false);
@@ -40,10 +42,10 @@ const EventsDisplay: React.FC<EventsDisplayProps> = ({
   const [showEventModal, setShowEventModal] = useState(false);
 
   useEffect(() => {
-    if ((isSignedIn || isDemoMode) && availableSlots.length > 0) {
+    if ((isSignedIn || isDemoMode) && showResults) {
       loadEventsInPeriod();
     }
-  }, [isSignedIn, isDemoMode, availableSlots, startDateTime, endDateTime, selectedCalendarIds]);
+  }, [isSignedIn, isDemoMode, showResults, startDateTime, endDateTime, selectedCalendarIds]);
 
   const loadEventsInPeriod = async () => {
     if (!isSignedIn && !isDemoMode) return;
@@ -104,7 +106,7 @@ const EventsDisplay: React.FC<EventsDisplayProps> = ({
     loadEventsInPeriod(); // Reload events after update
   };
 
-  if ((!isSignedIn && !isDemoMode) || availableSlots.length === 0) {
+  if ((!isSignedIn && !isDemoMode) || !showResults) {
     return null;
   }
 

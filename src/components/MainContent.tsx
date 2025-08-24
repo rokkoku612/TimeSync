@@ -122,6 +122,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 startDateTime={startDateTime}
                 endDateTime={endDateTime}
                 selectedCalendarIds={selectedCalendarIds}
+                showResults={showResults}
               />
             </>
           )}
