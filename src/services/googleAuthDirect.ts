@@ -1,4 +1,10 @@
 // Direct OAuth 2.0 implementation without Google Sign-In SDK
+import type {
+  GoogleUserProfile,
+  GoogleUserInfo,
+  GoogleOAuthParams,
+  GoogleUserInfoResponse
+} from '../types/google-auth';
 class GoogleAuthDirect {
   private clientId: string;
   private redirectUri: string;
@@ -25,7 +31,7 @@ class GoogleAuthDirect {
     if (hash && hash.includes('access_token')) {
       // Parse the hash fragment
       const hashParams = hash.substring(1).split('&');
-      const params: any = {};
+      const params: GoogleOAuthParams = {};
       
       hashParams.forEach(param => {
         const [key, value] = param.split('=');
@@ -126,7 +132,7 @@ class GoogleAuthDirect {
     return null;
   }
 
-  async getCurrentUser(): Promise<any> {
+  async getCurrentUser(): Promise<GoogleUserInfo | null> {
     if (!this.isSignedIn()) {
       return null;
     }
@@ -144,7 +150,7 @@ class GoogleAuthDirect {
         throw new Error('Failed to fetch user info');
       }
 
-      const userInfo = await response.json();
+      const userInfo = await response.json() as GoogleUserInfoResponse;
       return {
         isSignedIn: true,
         profile: {
@@ -161,7 +167,7 @@ class GoogleAuthDirect {
   }
 
   // Make authenticated API requests
-  async makeApiRequest(url: string, options: RequestInit = {}) {
+  async makeApiRequest(url: string, options: RequestInit = {}): Promise<Response> {
     if (!this.isSignedIn()) {
       throw new Error('Not authenticated');
     }

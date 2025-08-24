@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { X, Save, Trash2, UserPlus, Mail, Video } from 'lucide-react';
 import { Language } from '../types';
+import { Event } from '../types/event';
+import { GoogleCalendar } from '../types/google-calendar';
 import googleCalendar from '../services/googleCalendar';
-
-interface Event {
-  id?: string;
-  title: string;
-  start: Date;
-  end: Date;
-  description?: string;
-  location?: string;
-  calendarId?: string;
-  calendarName?: string;
-}
 
 interface EventModalProps {
   isOpen: boolean;
@@ -39,7 +30,7 @@ const EventModal: React.FC<EventModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedCalendarIds, setSelectedCalendarIds] = useState<string[]>(['primary']);
-  const [calendars, setCalendars] = useState<any[]>([]);
+  const [calendars, setCalendars] = useState<GoogleCalendar[]>([]);
   const [isNewEvent, setIsNewEvent] = useState(false);
   const [attendees, setAttendees] = useState<string[]>([]);
   const [attendeeInput, setAttendeeInput] = useState('');

@@ -1,6 +1,17 @@
 // import googleAuth from './googleAuth'; // Disabled - using direct OAuth
 import googleAuthDirect from './googleAuthDirect';
 import { TimeSlot } from '../types';
+import type {
+  GoogleCalendarEvent,
+  GoogleCalendar,
+  GoogleCalendarList,
+  GoogleEventsList,
+  EventData,
+  MultiCalendarEventData,
+  CreateEventResult,
+  DemoEvent,
+  TimeSlotEvent
+} from '../types/google-calendar';
 
 // Demo events for demo mode
 const generateDemoEvents = (startDate: Date, endDate: Date, language: 'ja' | 'en' = 'en') => {
@@ -88,7 +99,7 @@ const generateDemoEvents = (startDate: Date, endDate: Date, language: 'ja' | 'en
 
 class GoogleCalendarService {
   
-  private async makeCalendarRequest(url: string, method: string = 'GET', body?: any) {
+  private async makeCalendarRequest(url: string, method: string = 'GET', body?: unknown): Promise<unknown> {
     // Try direct OAuth first
     if (googleAuthDirect.isSignedIn()) {
       const accessToken = googleAuthDirect.getAccessToken();
@@ -124,7 +135,7 @@ class GoogleCalendarService {
     return null;
   }
   
-  async listEvents(startDate: Date, endDate: Date, isDemoMode: boolean = false, language: 'ja' | 'en' = 'en', selectedCalendarIds?: string[]): Promise<any[]> {
+  async listEvents(startDate: Date, endDate: Date, isDemoMode: boolean = false, language: 'ja' | 'en' = 'en', selectedCalendarIds?: string[]): Promise<GoogleCalendarEvent[]> {
     // If in demo mode, return demo events
     if (isDemoMode) {
       return generateDemoEvents(startDate, endDate, language);
@@ -135,10 +146,10 @@ class GoogleCalendarService {
       try {
         // Step 1: Get all calendar lists
         const calendarListUrl = 'https://www.googleapis.com/calendar/v3/users/me/calendarList';
-        const calendarList = await this.makeCalendarRequest(calendarListUrl);
+        const calendarList = await this.makeCalendarRequest(calendarListUrl) as GoogleCalendarList;
         
         // Step 2: Fetch events from all calendars
-        const allEvents: any[] = [];
+        const allEvents: GoogleCalendarEvent[] = [];
         const params = new URLSearchParams({
           timeMin: startDate.toISOString(),
           timeMax: endDate.toISOString(),
@@ -150,8 +161,8 @@ class GoogleCalendarService {
         if (calendarList.items && calendarList.items.length > 0) {
           // Filter calendars based on selection
           const calendarsToFetch = selectedCalendarIds 
-            ? calendarList.items.filter((cal: any) => selectedCalendarIds.includes(cal.id))
-            : calendarList.items.filter((cal: any) => cal.primary === true); // Default to primary only
+            ? calendarList.items.filter((cal) => selectedCalendarIds.includes(cal.id))
+            : calendarList.items.filter((cal) => cal.primary === true); // Default to primary only
           
           for (const calendar of calendarsToFetch) {
             try {
@@ -160,10 +171,10 @@ class GoogleCalendarService {
                 const calendarId = encodeURIComponent(calendar.id);
                 const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?${params}`;
                 
-                const result = await this.makeCalendarRequest(url);
+                const result = await this.makeCalendarRequest(url) as GoogleEventsList;
                 if (result.items && result.items.length > 0) {
                   // Add calendar info to each event
-                  const eventsWithCalendarInfo = result.items.map((event: any) => ({
+                  const eventsWithCalendarInfo = result.items.map((event) => ({
                     ...event,
                     calendarName: calendar.summary,
                     calendarColor: calendar.backgroundColor,
@@ -360,8 +371,8 @@ class GoogleCalendarService {
   private createTimeSlotWithEvents(
     start: Date, 
     end: Date, 
-    beforeEvent: any | null, 
-    afterEvent: any | null,
+    beforeEvent: DemoEvent | null, 
+    afterEvent: DemoEvent | null,
     language: 'ja' | 'en' = 'en'
   ): TimeSlot {
     const formatDate = (date: Date) => {
@@ -514,11 +525,11 @@ class GoogleCalendarService {
     return dailySlots;
   }
 
-  async getCalendarList(): Promise<any[]> {
+  async getCalendarList(): Promise<GoogleCalendar[]> {
     if (googleAuthDirect.isSignedIn()) {
       try {
         const url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList';
-        const result = await this.makeCalendarRequest(url);
+        const result = await this.makeCalendarRequest(url) as GoogleCalendarList;
         return result.items || [];
       } catch (error) {
         return [];
@@ -527,7 +538,7 @@ class GoogleCalendarService {
     return [];
   }
   
-  async getCalendarListOld(): Promise<any[]> {
+  async getCalendarListOld(): Promise<GoogleCalendar[]> {
     if (!googleAuth.isSignedIn()) {
       throw new Error('User is not signed in');
     }
@@ -535,25 +546,15 @@ class GoogleCalendarService {
     // Use direct OAuth implementation
     try {
       const url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList';
-      const result = await this.makeCalendarRequest(url);
+      const result = await this.makeCalendarRequest(url) as GoogleCalendarList;
       return result.items || [];
     } catch (error) {
       throw error;
     }
   }
 
-  async createEvent(eventData: {
-    title: string;
-    start: Date;
-    end: Date;
-    description?: string;
-    location?: string;
-    calendarId?: string;
-    attendees?: string[];
-    sendNotifications?: boolean;
-    addGoogleMeet?: boolean;
-  }): Promise<any> {
-    const event: any = {
+  async createEvent(eventData: EventData): Promise<GoogleCalendarEvent> {
+    const event: Partial<GoogleCalendarEvent> & { attendees?: Array<{ email: string }> } = {
       summary: eventData.title,
       description: eventData.description,
       location: eventData.location,
@@ -590,7 +591,7 @@ class GoogleCalendarService {
         const sendNotifications = eventData.sendNotifications !== false; // Default to true
         const conferenceDataVersion = eventData.addGoogleMeet ? '&conferenceDataVersion=1' : '';
         const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
-        return await this.makeCalendarRequest(url, 'POST', event);
+        return await this.makeCalendarRequest(url, 'POST', event) as GoogleCalendarEvent;
       } catch (error) {
         // Direct API call failed
       }
@@ -605,18 +606,8 @@ class GoogleCalendarService {
     throw new Error('Google Sign-In SDK not available. Please use direct OAuth.');
   }
 
-  async createEventInMultipleCalendars(eventData: {
-    title: string;
-    start: Date;
-    end: Date;
-    description?: string;
-    location?: string;
-    calendarIds: string[];
-    attendees?: string[];
-    sendNotifications?: boolean;
-    addGoogleMeet?: boolean;
-  }): Promise<any[]> {
-    const event: any = {
+  async createEventInMultipleCalendars(eventData: MultiCalendarEventData): Promise<CreateEventResult[]> {
+    const event: Partial<GoogleCalendarEvent> & { attendees?: Array<{ email: string }> } = {
       summary: eventData.title,
       description: eventData.description,
       location: eventData.location,
@@ -649,7 +640,7 @@ class GoogleCalendarService {
       throw new Error('User is not signed in');
     }
 
-    const results: any[] = [];
+    const results: CreateEventResult[] = [];
     const errors: string[] = [];
 
     // Create event in each selected calendar
@@ -659,7 +650,7 @@ class GoogleCalendarService {
       try {
         const encodedCalendarId = encodeURIComponent(calendarId);
         const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
-        const result = await this.makeCalendarRequest(url, 'POST', event);
+        const result = await this.makeCalendarRequest(url, 'POST', event) as GoogleCalendarEvent;
         results.push({ success: true, calendarId, eventId: result.id });
       } catch (error) {
         errors.push(`Failed to add to calendar ${calendarId}`);
@@ -674,18 +665,8 @@ class GoogleCalendarService {
     return results;
   }
 
-  async updateEvent(eventId: string, eventData: {
-    title: string;
-    start: Date;
-    end: Date;
-    description?: string;
-    location?: string;
-    calendarId?: string;
-    attendees?: string[];
-    sendNotifications?: boolean;
-    addGoogleMeet?: boolean;
-  }): Promise<any> {
-    const event: any = {
+  async updateEvent(eventId: string, eventData: EventData): Promise<GoogleCalendarEvent> {
+    const event: Partial<GoogleCalendarEvent> & { attendees?: Array<{ email: string }> } = {
       summary: eventData.title,
       description: eventData.description,
       location: eventData.location,
@@ -722,7 +703,7 @@ class GoogleCalendarService {
         const sendNotifications = eventData.sendNotifications !== false; // Default to true
         const conferenceDataVersion = eventData.addGoogleMeet ? '&conferenceDataVersion=1' : '';
         const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events/${eventId}?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
-        return await this.makeCalendarRequest(url, 'PUT', event);
+        return await this.makeCalendarRequest(url, 'PUT', event) as GoogleCalendarEvent;
       } catch (error) {
         // Direct API call failed
       }
