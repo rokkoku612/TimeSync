@@ -3,7 +3,7 @@ import { Calendar, ChevronRight, Loader2 } from 'lucide-react';
 import { SearchFormProps } from '../types';
 import CalendarPopup from './CalendarPopup';
 import HelpTooltip from './HelpTooltip';
-import TimePicker from './TimePicker';
+import TimePickerInline from './TimePickerInline';
 import { formatCurrentDateTime, getDurationText } from '../utils/dateFormatters';
 
 const SearchForm: React.FC<SearchFormProps> = ({
@@ -192,17 +192,15 @@ const SearchForm: React.FC<SearchFormProps> = ({
         
         {showAdvanced && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fadeIn">
-            <TimePicker
+            <TimePickerInline
               value={excludeBeforeTime}
               onChange={onExcludeBeforeTimeChange}
               label={language.texts.before}
-              placeholder="09:00"
             />
-            <TimePicker
+            <TimePickerInline
               value={excludeAfterTime}
               onChange={onExcludeAfterTimeChange}
               label={language.texts.after}
-              placeholder="23:00"
             />
           </div>
         )}
