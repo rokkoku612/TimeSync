@@ -43,6 +43,7 @@ const EventsDisplay: React.FC<EventsDisplayProps> = ({
     if ((isSignedIn || isDemoMode) && showResults) {
       loadEventsInPeriod();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSignedIn, isDemoMode, showResults, startDateTime, endDateTime, selectedCalendarIds]);
 
   const loadEventsInPeriod = async () => {

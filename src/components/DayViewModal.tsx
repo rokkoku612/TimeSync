@@ -37,6 +37,7 @@ const DayViewModal: React.FC<DayViewModalProps> = ({
     if (isOpen) {
       loadEventsForDay();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, selectedDate]);
 
   const loadEventsForDay = async () => {

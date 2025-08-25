@@ -65,6 +65,7 @@ const ResultsList: React.FC<ResultsListProps> = ({
     }).catch(() => {
       // Silently handle copy failure
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [availableSlots, selectedTemplate, language, onCopyAll]);
 
   return (

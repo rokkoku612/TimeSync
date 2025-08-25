@@ -29,6 +29,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
 
   useEffect(() => {
     loadCalendars();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDemoMode]);
 
   // Load saved selection from localStorage

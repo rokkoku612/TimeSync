@@ -64,6 +64,7 @@ export const useGoogleAuth = (): UseGoogleAuthReturn => {
     };
 
     initAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDemoMode]);
 
   const signIn = async () => {

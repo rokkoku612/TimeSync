@@ -75,6 +75,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
     if (isSignedIn || isDemoMode) {
       loadEvents();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentDate, isSignedIn, isDemoMode, viewMode, selectedCalendarIds, weekStart]);
 
   const loadEvents = async () => {
