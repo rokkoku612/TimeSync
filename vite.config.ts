@@ -5,6 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   base: process.env.NODE_ENV === 'production' ? '/TimeSync/' : '/',
+  server: {
+    host: true,
+    https: false,
+  },
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
