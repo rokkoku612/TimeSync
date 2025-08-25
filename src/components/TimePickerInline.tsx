@@ -21,13 +21,37 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
   const handleHoursChange = (newHours: number) => {
     // Ensure hours are within 0-23 range
     const validHours = Math.max(0, Math.min(23, newHours));
-    onChange(`${validHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`);
+    const currentMinutes = hasValue ? minutes : 0;
+    onChange(`${validHours.toString().padStart(2, '0')}:${currentMinutes.toString().padStart(2, '0')}`);
   };
 
   const handleMinutesChange = (newMinutes: number) => {
     // Ensure minutes are within 0-59 range and snap to 15-minute intervals
     const validMinutes = Math.max(0, Math.min(45, Math.floor(newMinutes / 15) * 15));
-    onChange(`${hours.toString().padStart(2, '0')}:${validMinutes.toString().padStart(2, '0')}`);
+    const currentHours = hasValue ? hours : 9;
+    onChange(`${currentHours.toString().padStart(2, '0')}:${validMinutes.toString().padStart(2, '0')}`);
+  };
+
+  const handleHoursInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    if (inputValue === '' || inputValue === '-') {
+      return; // Allow empty for typing
+    }
+    const parsed = parseInt(inputValue);
+    if (!isNaN(parsed)) {
+      handleHoursChange(parsed);
+    }
+  };
+
+  const handleMinutesInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    if (inputValue === '' || inputValue === '-') {
+      return; // Allow empty for typing
+    }
+    const parsed = parseInt(inputValue);
+    if (!isNaN(parsed)) {
+      handleMinutesChange(parsed);
+    }
   };
 
   const incrementHours = () => {
@@ -87,12 +111,16 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             <ChevronDown size={10} />
           </button>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             min="0"
             max="23"
-            value={hasValue ? hours.toString().padStart(2, '0') : '--'}
-            readOnly
-            className={`w-6 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
+            value={hasValue ? hours.toString().padStart(2, '0') : ''}
+            onChange={handleHoursInput}
+            onFocus={(e) => e.target.select()}
+            placeholder="--"
+            className={`w-6 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums placeholder-gray-400`}
           />
           <button
             type="button"
@@ -118,13 +146,17 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             <ChevronDown size={10} />
           </button>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             min="0"
             max="59"
             step="15"
-            value={hasValue ? minutes.toString().padStart(2, '0') : '--'}
-            readOnly
-            className={`w-6 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
+            value={hasValue ? minutes.toString().padStart(2, '0') : ''}
+            onChange={handleMinutesInput}
+            onFocus={(e) => e.target.select()}
+            placeholder="--"
+            className={`w-6 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums placeholder-gray-400`}
           />
           <button
             type="button"
