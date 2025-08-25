@@ -138,13 +138,13 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
         </span>
         <div className="flex gap-2">
           <button
-            className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
+            className="calendar-nav-btn w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
             onClick={() => changeMonth(-1)}
           >
             <ChevronLeft size={14} />
           </button>
           <button
-            className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
+            className="calendar-nav-btn w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
             onClick={() => changeMonth(1)}
           >
             <ChevronRight size={14} />

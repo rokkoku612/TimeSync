@@ -159,7 +159,7 @@ body {
   }
   
   /* Compact button text */
-  button {
+  button:not(.calendar-nav-btn) {
     font-size: 13px;
     padding: 8px 12px;
   }
@@ -196,6 +196,19 @@ body {
   
   .mobile-compact-sm {
     padding: 8px;
+  }
+  
+  /* Calendar navigation buttons fix */
+  .calendar-nav-btn {
+    padding: 0 !important;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  
+  .calendar-nav-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+    display: block !important;
   }
   
   /* Template modal mobile optimization */
