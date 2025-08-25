@@ -173,6 +173,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
               type="button"
               onClick={() => decrementTime('hours')}
               className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              style={{ padding: 0 }}
             >
               <ChevronDown size={12} strokeWidth={1.5} />
             </button>
@@ -188,6 +189,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
               type="button"
               onClick={() => incrementTime('hours')}
               className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              style={{ padding: 0 }}
             >
               <ChevronUp size={12} strokeWidth={1.5} />
             </button>
@@ -201,6 +203,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
               type="button"
               onClick={() => decrementTime('minutes')}
               className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              style={{ padding: 0 }}
             >
               <ChevronDown size={12} strokeWidth={1.5} />
             </button>
@@ -217,6 +220,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
               type="button"
               onClick={() => incrementTime('minutes')}
               className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              style={{ padding: 0 }}
             >
               <ChevronUp size={12} strokeWidth={1.5} />
             </button>
