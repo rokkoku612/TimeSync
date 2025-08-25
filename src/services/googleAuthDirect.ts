@@ -13,7 +13,15 @@ class GoogleAuthDirect {
 
   constructor() {
     this.clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
-    this.redirectUri = window.location.origin;
+    // Use the correct redirect URI based on the current location
+    const origin = window.location.origin;
+    const pathname = window.location.pathname;
+    // For GitHub Pages, ensure we include the /TimeSync/ path
+    this.redirectUri = origin.includes('github.io') && pathname.includes('/TimeSync') 
+      ? `${origin}/TimeSync/`
+      : origin.includes('localhost') || origin.includes('192.168')
+      ? `${origin}/`
+      : `${origin}${pathname}`;
     // Add userinfo scopes for profile access
     this.scope = 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
     
@@ -92,6 +100,9 @@ class GoogleAuthDirect {
   }
 
   signIn() {
+    // Log redirect URI for debugging (will be removed in production)
+    console.log('OAuth Redirect URI:', this.redirectUri);
+    
     // Build OAuth URL
     const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
     authUrl.searchParams.set('client_id', this.clientId);
