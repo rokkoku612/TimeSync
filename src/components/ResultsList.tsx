@@ -71,7 +71,7 @@ const ResultsList: React.FC<ResultsListProps> = ({
   return (
     <div className="bg-white rounded-xl p-6 border border-slate-200">
       <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-3 text-xs font-medium text-slate-500 uppercase tracking-wider">
+        <div className="flex items-center gap-3 text-[10px] md:text-xs font-medium text-slate-500 uppercase tracking-wider">
           <span>{language.texts.availableSlots}</span>
         </div>
         <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ const ResultsList: React.FC<ResultsListProps> = ({
             onTemplateChange={setSelectedTemplate}
           />
           <button
-            className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all ${
+            className={`px-2 md:px-3 py-1 md:py-1.5 rounded-lg text-[11px] md:text-xs font-medium transition-all ${
               copySuccess
                 ? 'bg-slate-600 text-white'
                 : 'bg-slate-900 text-white hover:bg-slate-800'
@@ -89,8 +89,8 @@ const ResultsList: React.FC<ResultsListProps> = ({
           >
             {copySuccess ? `${language.texts.copied}` : (
               <>
-                <Copy size={14} className="inline mr-1" />
-                <span className="text-xs md:text-sm">{language.texts.copyAll}</span>
+                <Copy size={12} className="inline mr-1" />
+                <span className="text-[11px] md:text-xs">{language.texts.copyAll}</span>
               </>
             )}
           </button>
