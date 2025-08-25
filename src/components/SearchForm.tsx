@@ -28,6 +28,9 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [startCalendarMonth, setStartCalendarMonth] = React.useState(startDateTime.getMonth());
   const [endCalendarYear, setEndCalendarYear] = React.useState(endDateTime.getFullYear());
   const [endCalendarMonth, setEndCalendarMonth] = React.useState(endDateTime.getMonth());
+  
+  // Refs for scrolling on mobile
+  const endCalendarRef = React.useRef<HTMLDivElement>(null);
 
   const handleStartMonthChange = React.useCallback((year: number, month: number) => {
     setStartCalendarYear(year);
@@ -50,6 +53,16 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setEndCalendarYear(date.getFullYear());
     setEndCalendarMonth(date.getMonth());
   }, [onEndDateTimeChange]);
+  
+  // Auto-scroll on mobile when calendar is interacted with
+  React.useEffect(() => {
+    if (window.innerWidth <= 640 && endCalendarRef.current) {
+      // Small delay to ensure DOM is updated
+      setTimeout(() => {
+        endCalendarRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
+  }, [endCalendarMonth, endCalendarYear]);
 
   const handleStartTimeChange = React.useCallback((hours: number, minutes: number) => {
     const newDate = new Date(startDateTime);
@@ -97,7 +110,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
           </div>
 
           {/* End Date Picker */}
-          <div className="space-y-2">
+          <div className="space-y-2" ref={endCalendarRef}>
             <div className="text-xs text-gray-500 uppercase tracking-wider font-medium">{language.texts.end}</div>
             <CalendarPopup
               type="end"
