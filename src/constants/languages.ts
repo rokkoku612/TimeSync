@@ -98,7 +98,7 @@ export const languages: Language[] = [
       helpMinDuration: '空き時間の長さについて',
       helpMinDurationDesc: '何分以上の空き時間を検索するか設定します。\n\n例えば「30分」を選択すると：\n• 30分以上の空き時間のみ表示\n• 25分の空き時間は表示されない\n\n用途別の目安：\n• 15分: 簡単な確認や電話\n• 30分: 通常の打ち合わせ\n• 60分: じっくり話し合う会議\n• 90分: ワークショップ形式\n• 2時間: 研修やセミナー',
       helpTimeRestrictions: '稼働時間設定のヘルプ',
-      helpTimeRestrictionsDesc: '毎日の稼働時間を設定できます。設定した時間内のみが空き時間として表示されます。\n\n• 開始時刻: 稼働開始時刻（例：9:00）\n• 終了時刻: 稼働終了時刻（例：18:00）\n\n例：営業時間内のみ表示したい場合\n開始時刻: 09:00, 終了時刻: 18:00 と設定すると\n毎日9:00-18:00の間の空き時間のみが表示されます'
+      helpTimeRestrictionsDesc: '毎日の稼働時間を設定できます。設定した時間内のみが空き時間として表示されます。\n\n• 開始時刻: 稼働開始時刻（例：9:00）\n• 終了時刻: 稼働終了時刻（例：18:00）\n\n例：営業時間内のみ表示したい場合\n開始時刻: 09:00, 終了時刻: 18:00 と設定すると\n毎日9:00-18:00の間の空き時間のみが表示されます\n\n※ 未設定の場合は全時間帯が対象になります'
     }
   },
   {
@@ -198,7 +198,7 @@ export const languages: Language[] = [
       helpMinDuration: 'About Available Time Length',
       helpMinDurationDesc: 'Set the minimum length of available time slots to search for.\n\nFor example, if you select "30 minutes":\n• Only shows available slots of 30 minutes or longer\n• 25-minute gaps will not be displayed\n\nSuggested use cases:\n• 15 min: Quick check-ins or calls\n• 30 min: Regular meetings\n• 60 min: In-depth discussions\n• 90 min: Workshop sessions\n• 2 hours: Training or seminars',
       helpTimeRestrictions: 'Working Hours Help',
-      helpTimeRestrictionsDesc: 'Set daily working hours. Only time slots within these hours will be shown as available.\n\n• Start Time: Working hours start time (e.g., 9:00)\n• End Time: Working hours end time (e.g., 18:00)\n\nExample: To show only business hours\nSet Start Time: 09:00, End Time: 18:00\nThis will only show available slots between 9:00-18:00 each day'
+      helpTimeRestrictionsDesc: 'Set daily working hours. Only time slots within these hours will be shown as available.\n\n• Start Time: Working hours start time (e.g., 9:00)\n• End Time: Working hours end time (e.g., 18:00)\n\nExample: To show only business hours\nSet Start Time: 09:00, End Time: 18:00\nThis will only show available slots between 9:00-18:00 each day\n\n※ If not set, all time slots are included'
     }
   }
 ];

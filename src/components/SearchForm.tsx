@@ -191,37 +191,28 @@ const SearchForm: React.FC<SearchFormProps> = ({
         </div>
         
         {showAdvanced && (
-          <div className="animate-fadeIn space-y-3">
-            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4 sm:gap-3">
-              <div>
+          <div className="animate-fadeIn">
+            <div className="flex flex-row gap-3 items-start">
+              <div className="flex-1">
                 <label className="block text-xs text-gray-600 mb-1.5 font-medium">
                   {language.texts.before}
                 </label>
-                <div className="flex justify-start">
-                  <TimePickerInline
-                    value={excludeBeforeTime}
-                    onChange={onExcludeBeforeTimeChange}
-                    hideLabel={true}
-                  />
-                </div>
+                <TimePickerInline
+                  value={excludeBeforeTime}
+                  onChange={onExcludeBeforeTimeChange}
+                  hideLabel={true}
+                />
               </div>
-              <div>
+              <div className="flex-1">
                 <label className="block text-xs text-gray-600 mb-1.5 font-medium">
                   {language.texts.after}
                 </label>
-                <div className="flex justify-start">
-                  <TimePickerInline
-                    value={excludeAfterTime}
-                    onChange={onExcludeAfterTimeChange}
-                    hideLabel={true}
-                  />
-                </div>
+                <TimePickerInline
+                  value={excludeAfterTime}
+                  onChange={onExcludeAfterTimeChange}
+                  hideLabel={true}
+                />
               </div>
-            </div>
-            <div className="text-xs text-gray-500 text-center px-2">
-              {language.code === 'ja' 
-                ? '※ 未設定の場合は全時間帯が対象' 
-                : '※ If not set, all time slots are included'}
             </div>
           </div>
         )}

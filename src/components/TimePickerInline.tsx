@@ -114,68 +114,68 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           {label}
         </label>
       )}
-      <div className="inline-flex items-center gap-0.5 bg-white px-1.5 py-1 rounded-lg border border-gray-200">
+      <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
         {/* Hours */}
-        <div className="flex flex-col items-center">
-          <button
-            type="button"
-            onClick={incrementHours}
-            className="w-7 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 touch-manipulation active:bg-gray-100 rounded"
-          >
-            <ChevronUp size={14} />
-          </button>
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            min="0"
-            max="23"
-            value={hasValue ? hours.toString().padStart(2, '0') : ''}
-            onChange={handleHoursInput}
-            onFocus={(e) => e.target.select()}
-            placeholder="--"
-            className={`w-9 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums placeholder-gray-400`}
-          />
+        <div className="flex items-center">
           <button
             type="button"
             onClick={decrementHours}
-            className="w-7 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 touch-manipulation active:bg-gray-100 rounded"
+            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            style={{ padding: 0 }}
           >
-            <ChevronDown size={14} />
+            <ChevronDown size={12} />
+          </button>
+          <input
+            type="number"
+            min="0"
+            max="23"
+            value={hasValue ? hours : ''}
+            onChange={handleHoursInput}
+            onFocus={(e) => e.target.select()}
+            placeholder="--"
+            className={`w-9 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none mx-0.5 tabular-nums`}
+          />
+          <button
+            type="button"
+            onClick={incrementHours}
+            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            style={{ padding: 0 }}
+          >
+            <ChevronUp size={12} />
           </button>
         </div>
 
         {/* Separator */}
-        <div className="text-gray-400 font-medium text-sm self-center px-0.5">:</div>
+        <div className="text-gray-300 font-light text-sm">:</div>
 
         {/* Minutes */}
-        <div className="flex flex-col items-center">
-          <button
-            type="button"
-            onClick={incrementMinutes}
-            className="w-7 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 touch-manipulation active:bg-gray-100 rounded"
-          >
-            <ChevronUp size={14} />
-          </button>
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            min="0"
-            max="59"
-            step="15"
-            value={hasValue ? minutes.toString().padStart(2, '0') : ''}
-            onChange={handleMinutesInput}
-            onFocus={(e) => e.target.select()}
-            placeholder="--"
-            className={`w-9 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums placeholder-gray-400`}
-          />
+        <div className="flex items-center">
           <button
             type="button"
             onClick={decrementMinutes}
-            className="w-7 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 touch-manipulation active:bg-gray-100 rounded"
+            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            style={{ padding: 0 }}
           >
-            <ChevronDown size={14} />
+            <ChevronDown size={12} />
+          </button>
+          <input
+            type="number"
+            min="0"
+            max="59"
+            step="15"
+            value={hasValue ? minutes : ''}
+            onChange={handleMinutesInput}
+            onFocus={(e) => e.target.select()}
+            placeholder="--"
+            className={`w-9 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none mx-0.5 tabular-nums`}
+          />
+          <button
+            type="button"
+            onClick={incrementMinutes}
+            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            style={{ padding: 0 }}
+          >
+            <ChevronUp size={12} />
           </button>
         </div>
 
@@ -184,9 +184,9 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           <button
             type="button"
             onClick={clearValue}
-            className="ml-0.5 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors duration-200 touch-manipulation self-center"
+            className="ml-1 w-5 h-5 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors duration-200"
           >
-            <X size={14} />
+            <X size={12} />
           </button>
         )}
       </div>
