@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Check, FileText, Plus, Edit2 } from 'lucide-react';
+import { ChevronDown, Check, FileText, Plus, Edit2, X } from 'lucide-react';
 import { Language } from '../types';
 import { getAllTemplates, CopyTemplate, getDefaultTemplate, saveSelectedTemplate } from '../constants/copyTemplates';
 import CustomTemplateModal from './CustomTemplateModal';
@@ -79,17 +79,27 @@ const CopyTemplateSelector: React.FC<CopyTemplateSelectorProps> = ({
           <>
             {/* Backdrop */}
             <div 
-              className="fixed inset-0 z-[45]"
+              className="fixed inset-0 z-[45] bg-black/50 flex items-center justify-center p-4"
               onClick={() => setIsOpen(false)}
-            />
-            
-            {/* Dropdown */}
-            <div className="template-dropdown absolute bottom-full mb-2 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] w-[320px]">
-              <div className="p-2 border-b border-gray-100">
-                <div className="text-xs font-medium text-gray-500 uppercase tracking-wider px-2">
-                  {language.code === 'ja' ? 'コピーテンプレート選択' : 'Select Copy Template'}
+            >
+              {/* Dropdown - now as modal */}
+              <div 
+                className="bg-white rounded-lg shadow-lg border border-gray-200 z-[46] w-[320px] max-w-[calc(100vw-2rem)] max-h-[80vh] overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-4 border-b border-gray-200">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-medium">
+                      {language.code === 'ja' ? 'コピーテンプレート選択' : 'Select Copy Template'}
+                    </h3>
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
                 </div>
-              </div>
               
               <div className="max-h-[350px] overflow-y-auto p-2">
                 {templates
@@ -147,28 +157,29 @@ const CopyTemplateSelector: React.FC<CopyTemplateSelectorProps> = ({
                   })}
               </div>
 
-              <div className="p-2 border-t border-gray-100 space-y-2">
-                <button
-                  onClick={() => {
-                    setShowPreview(!showPreview);
-                  }}
-                  className="w-full text-xs text-blue-600 hover:text-blue-700 py-1"
-                >
-                  {showPreview 
-                    ? (language.code === 'ja' ? 'プレビューを隠す' : 'Hide Preview')
-                    : (language.code === 'ja' ? 'プレビューを表示' : 'Show Preview')
-                  }
-                </button>
-                <button
-                  onClick={() => {
-                    setEditingTemplate(null);
-                    setShowCustomModal(true);
-                  }}
-                  className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors border-2 border-dashed border-blue-300 text-sm font-medium"
-                >
-                  <Plus size={16} />
-                  {language.code === 'ja' ? 'カスタムテンプレートを作成' : 'Create Custom Template'}
-                </button>
+                <div className="p-2 border-t border-gray-100 space-y-2">
+                  <button
+                    onClick={() => {
+                      setShowPreview(!showPreview);
+                    }}
+                    className="w-full text-xs text-blue-600 hover:text-blue-700 py-1"
+                  >
+                    {showPreview 
+                      ? (language.code === 'ja' ? 'プレビューを隠す' : 'Hide Preview')
+                      : (language.code === 'ja' ? 'プレビューを表示' : 'Show Preview')
+                    }
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditingTemplate(null);
+                      setShowCustomModal(true);
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors border-2 border-dashed border-blue-300 text-sm font-medium"
+                  >
+                    <Plus size={16} />
+                    {language.code === 'ja' ? 'カスタムテンプレートを作成' : 'Create Custom Template'}
+                  </button>
+                </div>
               </div>
             </div>
           </>
