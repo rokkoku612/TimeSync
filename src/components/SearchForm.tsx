@@ -202,7 +202,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               value={excludeAfterTime}
               onChange={onExcludeAfterTimeChange}
               label={language.texts.after}
-              placeholder="21:00"
+              placeholder="23:00"
             />
           </div>
         )}

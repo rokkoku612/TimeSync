@@ -195,7 +195,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
             <div className="border-t pt-3">
               <div className="text-xs text-gray-500 mb-2">Quick Select</div>
               <div className="grid grid-cols-4 gap-2">
-                {['03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '00:00'].map((time) => (
+                {['06:00', '09:00', '12:00', '15:00', '18:00', '20:00', '22:00', '23:00'].map((time) => (
                   <button
                     key={time}
                     type="button"
