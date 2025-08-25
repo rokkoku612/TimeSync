@@ -185,78 +185,159 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
 
       {isOpen && (
         <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 z-[45]"
-            onClick={() => setIsOpen(false)}
-          />
-          
-          {/* Dropdown */}
-          <div className="absolute top-full mt-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] min-w-[280px] max-w-[400px]">
-            {/* Quick Actions */}
-            <div className="p-2 border-b border-gray-100 flex gap-2">
-              <button
-                onClick={selectAll}
-                className="flex-1 text-xs px-2 py-1 text-blue-600 hover:bg-blue-50 rounded transition-colors"
-              >
-                {language.code === 'ja' ? 'すべて選択' : 'Select All'}
-              </button>
-              <button
-                onClick={selectNone}
-                className="flex-1 text-xs px-2 py-1 text-gray-600 hover:bg-gray-50 rounded transition-colors"
-              >
-                {language.code === 'ja' ? 'マイカレンダーのみ' : 'Primary Only'}
-              </button>
-            </div>
+          {/* Mobile: Modal style */}
+          <div className="md:hidden">
+            {/* Backdrop */}
+            <div 
+              className="fixed inset-0 z-[45] bg-black/50"
+              onClick={() => setIsOpen(false)}
+            />
+            
+            {/* Centered modal */}
+            <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-[46] bg-white rounded-lg shadow-xl border border-gray-200 max-h-[80vh] overflow-hidden">
+              {/* Quick Actions */}
+              <div className="p-2 border-b border-gray-100 flex gap-2">
+                <button
+                  onClick={selectAll}
+                  className="flex-1 text-xs px-2 py-1 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                >
+                  {language.code === 'ja' ? 'すべて選択' : 'Select All'}
+                </button>
+                <button
+                  onClick={selectNone}
+                  className="flex-1 text-xs px-2 py-1 text-gray-600 hover:bg-gray-50 rounded transition-colors"
+                >
+                  {language.code === 'ja' ? 'マイカレンダーのみ' : 'Primary Only'}
+                </button>
+              </div>
 
-            {/* Calendar List */}
-            <div className="max-h-[350px] overflow-y-auto p-2">
-              {calendars.length === 0 ? (
-                <div className="text-sm text-gray-500 text-center py-4">
-                  {loading 
-                    ? (language.code === 'ja' ? '読み込み中...' : 'Loading...')
-                    : (language.code === 'ja' ? 'カレンダーがありません' : 'No calendars')
-                  }
-                </div>
-              ) : (
-                <div className="space-y-1">
-                  {calendars.map(calendar => (
-                    <button
-                      key={calendar.id}
-                      onClick={() => toggleCalendar(calendar.id)}
-                      className="w-full flex items-center gap-2 px-2 py-1.5 rounded hover:bg-gray-50 transition-colors text-left"
-                    >
-                      <div 
-                        className="w-3 h-3 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: calendar.backgroundColor || '#4285f4' }}
-                      />
-                      <span className="flex-1 text-sm min-w-0">
-                        <span className="block truncate" title={calendar.summary}>
-                          {formatCalendarName(calendar.summary)}
-                          {calendar.isPrimary && (
-                            <span className="text-xs text-gray-500 ml-1">
-                              ({language.code === 'ja' ? 'メイン' : 'Primary'})
-                            </span>
-                          )}
+              {/* Calendar List */}
+              <div className="max-h-[50vh] overflow-y-auto p-2">
+                {calendars.length === 0 ? (
+                  <div className="text-sm text-gray-500 text-center py-4">
+                    {loading 
+                      ? (language.code === 'ja' ? '読み込み中...' : 'Loading...')
+                      : (language.code === 'ja' ? 'カレンダーがありません' : 'No calendars')
+                    }
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    {calendars.map(calendar => (
+                      <button
+                        key={calendar.id}
+                        onClick={() => toggleCalendar(calendar.id)}
+                        className="w-full flex items-center gap-2 px-2 py-1.5 rounded hover:bg-gray-50 transition-colors text-left"
+                      >
+                        <div 
+                          className="w-3 h-3 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: calendar.backgroundColor || '#4285f4' }}
+                        />
+                        <span className="flex-1 text-sm min-w-0">
+                          <span className="block truncate" title={calendar.summary}>
+                            {formatCalendarName(calendar.summary)}
+                            {calendar.isPrimary && (
+                              <span className="text-xs text-gray-500 ml-1">
+                                ({language.code === 'ja' ? 'メイン' : 'Primary'})
+                              </span>
+                            )}
+                          </span>
                         </span>
-                      </span>
-                      {calendar.selected && (
-                        <Check size={14} className="text-blue-600 flex-shrink-0" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+                        {calendar.selected && (
+                          <Check size={14} className="text-blue-600 flex-shrink-0" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-            {/* Info */}
-            <div className="p-2 border-t border-gray-100">
-              <p className="text-xs text-gray-500">
-                {language.code === 'ja' 
-                  ? '選択したカレンダーの予定が表示され、空き時間検索に反映されます'
-                  : 'Selected calendars will be shown and used for availability search'
-                }
-              </p>
+              {/* Info */}
+              <div className="p-2 border-t border-gray-100">
+                <p className="text-xs text-gray-500">
+                  {language.code === 'ja' 
+                    ? '選択したカレンダーの予定が表示され、空き時間検索に反映されます'
+                    : 'Selected calendars will be shown and used for availability search'
+                  }
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Desktop: Original dropdown style */}
+          <div className="hidden md:block">
+            {/* Backdrop */}
+            <div 
+              className="fixed inset-0 z-[45]"
+              onClick={() => setIsOpen(false)}
+            />
+            
+            {/* Dropdown */}
+            <div className="absolute top-full mt-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] min-w-[280px] max-w-[400px]">
+              {/* Quick Actions */}
+              <div className="p-2 border-b border-gray-100 flex gap-2">
+                <button
+                  onClick={selectAll}
+                  className="flex-1 text-xs px-2 py-1 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                >
+                  {language.code === 'ja' ? 'すべて選択' : 'Select All'}
+                </button>
+                <button
+                  onClick={selectNone}
+                  className="flex-1 text-xs px-2 py-1 text-gray-600 hover:bg-gray-50 rounded transition-colors"
+                >
+                  {language.code === 'ja' ? 'マイカレンダーのみ' : 'Primary Only'}
+                </button>
+              </div>
+
+              {/* Calendar List */}
+              <div className="max-h-[350px] overflow-y-auto p-2">
+                {calendars.length === 0 ? (
+                  <div className="text-sm text-gray-500 text-center py-4">
+                    {loading 
+                      ? (language.code === 'ja' ? '読み込み中...' : 'Loading...')
+                      : (language.code === 'ja' ? 'カレンダーがありません' : 'No calendars')
+                    }
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    {calendars.map(calendar => (
+                      <button
+                        key={calendar.id}
+                        onClick={() => toggleCalendar(calendar.id)}
+                        className="w-full flex items-center gap-2 px-2 py-1.5 rounded hover:bg-gray-50 transition-colors text-left"
+                      >
+                        <div 
+                          className="w-3 h-3 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: calendar.backgroundColor || '#4285f4' }}
+                        />
+                        <span className="flex-1 text-sm min-w-0">
+                          <span className="block truncate" title={calendar.summary}>
+                            {formatCalendarName(calendar.summary)}
+                            {calendar.isPrimary && (
+                              <span className="text-xs text-gray-500 ml-1">
+                                ({language.code === 'ja' ? 'メイン' : 'Primary'})
+                              </span>
+                            )}
+                          </span>
+                        </span>
+                        {calendar.selected && (
+                          <Check size={14} className="text-blue-600 flex-shrink-0" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Info */}
+              <div className="p-2 border-t border-gray-100">
+                <p className="text-xs text-gray-500">
+                  {language.code === 'ja' 
+                    ? '選択したカレンダーの予定が表示され、空き時間検索に反映されます'
+                    : 'Selected calendars will be shown and used for availability search'
+                  }
+                </p>
+              </div>
             </div>
           </div>
         </>
