@@ -103,28 +103,28 @@ const MainContent: React.FC<MainContentProps> = ({
             </div>
           )}
 
+          {/* Results List - 空き時間の一覧 */}
           {showResults && !isLoading && (
-            <>
-              <ResultsList
-                availableSlots={availableSlots}
-                language={currentLanguage}
-                copySuccess={copySuccess}
-                onDeleteSlot={onDeleteSlot}
-                onCopyAll={onCopyAll}
-              />
-              
-              {/* Events Display - 空き時間検索期間の予定表示 */}
-              <EventsDisplay
-                language={currentLanguage}
-                isSignedIn={isSignedIn}
-                isDemoMode={isDemoMode}
-                availableSlots={availableSlots}
-                startDateTime={startDateTime}
-                endDateTime={endDateTime}
-                selectedCalendarIds={selectedCalendarIds}
-                showResults={showResults}
-              />
-            </>
+            <ResultsList
+              availableSlots={availableSlots}
+              language={currentLanguage}
+              copySuccess={copySuccess}
+              onDeleteSlot={onDeleteSlot}
+              onCopyAll={onCopyAll}
+            />
+          )}
+          
+          {/* Events Display - 検索期間の予定表示（常に表示） */}
+          {!isLoading && (
+            <EventsDisplay
+              language={currentLanguage}
+              isSignedIn={isSignedIn}
+              isDemoMode={isDemoMode}
+              startDateTime={startDateTime}
+              endDateTime={endDateTime}
+              selectedCalendarIds={selectedCalendarIds}
+              showResults={showResults}
+            />
           )}
         </>
       ) : (

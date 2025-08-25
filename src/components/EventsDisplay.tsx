@@ -38,9 +38,11 @@ const EventsDisplay: React.FC<EventsDisplayProps> = ({
   const [loading, setLoading] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [showEventModal, setShowEventModal] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   useEffect(() => {
     if ((isSignedIn || isDemoMode) && showResults) {
+      setHasSearched(true);
       loadEventsInPeriod();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,7 +107,7 @@ const EventsDisplay: React.FC<EventsDisplayProps> = ({
     loadEventsInPeriod(); // Reload events after update
   };
 
-  if ((!isSignedIn && !isDemoMode) || !showResults) {
+  if ((!isSignedIn && !isDemoMode) || !hasSearched) {
     return null;
   }
 
