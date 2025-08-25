@@ -20,6 +20,8 @@ const ResultsList: React.FC<ResultsListProps> = ({
     const date = new Date(slot.start);
     const endDate = new Date(slot.end);
     
+    // Check if start time is 00:00 (start of day)
+    const isStartOfDay = date.getHours() === 0 && date.getMinutes() === 0;
     // Check if end time is 23:59 (end of day)
     const isEndOfDay = endDate.getHours() === 23 && endDate.getMinutes() === 59;
     
@@ -28,11 +30,21 @@ const ResultsList: React.FC<ResultsListProps> = ({
       const day = date.getDate();
       const days = ['日', '月', '火', '水', '木', '金', '土'];
       const dayOfWeek = days[date.getDay()];
-      const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
       
-      if (isEndOfDay) {
+      if (isStartOfDay && isEndOfDay) {
+        // All day available
+        return `${month}月${day}日(${dayOfWeek}) 終日`;
+      } else if (isStartOfDay) {
+        // From start of day
+        const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
+        return `${month}月${day}日(${dayOfWeek}) 〜${endTime}`;
+      } else if (isEndOfDay) {
+        // Until end of day
+        const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
         return `${month}月${day}日(${dayOfWeek}) ${startTime}〜`;
       } else {
+        // Normal time range
+        const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
         const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
         return `${month}月${day}日(${dayOfWeek}) ${startTime} - ${endTime}`;
       }
@@ -42,11 +54,21 @@ const ResultsList: React.FC<ResultsListProps> = ({
       const month = months[date.getMonth()];
       const day = date.getDate();
       const dayOfWeek = days[date.getDay()];
-      const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
       
-      if (isEndOfDay) {
+      if (isStartOfDay && isEndOfDay) {
+        // All day available
+        return `${month} ${day} (${dayOfWeek}) All day`;
+      } else if (isStartOfDay) {
+        // From start of day
+        const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
+        return `${month} ${day} (${dayOfWeek}) 〜${endTime}`;
+      } else if (isEndOfDay) {
+        // Until end of day
+        const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
         return `${month} ${day} (${dayOfWeek}) ${startTime}〜`;
       } else {
+        // Normal time range
+        const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
         const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
         return `${month} ${day} (${dayOfWeek}) ${startTime} - ${endTime}`;
       }
