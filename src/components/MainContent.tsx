@@ -65,7 +65,7 @@ const MainContent: React.FC<MainContentProps> = ({
   showResults,
 }) => {
   return (
-    <main className="flex-1 p-4 space-y-6">
+    <main className="flex-1 p-4 mobile-compact space-y-6">
       {activeTab === 'search' ? (
         <>
           <SearchForm

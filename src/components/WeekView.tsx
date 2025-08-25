@@ -112,12 +112,12 @@ const WeekView: React.FC<WeekViewProps> = ({
               {dates.map((date, index) => (
                 <div 
                   key={index} 
-                  className={`p-2 text-center border-r border-gray-200 ${isToday(date) ? 'bg-blue-50' : 'bg-white'}`}
+                  className={`p-2 mobile-compact-sm text-center border-r border-gray-200 ${isToday(date) ? 'bg-blue-50' : 'bg-white'}`}
                 >
                   <div className="text-xs font-medium text-gray-600">
                     {weekDays[index]}
                   </div>
-                  <div className={`text-sm font-bold ${isToday(date) ? 'text-blue-600' : 'text-gray-900'}`}>
+                  <div className={`calendar-day font-bold ${isToday(date) ? 'text-blue-600' : 'text-gray-900'}`}>
                     {date.getDate()}
                   </div>
                 </div>
@@ -183,8 +183,8 @@ const WeekView: React.FC<WeekViewProps> = ({
                           }}
                           title={`${event.title} (${formatTime(event.start)} - ${formatTime(event.end)})`}
                         >
-                          <div className="font-medium truncate">{event.title}</div>
-                          <div className="text-gray-600 truncate">
+                          <div className="font-medium truncate event-text">{event.title}</div>
+                          <div className="text-gray-600 truncate time-text">
                             {formatTime(event.start)} - {formatTime(event.end)}
                           </div>
                         </div>

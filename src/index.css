@@ -130,10 +130,72 @@ body {
   }
 }
 
-/* Mobile optimizations */
+/* Mobile optimizations - iPhone 15 Pro focused */
 @media (max-width: 640px) {
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  /* Base font size reduction for better information density */
+  body {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  /* Compact headings */
+  h1 {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+  
+  h3 {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  
+  /* Compact button text */
+  button {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+  
+  /* Calendar date numbers */
+  .calendar-day {
+    font-size: 13px;
+  }
+  
+  /* Event text sizing */
+  .event-text {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  
+  /* Time slot text */
+  .time-text {
+    font-size: 12px;
+  }
+  
+  /* Form labels and inputs */
+  label {
+    font-size: 13px;
+  }
+  
+  input, select {
+    font-size: 14px;
+  }
+  
+  /* Reduce padding/margin for tighter layout */
+  .mobile-compact {
+    padding: 12px;
+  }
+  
+  .mobile-compact-sm {
+    padding: 8px;
   }
 }
 
