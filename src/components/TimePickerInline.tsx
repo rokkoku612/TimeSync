@@ -184,9 +184,10 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           <button
             type="button"
             onClick={clearValue}
-            className="ml-1 w-5 h-5 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors duration-200"
+            className="ml-2 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors duration-200 rounded hover:bg-red-50"
+            aria-label="Clear time"
           >
-            <X size={12} />
+            <X size={16} strokeWidth={2} />
           </button>
         )}
       </div>
