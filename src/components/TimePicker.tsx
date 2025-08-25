@@ -140,6 +140,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                     type="button"
                     onClick={incrementHours}
                     className="p-1 hover:bg-gray-200 rounded transition-colors"
+                    style={{ padding: 0 }}
                   >
                     <ChevronUp size={14} />
                   </button>
@@ -153,6 +154,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                     type="button"
                     onClick={decrementHours}
                     className="p-1 hover:bg-gray-200 rounded transition-colors"
+                    style={{ padding: 0 }}
                   >
                     <ChevronDown size={14} />
                   </button>
@@ -167,6 +169,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                     type="button"
                     onClick={incrementMinutes}
                     className="p-1 hover:bg-gray-200 rounded transition-colors"
+                    style={{ padding: 0 }}
                   >
                     <ChevronUp size={14} />
                   </button>
@@ -180,6 +183,7 @@ const TimePicker: React.FC<TimePickerProps> = ({
                     type="button"
                     onClick={decrementMinutes}
                     className="p-1 hover:bg-gray-200 rounded transition-colors"
+                    style={{ padding: 0 }}
                   >
                     <ChevronDown size={14} />
                   </button>

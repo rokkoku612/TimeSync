@@ -142,14 +142,14 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
             onClick={() => changeMonth(-1)}
             style={{ padding: 0 }}
           >
-            <ChevronLeft size={14} />
+            <ChevronLeft size={12} />
           </button>
           <button
             className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
             onClick={() => changeMonth(1)}
             style={{ padding: 0 }}
           >
-            <ChevronRight size={14} />
+            <ChevronRight size={12} />
           </button>
         </div>
       </div>
@@ -174,7 +174,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
               onClick={() => decrementTime('hours')}
               className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             >
-              <ChevronDown size={14} strokeWidth={1.5} />
+              <ChevronDown size={12} strokeWidth={1.5} />
             </button>
             <input
               type="number"
@@ -189,7 +189,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
               onClick={() => incrementTime('hours')}
               className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             >
-              <ChevronUp size={14} strokeWidth={1.5} />
+              <ChevronUp size={12} strokeWidth={1.5} />
             </button>
           </div>
           
@@ -202,7 +202,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
               onClick={() => decrementTime('minutes')}
               className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             >
-              <ChevronDown size={14} strokeWidth={1.5} />
+              <ChevronDown size={12} strokeWidth={1.5} />
             </button>
             <input
               type="number"
@@ -218,7 +218,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
               onClick={() => incrementTime('minutes')}
               className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             >
-              <ChevronUp size={14} strokeWidth={1.5} />
+              <ChevronUp size={12} strokeWidth={1.5} />
             </button>
           </div>
         </div>

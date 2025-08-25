@@ -137,11 +137,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
             content={language.texts.helpMinDurationDesc}
           />
         </div>
-        <div className="flex gap-2 flex-wrap">
+        <div className="grid grid-cols-3 sm:flex sm:gap-2 gap-1.5">
           {[15, 30, 45, 60, 90, 120].map(duration => (
             <button
               key={duration}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+              className={`px-2 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 ${
                 minDuration === duration
                   ? 'bg-gray-900 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
