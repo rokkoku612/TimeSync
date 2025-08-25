@@ -236,23 +236,22 @@ class GoogleCalendarService {
       let dailyStart = new Date(Math.max(dayStart.getTime(), startDate.getTime()));
       let dailyEnd = new Date(Math.min(dayEnd.getTime(), endDate.getTime()));
       
-      // Apply exclude before time (e.g., exclude before 9:00 each day)
-      if (excludeBeforeTime) {
+      // Apply working hours (e.g., only show 9:00-18:00 each day)
+      if (excludeBeforeTime) { // workingHoursStart
         const [hours, minutes] = excludeBeforeTime.split(':').map(Number);
-        const excludeBefore = new Date(currentDate);
-        excludeBefore.setHours(hours, minutes, 0, 0);
-        if (dailyStart < excludeBefore) {
-          dailyStart = new Date(Math.max(excludeBefore.getTime(), dailyStart.getTime()));
+        const workStart = new Date(currentDate);
+        workStart.setHours(hours, minutes, 0, 0);
+        if (dailyStart < workStart) {
+          dailyStart = new Date(Math.max(workStart.getTime(), dailyStart.getTime()));
         }
       }
       
-      // Apply exclude after time (e.g., exclude after 21:00 each day)
-      if (excludeAfterTime) {
+      if (excludeAfterTime) { // workingHoursEnd
         const [hours, minutes] = excludeAfterTime.split(':').map(Number);
-        const excludeAfter = new Date(currentDate);
-        excludeAfter.setHours(hours, minutes, 0, 0);
-        if (dailyEnd > excludeAfter) {
-          dailyEnd = new Date(Math.min(excludeAfter.getTime(), dailyEnd.getTime()));
+        const workEnd = new Date(currentDate);
+        workEnd.setHours(hours, minutes, 0, 0);
+        if (dailyEnd > workEnd) {
+          dailyEnd = new Date(Math.min(workEnd.getTime(), dailyEnd.getTime()));
         }
       }
       

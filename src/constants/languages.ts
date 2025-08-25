@@ -12,9 +12,9 @@ export const languages: Language[] = [
       end: '終了',
       currentSelection: '現在の選択',
       minimumDuration: '最小時間',
-      timeRestrictions: '時間除外設定',
-      before: '以前を除外',
-      after: '以降を除外',
+      timeRestrictions: '稼働時間設定',
+      before: '開始時刻',
+      after: '終了時刻',
       findAvailableTimes: '空き時間を検索',
       searchingCalendar: 'カレンダーを検索中...',
       availableSlots: '空き時間',
@@ -97,8 +97,8 @@ export const languages: Language[] = [
       helpPeriodDesc: '検索したい期間の開始日時と終了日時を設定します。\n\n• カレンダーアイコンをクリックして日付を選択\n• 時刻は15分単位で設定可能\n• 複数日にわたる検索も可能',
       helpMinDuration: '最小時間のヘルプ',
       helpMinDurationDesc: '検索結果に表示する空き時間の最小単位を指定します。\n\n• 15分: 短い打ち合わせや電話会議\n• 30分: 通常の会議や面談\n• 60分: 1時間の会議\n• 90分: 長めの会議\n• 120分: 2時間のワークショップや研修\n\n設定した時間より短い空きスロットは除外されます。',
-      helpTimeRestrictions: '時間除外設定のヘルプ',
-      helpTimeRestrictionsDesc: '毎日の特定の時間帯を除外して検索できます。\n\n• 以前を除外: 指定時刻より前の時間を毎日除外（例：9:00前を除外）\n• 以降を除外: 指定時刻より後の時間を毎日除外（例：21:00以降を除外）\n\n例：夜中や早朝を除外したい場合\n以前を除外: 09:00, 以降を除外: 21:00 と設定すると\n毎日9:00-21:00の間のみ表示されます'
+      helpTimeRestrictions: '稼働時間設定のヘルプ',
+      helpTimeRestrictionsDesc: '毎日の稼働時間を設定できます。設定した時間内のみが空き時間として表示されます。\n\n• 開始時刻: 稼働開始時刻（例：9:00）\n• 終了時刻: 稼働終了時刻（例：18:00）\n\n例：営業時間内のみ表示したい場合\n開始時刻: 09:00, 終了時刻: 18:00 と設定すると\n毎日9:00-18:00の間の空き時間のみが表示されます'
     }
   },
   {
@@ -112,9 +112,9 @@ export const languages: Language[] = [
       end: 'End',
       currentSelection: 'Current Selection',
       minimumDuration: 'Minimum Duration',
-      timeRestrictions: 'Time Exclusion Settings',
-      before: 'Exclude Before',
-      after: 'Exclude After',
+      timeRestrictions: 'Working Hours',
+      before: 'Start Time',
+      after: 'End Time',
       findAvailableTimes: 'Find Available Times',
       searchingCalendar: 'Searching calendar...',
       availableSlots: 'Available Slots',
@@ -197,8 +197,8 @@ export const languages: Language[] = [
       helpPeriodDesc: 'Set the start and end date/time for the search period.\n\n• Click calendar icon to select dates\n• Time can be set in 15-minute increments\n• Multi-day searches are supported',
       helpMinDuration: 'Minimum Duration Help',
       helpMinDurationDesc: 'Specify the minimum duration for available time slots to display.\n\n• 15 min: Quick meetings or phone calls\n• 30 min: Regular meetings or interviews\n• 60 min: 1-hour meetings\n• 90 min: Extended meetings\n• 120 min: 2-hour workshops or training sessions\n\nSlots shorter than the set duration will be excluded.',
-      helpTimeRestrictions: 'Time Exclusion Settings Help',
-      helpTimeRestrictionsDesc: 'Exclude specific time periods from each day.\n\n• Exclude Before: Exclude time before specified time each day (e.g., exclude before 9:00)\n• Exclude After: Exclude time after specified time each day (e.g., exclude after 21:00)\n\nExample: To exclude nights and early mornings\nSet Exclude Before: 09:00, Exclude After: 21:00\nThis will only show 9:00-21:00 time slots each day'
+      helpTimeRestrictions: 'Working Hours Help',
+      helpTimeRestrictionsDesc: 'Set daily working hours. Only time slots within these hours will be shown as available.\n\n• Start Time: Working hours start time (e.g., 9:00)\n• End Time: Working hours end time (e.g., 18:00)\n\nExample: To show only business hours\nSet Start Time: 09:00, End Time: 18:00\nThis will only show available slots between 9:00-18:00 each day'
     }
   }
 ];

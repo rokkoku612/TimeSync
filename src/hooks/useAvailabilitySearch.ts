@@ -8,8 +8,8 @@ import { useLocalStorage } from './useLocalStorage';
 export const useAvailabilitySearch = () => {
   // 設定をローカルストレージに保存
   const [minDuration, setMinDuration] = useLocalStorage('timeSync_minDuration', 30);
-  const [excludeBeforeTime, setExcludeBeforeTime] = useLocalStorage('timeSync_excludeBefore', '');
-  const [excludeAfterTime, setExcludeAfterTime] = useLocalStorage('timeSync_excludeAfter', '');
+  const [workingHoursStart, setWorkingHoursStart] = useLocalStorage('timeSync_workingHoursStart', '');
+  const [workingHoursEnd, setWorkingHoursEnd] = useLocalStorage('timeSync_workingHoursEnd', '');
   const [showAdvanced, setShowAdvanced] = useLocalStorage('timeSync_showAdvanced', false);
   const [availableSlots, setAvailableSlots] = useState<(TimeSlot | null)[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,8 +35,8 @@ export const useAvailabilitySearch = () => {
           startDateTime,
           endDateTime,
           minDuration,
-          excludeBeforeTime,
-          excludeAfterTime,
+          workingHoursStart,
+          workingHoursEnd,
           isDemoMode,
           language.code,
           selectedCalendarIds
@@ -50,8 +50,8 @@ export const useAvailabilitySearch = () => {
             endDateTime, 
             minDuration, 
             language,
-            excludeBeforeTime,
-            excludeAfterTime
+            workingHoursStart,
+            workingHoursEnd
           );
           setAvailableSlots(slots);
           setShowResults(true);
@@ -88,10 +88,10 @@ export const useAvailabilitySearch = () => {
   return {
     minDuration,
     setMinDuration,
-    excludeBeforeTime,
-    setExcludeBeforeTime,
-    excludeAfterTime,
-    setExcludeAfterTime,
+    excludeBeforeTime: workingHoursStart,
+    setExcludeBeforeTime: setWorkingHoursStart,
+    excludeAfterTime: workingHoursEnd,
+    setExcludeAfterTime: setWorkingHoursEnd,
     showAdvanced,
     setShowAdvanced,
     availableSlots,
