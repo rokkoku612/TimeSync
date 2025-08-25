@@ -21,6 +21,8 @@ jobs:
         cache: 'npm'
 
     - name: Install and Build 🔧
+      env:
+        VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
       run: |
         npm ci
         NODE_ENV=production npm run build
