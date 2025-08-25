@@ -226,15 +226,20 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
     if (viewMode === 'month') {
       return `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
     } else {
-      // Week view: show date range
+      // Week view: show date range (shortened for mobile)
       const weekDates = getDaysInWeek();
       const firstDay = weekDates[0];
       const lastDay = weekDates[6];
       
+      // Use abbreviated month names for week view
+      const shortMonthNames = language.code === 'ja' 
+        ? ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+        : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      
       if (firstDay.getMonth() === lastDay.getMonth()) {
-        return `${monthNames[firstDay.getMonth()]} ${firstDay.getDate()}-${lastDay.getDate()}, ${firstDay.getFullYear()}`;
+        return `${shortMonthNames[firstDay.getMonth()]} ${firstDay.getDate()}-${lastDay.getDate()}, ${firstDay.getFullYear()}`;
       } else {
-        return `${monthNames[firstDay.getMonth()]} ${firstDay.getDate()} - ${monthNames[lastDay.getMonth()]} ${lastDay.getDate()}, ${firstDay.getFullYear()}`;
+        return `${shortMonthNames[firstDay.getMonth()]} ${firstDay.getDate()}-${shortMonthNames[lastDay.getMonth()]} ${lastDay.getDate()}`;
       }
     }
   };
@@ -260,7 +265,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
         {/* First row - Title, Navigation and Calendar Selector */}
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-medium text-slate-900">
+            <h2 className={`font-medium text-slate-900 ${viewMode === 'week' ? 'text-base sm:text-lg' : 'text-lg'}`}>
               {getHeaderTitle()}
             </h2>
             <div className="flex items-center gap-1">
