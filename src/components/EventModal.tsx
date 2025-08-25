@@ -89,11 +89,11 @@ const EventModal: React.FC<EventModalProps> = ({
     try {
       const calendarList = await googleCalendar.getCalendarList();
       // Filter for calendars where user has write access
-      const writableCalendars = calendarList.filter((cal: any) => 
+      const writableCalendars = calendarList.filter((cal) => 
         cal.accessRole === 'owner' || cal.accessRole === 'writer'
       );
       setCalendars(writableCalendars);
-    } catch (error) {
+    } catch {
       setCalendars([]);
     }
   };

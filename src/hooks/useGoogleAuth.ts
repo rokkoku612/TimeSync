@@ -93,7 +93,7 @@ export const useGoogleAuth = (): UseGoogleAuthReturn => {
         googleAuthDirect.signIn();
         // Page will redirect, so loading continues
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error('Sign in failed:', err);
       setError('Failed to sign in with Google');
       setIsLoading(false);

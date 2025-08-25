@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, MapPin, FileText, Edit } from 'lucide-react';
-import { Language, TimeSlot } from '../types';
+import { Language } from '../types';
 import googleCalendar from '../services/googleCalendar';
 import EventModal from './EventModal';
 
@@ -19,7 +19,6 @@ interface EventsDisplayProps {
   language: Language;
   isSignedIn: boolean;
   isDemoMode?: boolean;
-  availableSlots: (TimeSlot | null)[];
   startDateTime: Date;
   endDateTime: Date;
   selectedCalendarIds?: string[];
@@ -30,7 +29,6 @@ const EventsDisplay: React.FC<EventsDisplayProps> = ({
   language,
   isSignedIn,
   isDemoMode = false,
-  availableSlots,
   startDateTime,
   endDateTime,
   selectedCalendarIds,

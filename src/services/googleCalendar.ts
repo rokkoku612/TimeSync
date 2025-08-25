@@ -9,8 +9,7 @@ import type {
   EventData,
   MultiCalendarEventData,
   CreateEventResult,
-  DemoEvent,
-  TimeSlotEvent
+  DemoEvent
 } from '../types/google-calendar';
 
 // Demo events for demo mode
@@ -183,7 +182,7 @@ class GoogleCalendarService {
                   allEvents.push(...eventsWithCalendarInfo);
                 }
               }
-            } catch (error) {
+            } catch {
               // Continue with other calendars even if one fails
             }
           }
@@ -197,7 +196,7 @@ class GoogleCalendarService {
         });
         
         return allEvents;
-      } catch (error) {
+      } catch {
         // Direct API call failed
       }
     }
@@ -531,7 +530,7 @@ class GoogleCalendarService {
         const url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList';
         const result = await this.makeCalendarRequest(url) as GoogleCalendarList;
         return result.items || [];
-      } catch (error) {
+      } catch {
         return [];
       }
     }
@@ -544,13 +543,9 @@ class GoogleCalendarService {
     }
 
     // Use direct OAuth implementation
-    try {
-      const url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList';
-      const result = await this.makeCalendarRequest(url) as GoogleCalendarList;
-      return result.items || [];
-    } catch (error) {
-      throw error;
-    }
+    const url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList';
+    const result = await this.makeCalendarRequest(url) as GoogleCalendarList;
+    return result.items || [];
   }
 
   async createEvent(eventData: EventData): Promise<GoogleCalendarEvent> {
@@ -592,7 +587,7 @@ class GoogleCalendarService {
         const conferenceDataVersion = eventData.addGoogleMeet ? '&conferenceDataVersion=1' : '';
         const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
         return await this.makeCalendarRequest(url, 'POST', event) as GoogleCalendarEvent;
-      } catch (error) {
+      } catch {
         // Direct API call failed
       }
     }
@@ -652,7 +647,7 @@ class GoogleCalendarService {
         const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
         const result = await this.makeCalendarRequest(url, 'POST', event) as GoogleCalendarEvent;
         results.push({ success: true, calendarId, eventId: result.id });
-      } catch (error) {
+      } catch {
         errors.push(`Failed to add to calendar ${calendarId}`);
         results.push({ success: false, calendarId, error: error instanceof Error ? error.message : 'Unknown error' });
       }
@@ -704,7 +699,7 @@ class GoogleCalendarService {
         const conferenceDataVersion = eventData.addGoogleMeet ? '&conferenceDataVersion=1' : '';
         const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events/${eventId}?sendNotifications=${sendNotifications}${conferenceDataVersion}`;
         return await this.makeCalendarRequest(url, 'PUT', event) as GoogleCalendarEvent;
-      } catch (error) {
+      } catch {
         // Direct API call failed
       }
     }
@@ -727,7 +722,7 @@ class GoogleCalendarService {
         const url = `https://www.googleapis.com/calendar/v3/calendars/${encodedCalendarId}/events/${eventId}`;
         await this.makeCalendarRequest(url, 'DELETE');
         return;
-      } catch (error) {
+      } catch {
         // Direct API call failed
       }
     }

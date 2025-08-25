@@ -44,7 +44,15 @@ export const isValidUrl = (url: string): boolean => {
 /**
  * Validate and sanitize calendar event data
  */
-export const sanitizeEventData = (eventData: any) => {
+interface EventDataInput {
+  title?: string;
+  description?: string;
+  location?: string;
+  startDate?: unknown;
+  endDate?: unknown;
+}
+
+export const sanitizeEventData = (eventData: EventDataInput) => {
   return {
     title: sanitizeInput(eventData.title || ''),
     description: sanitizeInput(eventData.description || ''),
@@ -57,7 +65,7 @@ export const sanitizeEventData = (eventData: any) => {
 /**
  * Validate date input
  */
-export const validateDate = (date: any): Date | null => {
+export const validateDate = (date: unknown): Date | null => {
   if (!date) return null;
   
   const parsedDate = new Date(date);

@@ -1,6 +1,5 @@
 // Direct OAuth 2.0 implementation without Google Sign-In SDK
 import type {
-  GoogleUserProfile,
   GoogleUserInfo,
   GoogleOAuthParams,
   GoogleUserInfoResponse
@@ -161,7 +160,7 @@ class GoogleAuthDirect {
         },
         accessToken: this.accessToken
       };
-    } catch (error) {
+    } catch {
       return null;
     }
   }

@@ -86,7 +86,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
       }
       
       // Initialize calendars with saved selection or default to primary only
-      const calendarInfos: CalendarInfo[] = calendarList.map((cal: any) => ({
+      const calendarInfos: CalendarInfo[] = calendarList.map((cal) => ({
         id: cal.id,
         summary: cal.summary,
         backgroundColor: cal.backgroundColor,

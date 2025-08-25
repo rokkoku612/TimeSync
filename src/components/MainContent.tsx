@@ -1,5 +1,5 @@
 import React from 'react';
-import { Language } from '../types';
+import { Language, TimeSlot } from '../types';
 import SearchForm from './SearchForm';
 import ResultsList from './ResultsList';
 import EventsDisplay from './EventsDisplay';
@@ -27,7 +27,7 @@ interface MainContentProps {
   onSearch: () => void;
   isLoading: boolean;
   // Results props
-  availableSlots: any[];
+  availableSlots: (TimeSlot | null)[];
   copySuccess: boolean;
   onDeleteSlot: (index: number) => void;
   onCopyAll: () => void;

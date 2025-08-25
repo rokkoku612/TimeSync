@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Language } from '../types';
 
 interface WeekStartSelectorProps {
-  language: Language;
   onWeekStartChange?: (startDay: 0 | 1) => void;
 }
 
-const WeekStartSelector: React.FC<WeekStartSelectorProps> = ({ language, onWeekStartChange }) => {
+const WeekStartSelector: React.FC<WeekStartSelectorProps> = ({ onWeekStartChange }) => {
   const [weekStart, setWeekStart] = useState<0 | 1>(() => {
     const saved = localStorage.getItem('weekStart');
     return saved ? (parseInt(saved) as 0 | 1) : 0; // Default to Sunday (0)
