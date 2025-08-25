@@ -36,8 +36,8 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
             : 'text-charcoal hover:text-ink hover:bg-pure-white/50'
         }`}
       >
-        <Search size={18} />
-        <span className="font-medium">{t.search}</span>
+        <Search size={16} />
+        <span className="text-sm font-medium">{t.search}</span>
       </button>
       <button
         onClick={() => onTabChange('calendar')}
@@ -47,8 +47,8 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
             : 'text-charcoal hover:text-ink hover:bg-pure-white/50'
         }`}
       >
-        <Calendar size={18} />
-        <span className="font-medium">{t.calendar}</span>
+        <Calendar size={16} />
+        <span className="text-sm font-medium">{t.calendar}</span>
       </button>
     </div>
   );

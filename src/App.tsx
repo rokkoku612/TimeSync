@@ -89,7 +89,7 @@ const App: React.FC = () => {
         <header className="sticky top-0 bg-white/95 backdrop-blur-xl border-b border-slate-100 px-3 py-4 z-20 transition-all duration-300">
           <div className="max-w-4xl mx-auto flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <h1 className="text-lg font-medium text-slate-900 tracking-tight">{currentLanguage.texts.title}</h1>
+              <h1 className="text-lg font-medium tracking-tight rainbow-text">{currentLanguage.texts.title}</h1>
             </div>
             
             <div className="flex items-center gap-3 relative">
