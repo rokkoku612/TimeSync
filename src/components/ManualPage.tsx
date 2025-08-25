@@ -219,30 +219,53 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                 </div>
               </div>
 
-              {/* Time Restrictions */}
+              {/* Working Hours Settings */}
               <div>
                 <h3 className="font-medium text-ink mb-4 flex items-center gap-2">
                   <ChevronRight size={16} className="text-graphite" />
-                  {language.texts.timeRestrictionsOption}
+                  {language.texts.timeRestrictions}
                 </h3>
                 <div className="pl-6 space-y-3">
                   <p className="text-charcoal text-sm leading-relaxed">
-                    {language.texts.timeRestrictionsDesc}
+                    {language.code === 'ja' 
+                      ? '稼働時間を設定することで、指定した時間内のみを空き時間として表示できます。未設定の場合は全時間帯が対象となります。'
+                      : 'Set working hours to display only available slots within those hours. If not set, all time slots are considered.'}
                   </p>
                   <div className="space-y-2">
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-medium text-charcoal w-16">{language.texts.after}:</span>
-                      <span className="text-sm text-graphite">{language.texts.afterTime}</span>
+                    <div className="flex items-start gap-3">
+                      <span className="text-sm font-medium text-charcoal w-20">{language.texts.before}:</span>
+                      <span className="text-sm text-graphite">
+                        {language.code === 'ja' 
+                          ? '稼働開始時刻（例：9:00）。未設定の場合は0:00から'
+                          : 'Working start time (e.g., 9:00). If not set, starts from 0:00'}
+                      </span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-medium text-charcoal w-16">{language.texts.before}:</span>
-                      <span className="text-sm text-graphite">{language.texts.beforeTime}</span>
+                    <div className="flex items-start gap-3">
+                      <span className="text-sm font-medium text-charcoal w-20">{language.texts.after}:</span>
+                      <span className="text-sm text-graphite">
+                        {language.code === 'ja' 
+                          ? '稼働終了時刻（例：18:00）。未設定の場合は23:59まで'
+                          : 'Working end time (e.g., 18:00). If not set, ends at 23:59'}
+                      </span>
                     </div>
+                  </div>
+                  <div className="bg-pearl p-4 rounded-lg space-y-2">
+                    <p className="text-charcoal text-sm font-medium">
+                      {language.code === 'ja' ? '空き時間の表示形式：' : 'Available time display format:'}
+                    </p>
+                    <ul className="text-charcoal text-sm space-y-1 ml-4">
+                      <li>{language.code === 'ja' ? '• 通常: 「10:00 - 11:30」' : '• Normal: "10:00 - 11:30"'}</li>
+                      <li>{language.code === 'ja' ? '• 0:00から: 「〜09:00」' : '• From 0:00: "〜09:00"'}</li>
+                      <li>{language.code === 'ja' ? '• 23:59まで: 「19:00〜」' : '• Until 23:59: "19:00〜"'}</li>
+                      <li>{language.code === 'ja' ? '• 終日: 「終日」' : '• All day: "All day"'}</li>
+                    </ul>
                   </div>
                   <div className="bg-pearl p-4 rounded-lg">
                     <p className="text-charcoal text-sm">
                       <strong>{language.texts.example}：</strong> 
-                      {language.texts.timeRestrictionExample}
+                      {language.code === 'ja' 
+                        ? '開始時刻: 09:00, 終了時刻: 18:00 と設定すると、毎日9:00-18:00の間の空き時間のみが表示されます。'
+                        : 'Set Start Time: 09:00, End Time: 18:00 to show only available slots between 9:00-18:00 each day.'}
                     </p>
                   </div>
                 </div>
