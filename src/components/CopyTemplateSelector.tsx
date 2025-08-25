@@ -66,10 +66,10 @@ const CopyTemplateSelector: React.FC<CopyTemplateSelectorProps> = ({
       <div className="relative">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 px-3 py-1.5 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex items-center gap-2 px-3 py-1.5 text-xs md:text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
         >
           <FileText size={14} />
-          <span>
+          <span className="text-xs md:text-sm">
             {language.code === 'ja' ? 'テンプレート' : 'Template'}: {templateName}
           </span>
           <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />

@@ -76,8 +76,23 @@ const MainContent: React.FC<MainContentProps> = ({
             excludeAfterTime={excludeAfterTime}
             showAdvanced={showAdvanced}
             language={currentLanguage}
-            onStartDateTimeChange={onStartDateTimeChange}
-            onEndDateTimeChange={onEndDateTimeChange}
+            onStartDateTimeChange={(date) => {
+              // 開始日時が終了日時より後の場合、終了日時も調整
+              if (date > endDateTime) {
+                onEndDateTimeChange(date);
+              }
+              onStartDateTimeChange(date);
+            }}
+            onEndDateTimeChange={(date) => {
+              // 終了日時が開始日時より前の場合は無視
+              if (date < startDateTime) {
+                alert(currentLanguage.code === 'ja' 
+                  ? '終了日時は開始日時より後に設定してください' 
+                  : 'End date must be after start date');
+                return;
+              }
+              onEndDateTimeChange(date);
+            }}
             onMinDurationChange={onMinDurationChange}
             onExcludeBeforeTimeChange={onExcludeBeforeTimeChange}
             onExcludeAfterTimeChange={onExcludeAfterTimeChange}
