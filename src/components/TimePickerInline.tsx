@@ -75,13 +75,13 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           {label}
         </label>
       )}
-      <div className="flex items-center gap-1 bg-white px-2 py-1.5 rounded-lg border border-gray-200">
+      <div className="flex items-center gap-0.5 bg-white px-1.5 py-1 rounded-lg border border-gray-200">
         {/* Hours */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={decrementHours}
-            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-4 h-4 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             style={{ padding: 0 }}
           >
             <ChevronDown size={10} />
@@ -92,12 +92,12 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             max="23"
             value={hasValue ? hours.toString().padStart(2, '0') : '--'}
             readOnly
-            className={`w-7 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none mx-0.5 tabular-nums`}
+            className={`w-6 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
           />
           <button
             type="button"
             onClick={incrementHours}
-            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-4 h-4 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             style={{ padding: 0 }}
           >
             <ChevronUp size={10} />
@@ -105,14 +105,14 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
         </div>
 
         {/* Separator */}
-        <div className="text-gray-300 font-light text-xs">:</div>
+        <div className="text-gray-300 font-light text-xs px-0.5">:</div>
 
         {/* Minutes */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={decrementMinutes}
-            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-4 h-4 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             style={{ padding: 0 }}
           >
             <ChevronDown size={10} />
@@ -124,12 +124,12 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             step="15"
             value={hasValue ? minutes.toString().padStart(2, '0') : '--'}
             readOnly
-            className={`w-7 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none mx-0.5 tabular-nums`}
+            className={`w-6 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
           />
           <button
             type="button"
             onClick={incrementMinutes}
-            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-4 h-4 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             style={{ padding: 0 }}
           >
             <ChevronUp size={10} />
@@ -141,9 +141,9 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           <button
             type="button"
             onClick={clearValue}
-            className="ml-1 w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="ml-0.5 w-4 h-4 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
           >
-            <X size={12} />
+            <X size={10} />
           </button>
         )}
       </div>
