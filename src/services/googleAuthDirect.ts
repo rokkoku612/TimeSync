@@ -135,6 +135,8 @@ class GoogleAuthDirect {
     authUrl.searchParams.set('scope', this.scope);
     authUrl.searchParams.set('include_granted_scopes', 'true');
     authUrl.searchParams.set('state', 'state_parameter_passthrough_value');
+    // Force account selection by adding prompt=select_account
+    authUrl.searchParams.set('prompt', 'select_account');
     
     console.log('OAuth URL:', authUrl.toString());
     
@@ -143,8 +145,7 @@ class GoogleAuthDirect {
   }
 
   signOut() {
-    this.clearToken();
-    // Optionally revoke token
+    // Revoke the token first if it exists
     if (this.accessToken) {
       fetch(`https://oauth2.googleapis.com/revoke?token=${this.accessToken}`, {
         method: 'POST',
@@ -155,6 +156,24 @@ class GoogleAuthDirect {
         // Silently ignore revoke errors
       });
     }
+    
+    // Clear all stored tokens and cache
+    this.clearToken();
+    
+    // Clear any Google cookies/session by redirecting to logout URL
+    // This helps ensure the next sign-in shows account selection
+    const logoutUrl = `https://accounts.google.com/Logout?continue=https://appengine.google.com/_ah/logout?continue=${encodeURIComponent(window.location.origin)}`;
+    
+    // Create a hidden iframe to trigger logout without navigation
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = logoutUrl;
+    document.body.appendChild(iframe);
+    
+    // Remove iframe after a short delay
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+    }, 1000);
   }
 
   isSignedIn(): boolean {
