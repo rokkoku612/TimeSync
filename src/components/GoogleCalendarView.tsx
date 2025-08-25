@@ -257,9 +257,9 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
     <div className="bg-white rounded-xl p-6 border border-slate-200">
       {/* Calendar Header */}
       <div className="mb-4">
-        {/* First row - Title and Navigation */}
+        {/* First row - Title, Navigation and Calendar Selector */}
         <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <h2 className="text-lg font-medium text-slate-900">
               {getHeaderTitle()}
             </h2>
