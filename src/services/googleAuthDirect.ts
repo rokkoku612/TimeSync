@@ -15,6 +15,13 @@ class GoogleAuthDirect {
 
   constructor() {
     this.clientId = GOOGLE_CLIENT_ID;
+    
+    // Debug: Check if client ID is set
+    if (!this.clientId || this.clientId === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
+      console.error('ERROR: Google Client ID is not properly configured!');
+      console.error('Client ID value:', this.clientId);
+    }
+    
     // Use the correct redirect URI based on the current location
     const origin = window.location.origin;
     const pathname = window.location.pathname;
@@ -109,6 +116,13 @@ class GoogleAuthDirect {
     console.log('OAuth Client ID:', this.clientId);
     console.log('OAuth Redirect URI:', this.redirectUri);
     
+    // Validate client ID before proceeding
+    if (!this.clientId || this.clientId === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com' || this.clientId === '') {
+      console.error('FATAL ERROR: Cannot proceed with OAuth - Client ID is missing!');
+      alert('OAuth設定エラー: Google Client IDが設定されていません。管理者にお問い合わせください。');
+      return;
+    }
+    
     // Build OAuth URL
     const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
     authUrl.searchParams.set('client_id', this.clientId);
@@ -117,6 +131,8 @@ class GoogleAuthDirect {
     authUrl.searchParams.set('scope', this.scope);
     authUrl.searchParams.set('include_granted_scopes', 'true');
     authUrl.searchParams.set('state', 'state_parameter_passthrough_value');
+    
+    console.log('OAuth URL:', authUrl.toString());
     
     // Redirect to Google OAuth
     window.location.href = authUrl.toString();
