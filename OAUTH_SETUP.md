@@ -5,11 +5,11 @@
 Google Cloud Consoleで以下のURLを承認済みリダイレクトURIに追加する必要があります：
 
 ### 1. 開発環境
-- `http://localhost:5174/`
-- `http://192.168.1.150:5174/`
+- `http://localhost:5174`
+- `http://192.168.1.150:5174`
 
 ### 2. 本番環境（GitHub Pages）
-- `https://rokkoku612.github.io/TimeSync/`
+- `https://rokkoku612.github.io/TimeSync`
 
 ### 3. Authorized JavaScript origins
 - `http://localhost:5174`
@@ -33,15 +33,15 @@ https://rokkoku612.github.io
 
 ### Authorized redirect URIs
 ```
-http://localhost:5174/
-http://192.168.1.150:5174/
-https://rokkoku612.github.io/TimeSync/
+http://localhost:5174
+http://192.168.1.150:5174
+https://rokkoku612.github.io/TimeSync
 ```
 
 ## 重要な注意事項
 
-- URLは完全一致する必要があります（末尾のスラッシュも含む）
-- GitHub Pagesの場合、`/TimeSync/`パスを含める必要があります
+- URLは完全一致する必要があります（末尾のスラッシュは含めない）
+- GitHub Pagesの場合、`/TimeSync`パスを含める必要があります（末尾スラッシュなし）
 - 変更後、反映まで5-10分かかることがあります
 
 ## トラブルシューティング
