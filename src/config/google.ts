@@ -1,5 +1,6 @@
 // Google OAuth Configuration
-export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
+// Production Client ID for GitHub Pages deployment
+export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '228481405429-krab31cq11382774i87dhuccs0j0p9bh.apps.googleusercontent.com';
 
 // Google Calendar API configuration
 export const GOOGLE_CALENDAR_SCOPES = [

@@ -4,6 +4,8 @@ import type {
   GoogleOAuthParams,
   GoogleUserInfoResponse
 } from '../types/google-auth';
+import { GOOGLE_CLIENT_ID } from '../config/google';
+
 class GoogleAuthDirect {
   private clientId: string;
   private redirectUri: string;
@@ -12,7 +14,7 @@ class GoogleAuthDirect {
   private tokenExpiresAt: number | null = null;
 
   constructor() {
-    this.clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+    this.clientId = GOOGLE_CLIENT_ID;
     // Use the correct redirect URI based on the current location
     const origin = window.location.origin;
     const pathname = window.location.pathname;
@@ -103,7 +105,8 @@ class GoogleAuthDirect {
   }
 
   signIn() {
-    // Log redirect URI for debugging (will be removed in production)
+    // Log OAuth config for debugging (will be removed in production)
+    console.log('OAuth Client ID:', this.clientId);
     console.log('OAuth Redirect URI:', this.redirectUri);
     
     // Build OAuth URL
