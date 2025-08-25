@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown, Check, Calendar } from 'lucide-react';
 import googleCalendar from '../services/googleCalendar';
 import { Language } from '../types';
@@ -26,11 +26,22 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     loadCalendars();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDemoMode]);
+
+  // Auto-scroll on mobile when dropdown opens
+  useEffect(() => {
+    if (isOpen && window.innerWidth <= 640 && buttonRef.current) {
+      setTimeout(() => {
+        buttonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [isOpen]);
 
   // Load saved selection from localStorage
   useEffect(() => {
@@ -169,6 +180,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
   return (
     <div className="relative">
       <button
+        ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-1.5 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
         disabled={loading}
@@ -185,16 +197,16 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
 
       {isOpen && (
         <>
-          {/* Mobile: Modal style */}
+          {/* Mobile: Dropdown below button */}
           <div className="md:hidden">
             {/* Backdrop */}
             <div 
-              className="fixed inset-0 z-[45] bg-black/50"
+              className="fixed inset-0 z-[45]"
               onClick={() => setIsOpen(false)}
             />
             
-            {/* Centered modal */}
-            <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 z-[46] bg-white rounded-lg shadow-xl border border-gray-200 max-h-[80vh] overflow-hidden">
+            {/* Dropdown */}
+            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[46] bg-white rounded-lg shadow-xl border border-gray-200 w-[90vw] max-w-[400px] max-h-[60vh] overflow-hidden">
               {/* Quick Actions */}
               <div className="p-2 border-b border-gray-100 flex gap-2">
                 <button
