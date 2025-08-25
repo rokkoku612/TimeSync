@@ -114,16 +114,15 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           {label}
         </label>
       )}
-      <div className="inline-flex items-center gap-0.5 bg-white px-1 py-0.5 rounded-lg border border-gray-200">
+      <div className="inline-flex items-center gap-1 bg-white px-2 py-1.5 rounded-lg border border-gray-200">
         {/* Hours */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={decrementHours}
-            className="w-3.5 h-3.5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
-            style={{ padding: 0 }}
+            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 touch-manipulation"
           >
-            <ChevronDown size={8} />
+            <ChevronDown size={12} />
           </button>
           <input
             type="text"
@@ -135,30 +134,28 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             onChange={handleHoursInput}
             onFocus={(e) => e.target.select()}
             placeholder="--"
-            className={`w-5 text-center text-[10px] font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums placeholder-gray-400`}
+            className={`w-8 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums placeholder-gray-400`}
           />
           <button
             type="button"
             onClick={incrementHours}
-            className="w-3.5 h-3.5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
-            style={{ padding: 0 }}
+            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 touch-manipulation"
           >
-            <ChevronUp size={8} />
+            <ChevronUp size={12} />
           </button>
         </div>
 
         {/* Separator */}
-        <div className="text-gray-300 font-light text-[10px]">:</div>
+        <div className="text-gray-400 font-light text-sm">:</div>
 
         {/* Minutes */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={decrementMinutes}
-            className="w-3.5 h-3.5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
-            style={{ padding: 0 }}
+            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 touch-manipulation"
           >
-            <ChevronDown size={8} />
+            <ChevronDown size={12} />
           </button>
           <input
             type="text"
@@ -171,15 +168,14 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             onChange={handleMinutesInput}
             onFocus={(e) => e.target.select()}
             placeholder="--"
-            className={`w-5 text-center text-[10px] font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums placeholder-gray-400`}
+            className={`w-8 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums placeholder-gray-400`}
           />
           <button
             type="button"
             onClick={incrementMinutes}
-            className="w-3.5 h-3.5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
-            style={{ padding: 0 }}
+            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 touch-manipulation"
           >
-            <ChevronUp size={8} />
+            <ChevronUp size={12} />
           </button>
         </div>
 
@@ -188,9 +184,9 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           <button
             type="button"
             onClick={clearValue}
-            className="w-3.5 h-3.5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="ml-1 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors duration-200 touch-manipulation"
           >
-            <X size={8} />
+            <X size={14} />
           </button>
         )}
       </div>

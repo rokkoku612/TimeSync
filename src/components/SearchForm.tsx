@@ -191,25 +191,33 @@ const SearchForm: React.FC<SearchFormProps> = ({
         </div>
         
         {showAdvanced && (
-          <div className="animate-fadeIn">
-            <div className="flex items-center justify-center gap-2">
-              <div className="flex flex-col items-center">
-                <div className="text-[10px] text-gray-600 mb-0.5">{language.texts.before}</div>
+          <div className="animate-fadeIn space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-gray-600 mb-1.5">
+                  {language.texts.before}
+                </label>
                 <TimePickerInline
                   value={excludeBeforeTime}
                   onChange={onExcludeBeforeTimeChange}
                   hideLabel={true}
                 />
               </div>
-              <div className="text-xs text-gray-400 mt-4">〜</div>
-              <div className="flex flex-col items-center">
-                <div className="text-[10px] text-gray-600 mb-0.5">{language.texts.after}</div>
+              <div>
+                <label className="block text-xs text-gray-600 mb-1.5">
+                  {language.texts.after}
+                </label>
                 <TimePickerInline
                   value={excludeAfterTime}
                   onChange={onExcludeAfterTimeChange}
                   hideLabel={true}
                 />
               </div>
+            </div>
+            <div className="text-xs text-gray-500 text-center">
+              {language.code === 'ja' 
+                ? '※ 未設定の場合は全時間帯が対象' 
+                : '※ If not set, all time slots are included'}
             </div>
           </div>
         )}
