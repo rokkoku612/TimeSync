@@ -197,6 +197,27 @@ body {
   .mobile-compact-sm {
     padding: 8px;
   }
+  
+  /* Template modal mobile optimization */
+  .template-modal-content {
+    max-width: calc(100vw - 2rem);
+  }
+  
+  /* Responsive dropdown positioning */
+  .template-dropdown {
+    right: 0;
+    max-width: calc(100vw - 2rem);
+  }
+  
+  @media (max-width: 400px) {
+    .template-dropdown {
+      right: 50%;
+      transform: translateX(50%);
+      left: auto;
+      width: calc(100vw - 2rem);
+      max-width: calc(100vw - 2rem);
+    }
+  }
 }
 
 /* Enhanced focus styles */

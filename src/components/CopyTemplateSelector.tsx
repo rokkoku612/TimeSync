@@ -84,7 +84,7 @@ const CopyTemplateSelector: React.FC<CopyTemplateSelectorProps> = ({
             />
             
             {/* Dropdown */}
-            <div className="absolute bottom-full mb-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] w-[320px]">
+            <div className="template-dropdown absolute bottom-full mb-2 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] w-[320px]">
               <div className="p-2 border-b border-gray-100">
                 <div className="text-xs font-medium text-gray-500 uppercase tracking-wider px-2">
                   {language.code === 'ja' ? 'コピーテンプレート選択' : 'Select Copy Template'}
@@ -178,7 +178,7 @@ const CopyTemplateSelector: React.FC<CopyTemplateSelectorProps> = ({
       {/* Preview Modal */}
       {showPreview && selectedTemplate && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-lg w-full max-h-[80vh] overflow-y-auto">
+          <div className="bg-white rounded-xl max-w-lg w-full max-w-[calc(100vw-2rem)] max-h-[80vh] overflow-y-auto">
             <div className="p-4 border-b border-gray-200">
               <h3 className="text-lg font-medium">
                 {language.code === 'ja' ? 'テンプレートプレビュー' : 'Template Preview'}
