@@ -1,6 +1,7 @@
 import React from 'react';
 import { LogIn, LogOut, User } from 'lucide-react';
 import { Language } from '../types';
+import HelpTooltip from './HelpTooltip';
 
 interface GoogleLoginProps {
   isSignedIn: boolean;
@@ -35,7 +36,9 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({
       connectCalendar: 'Googleカレンダーと連携して空き時間を自動検出',
       demoMode: 'デモモード',
       tryDemo: 'デモを試す',
-      exitDemo: 'デモを終了'
+      exitDemo: 'デモを終了',
+      accountSwitchTitle: '別のアカウントでログインするには',
+      accountSwitchContent: '別のGoogleアカウントでログインする場合は、以下の手順をお試しください：\n\n1. ログアウトをクリック\n2. ブラウザのシークレットモード/プライベートウィンドウを開く\n3. TimeSyncに再度アクセス\n4. 新しいアカウントでログイン\n\nまたは\n\n1. ログアウトをクリック\n2. Googleアカウント管理ページ(accounts.google.com)にアクセス\n3. 現在のアカウントからログアウト\n4. TimeSyncに戻って新しいアカウントでログイン'
     },
     en: {
       signInWithGoogle: 'Sign in with Google',
@@ -46,7 +49,9 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({
       connectCalendar: 'Connect Google Calendar to auto-detect availability',
       demoMode: 'Demo Mode',
       tryDemo: 'Try Demo',
-      exitDemo: 'Exit Demo'
+      exitDemo: 'Exit Demo',
+      accountSwitchTitle: 'How to sign in with a different account',
+      accountSwitchContent: 'To sign in with a different Google account, try these steps:\n\n1. Click Sign out\n2. Open an incognito/private browser window\n3. Visit TimeSync again\n4. Sign in with your new account\n\nOr\n\n1. Click Sign out\n2. Visit Google Account page (accounts.google.com)\n3. Sign out from current account\n4. Return to TimeSync and sign in with new account'
     }
   };
 
@@ -92,13 +97,19 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({
               <div className="text-xs text-gray-500">{user.email}</div>
             </div>
           </div>
-          <button
-            onClick={onSignOut}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
-          >
-            <LogOut size={14} />
-            <span>{t.signOut}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <HelpTooltip
+              title={t.accountSwitchTitle}
+              content={t.accountSwitchContent}
+            />
+            <button
+              onClick={onSignOut}
+              className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+            >
+              <LogOut size={14} />
+              <span>{t.signOut}</span>
+            </button>
+          </div>
         </div>
       </div>
     );
