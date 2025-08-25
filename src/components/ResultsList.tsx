@@ -70,11 +70,8 @@ const ResultsList: React.FC<ResultsListProps> = ({
 
   return (
     <div className="bg-white rounded-xl p-6 border border-slate-200">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-3 text-[10px] md:text-xs font-medium text-slate-500 uppercase tracking-wider">
-          <span>{language.texts.availableSlots}</span>
-        </div>
-        <div className="flex items-center gap-2">
+      <div className="mb-4">
+        <div className="flex justify-end items-center gap-2 mb-2">
           <CopyTemplateSelector 
             language={language}
             onTemplateChange={setSelectedTemplate}
@@ -94,6 +91,10 @@ const ResultsList: React.FC<ResultsListProps> = ({
               </>
             )}
           </button>
+        </div>
+        <div className="flex items-center gap-3 text-[10px] md:text-xs font-medium text-slate-500 uppercase tracking-wider">
+          <span>{language.texts.availableSlots}</span>
+          <div className="flex-1 h-px bg-slate-200" />
         </div>
       </div>
       
