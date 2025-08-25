@@ -106,7 +106,7 @@ const WeekView: React.FC<WeekViewProps> = ({
       {/* Fixed header with days */}
       <div className="sticky top-0 z-30 bg-white border-b border-gray-200">
         <div className="flex">
-          <div className="w-16 flex-shrink-0"></div>
+          <div className="w-12 flex-shrink-0"></div>
           <div ref={headerRef} className="flex-1 overflow-x-auto overflow-y-hidden scrollbar-none">
             <div className="min-w-[700px] grid grid-cols-7 gap-0">
               {dates.map((date, index) => (
