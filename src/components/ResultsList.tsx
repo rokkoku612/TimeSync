@@ -115,7 +115,7 @@ const ResultsList: React.FC<ResultsListProps> = ({
                   className="w-6 h-6 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
                   onClick={() => onDeleteSlot(index)}
                 >
-                  <X size={12} />
+                  <X size={16} />
                 </button>
               </div>
             )
