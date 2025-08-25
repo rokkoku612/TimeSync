@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Plus, Clock } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Plus, Clock } from 'lucide-react';
 import { Language } from '../types';
 import googleCalendar from '../services/googleCalendar';
 import EventModal from './EventModal';
@@ -276,14 +276,14 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
                 className="p-1 rounded-lg hover:bg-gray-100 transition-colors"
                 disabled={loading}
               >
-                <ChevronLeft size={20} />
+                <ArrowLeft size={20} />
               </button>
               <button
                 onClick={() => navigateMonth('next')}
                 className="p-1 rounded-lg hover:bg-gray-100 transition-colors"
                 disabled={loading}
               >
-                <ChevronRight size={20} />
+                <ArrowRight size={20} />
               </button>
             </div>
           </div>
