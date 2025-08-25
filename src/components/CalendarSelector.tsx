@@ -205,8 +205,8 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
               onClick={() => setIsOpen(false)}
             />
             
-            {/* Dropdown */}
-            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-[46] bg-white rounded-lg shadow-xl border border-gray-200 w-[90vw] max-w-[400px] max-h-[60vh] overflow-hidden">
+            {/* Dropdown - positioned to stay within viewport */}
+            <div className="fixed left-1/2 -translate-x-1/2 bottom-[10vh] z-[46] bg-white rounded-lg shadow-xl border border-gray-200 w-[90vw] max-w-[400px] max-h-[70vh] overflow-hidden">
               {/* Quick Actions */}
               <div className="p-2 border-b border-gray-100 flex gap-2">
                 <button
@@ -283,8 +283,8 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
               onClick={() => setIsOpen(false)}
             />
             
-            {/* Dropdown */}
-            <div className="absolute top-full mt-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] min-w-[280px] max-w-[400px]">
+            {/* Dropdown - opens upward to avoid cutoff */}
+            <div className="absolute bottom-full mb-2 right-0 bg-white rounded-lg shadow-lg border border-gray-200 z-[46] min-w-[280px] max-w-[400px] max-h-[400px] overflow-hidden">
               {/* Quick Actions */}
               <div className="p-2 border-b border-gray-100 flex gap-2">
                 <button
