@@ -9,7 +9,7 @@ Google Cloud Consoleで以下のURLを承認済みリダイレクトURIに追加
 - `http://192.168.1.150:5174`
 
 ### 2. 本番環境（GitHub Pages）
-- `https://rokkoku612.github.io/TimeSync`
+- `https://rokkoku612.github.io/TimeSync/` （末尾スラッシュあり）
 
 ### 3. Authorized JavaScript origins
 - `http://localhost:5174`
@@ -35,13 +35,13 @@ https://rokkoku612.github.io
 ```
 http://localhost:5174
 http://192.168.1.150:5174
-https://rokkoku612.github.io/TimeSync
+https://rokkoku612.github.io/TimeSync/
 ```
 
 ## 重要な注意事項
 
-- URLは完全一致する必要があります（末尾のスラッシュは含めない）
-- GitHub Pagesの場合、`/TimeSync`パスを含める必要があります（末尾スラッシュなし）
+- URLは完全一致する必要があります
+- GitHub Pagesの場合、`/TimeSync/`パスを含める必要があります（末尾スラッシュあり）
 - 変更後、反映まで5-10分かかることがあります
 
 ## トラブルシューティング

@@ -25,15 +25,19 @@ class GoogleAuthDirect {
     // Use the correct redirect URI based on the current location
     const origin = window.location.origin;
     const pathname = window.location.pathname;
-    // For GitHub Pages, ensure we include the /TimeSync path WITHOUT trailing slash
-    // to match Google Cloud Console settings
-    this.redirectUri = origin.includes('github.io') && pathname.includes('/TimeSync') 
-      ? `${origin}/TimeSync`  // No trailing slash to match Google Console
-      : origin.includes('localhost:5174')
-      ? 'http://localhost:5174'  // Exact match for localhost
-      : origin.includes('192.168')
-      ? `${origin.replace(/\/$/, '')}`  // Remove any trailing slash
-      : `${origin}${pathname.replace(/\/$/, '')}`;  // Remove trailing slash
+    
+    // For GitHub Pages, we need to handle both with and without trailing slash
+    // Google Console expects: https://rokkoku612.github.io/TimeSync/
+    if (origin.includes('github.io')) {
+      this.redirectUri = `${origin}/TimeSync/`;  // WITH trailing slash for GitHub Pages
+    } else if (origin.includes('localhost:5174')) {
+      this.redirectUri = 'http://localhost:5174';  // No trailing slash for localhost
+    } else if (origin.includes('192.168')) {
+      this.redirectUri = origin;  // No trailing slash for local network
+    } else {
+      // Default fallback
+      this.redirectUri = `${origin}${pathname}`;
+    }
     // Add userinfo scopes for profile access
     this.scope = 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile';
     
