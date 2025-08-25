@@ -87,9 +87,9 @@ const MainContent: React.FC<MainContentProps> = ({
           />
 
           <CalendarSelector
-            selectedCalendarIds={selectedCalendarIds}
-            onSelectionChange={onCalendarSelectionChange}
             language={currentLanguage}
+            onCalendarsChange={onCalendarSelectionChange}
+            isDemoMode={isDemoMode}
           />
 
           {/* Loading State */}
@@ -133,6 +133,8 @@ const MainContent: React.FC<MainContentProps> = ({
             isSignedIn={isSignedIn}
             isDemoMode={isDemoMode}
             language={currentLanguage}
+            selectedCalendarIds={selectedCalendarIds}
+            onCalendarSelectionChange={onCalendarSelectionChange}
           />
         </>
       )}

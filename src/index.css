@@ -314,8 +314,8 @@ input[type="number"] {
   display: none;  /* Chrome, Safari and Opera */
 }
 
-/* Rainbow text animation */
-@keyframes rainbow {
+/* Serenity gradient text animation */
+@keyframes serenity {
   0% {
     background-position: 0% 50%;
   }
@@ -329,24 +329,35 @@ input[type="number"] {
 
 .rainbow-text {
   background: linear-gradient(
-    to right,
-    #ff0000,
-    #ff7f00,
-    #ffff00,
-    #00ff00,
-    #0000ff,
-    #4b0082,
-    #9400d3,
-    #ff0000,
-    #ff7f00,
-    #ffff00,
-    #00ff00
+    135deg,
+    #000000,
+    #1a1a1a,
+    #333333,
+    #4d4d4d,
+    #666666,
+    #808080,
+    #999999,
+    #b3b3b3,
+    #cccccc,
+    #e6e6e6,
+    #ffffff,
+    #e6e6e6,
+    #cccccc,
+    #b3b3b3,
+    #999999,
+    #808080,
+    #666666,
+    #4d4d4d,
+    #333333,
+    #1a1a1a,
+    #000000
   );
-  background-size: 200% auto;
+  background-size: 400% 400%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: rainbow 3s linear infinite;
+  animation: serenity 8s ease infinite;
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 

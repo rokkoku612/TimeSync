@@ -24,12 +24,16 @@ interface GoogleCalendarViewProps {
   language: Language;
   isSignedIn: boolean;
   isDemoMode?: boolean;
+  selectedCalendarIds: string[];
+  onCalendarSelectionChange: (ids: string[]) => void;
 }
 
 const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
   language,
   isSignedIn,
-  isDemoMode = false
+  isDemoMode = false,
+  selectedCalendarIds,
+  onCalendarSelectionChange
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<Event[]>([]);
@@ -39,18 +43,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showDayModal, setShowDayModal] = useState(false);
-  const [selectedCalendarIds, setSelectedCalendarIds] = useState<string[]>(() => {
-    // Initialize from localStorage
-    const saved = localStorage.getItem('selectedCalendarIds');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        // Failed to parse saved calendar IDs
-      }
-    }
-    return [];
-  });
+  // Calendar selection is now managed by parent component
   
   const [weekStart, setWeekStart] = useState<0 | 1>(() => {
     const saved = localStorage.getItem('weekStart');
@@ -290,10 +283,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
           
           <CalendarSelector
             language={language}
-            onCalendarsChange={(ids) => {
-              setSelectedCalendarIds(ids);
-              localStorage.setItem('selectedCalendarIds', JSON.stringify(ids));
-            }}
+            onCalendarsChange={onCalendarSelectionChange}
             isDemoMode={isDemoMode}
           />
         </div>
