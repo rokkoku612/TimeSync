@@ -145,10 +145,12 @@ const ResultsList: React.FC<ResultsListProps> = ({
               >
                 <span className="text-sm text-slate-900 font-medium">{formatTimeSlot(slot)}</span>
                 <button
-                  className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors duration-200 touch-manipulation"
+                  className="p-1 text-gray-600 hover:text-red-500 transition-colors duration-200"
                   onClick={() => onDeleteSlot(index)}
+                  type="button"
+                  aria-label="削除"
                 >
-                  <X size={14} />
+                  <X size={18} strokeWidth={2.5} />
                 </button>
               </div>
             )
