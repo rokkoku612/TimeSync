@@ -191,20 +191,25 @@ const SearchForm: React.FC<SearchFormProps> = ({
         </div>
         
         {showAdvanced && (
-          <div className="flex gap-2 sm:gap-4 animate-fadeIn">
-            <div className="flex-1">
-              <TimePickerInline
-                value={excludeBeforeTime}
-                onChange={onExcludeBeforeTimeChange}
-                label={language.texts.before}
-              />
-            </div>
-            <div className="flex-1">
-              <TimePickerInline
-                value={excludeAfterTime}
-                onChange={onExcludeAfterTimeChange}
-                label={language.texts.after}
-              />
+          <div className="animate-fadeIn">
+            <div className="flex items-center gap-2">
+              <div className="flex-1">
+                <div className="text-xs text-gray-600 mb-1">{language.texts.before}</div>
+                <TimePickerInline
+                  value={excludeBeforeTime}
+                  onChange={onExcludeBeforeTimeChange}
+                  hideLabel={true}
+                />
+              </div>
+              <div className="text-xs text-gray-400 mt-4">〜</div>
+              <div className="flex-1">
+                <div className="text-xs text-gray-600 mb-1">{language.texts.after}</div>
+                <TimePickerInline
+                  value={excludeAfterTime}
+                  onChange={onExcludeAfterTimeChange}
+                  hideLabel={true}
+                />
+              </div>
             </div>
           </div>
         )}

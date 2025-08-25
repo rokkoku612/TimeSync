@@ -4,13 +4,15 @@ import { ChevronUp, ChevronDown, X } from 'lucide-react';
 interface TimePickerInlineProps {
   value: string;
   onChange: (time: string) => void;
-  label: string;
+  label?: string;
+  hideLabel?: boolean;
 }
 
 const TimePickerInline: React.FC<TimePickerInlineProps> = ({
   value,
   onChange,
-  label,
+  label = '',
+  hideLabel = false,
 }) => {
   // Parse the time value - if empty, show placeholder
   const [hours, minutes] = value ? value.split(':').map(Number) : [0, 0];
@@ -68,9 +70,11 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
 
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-700 mb-1.5">
-        {label}
-      </label>
+      {!hideLabel && label && (
+        <label className="block text-xs font-medium text-gray-700 mb-1.5">
+          {label}
+        </label>
+      )}
       <div className="flex items-center gap-1 bg-white px-2 py-1.5 rounded-lg border border-gray-200">
         {/* Hours */}
         <div className="flex items-center">
