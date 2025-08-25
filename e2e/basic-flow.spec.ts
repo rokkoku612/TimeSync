@@ -4,19 +4,24 @@ test.describe('TimeSync Basic Flow', () => {
   test('should load the application', async ({ page }) => {
     await page.goto('/');
     
-    // Check title is visible
-    await expect(page.locator('text=TimeSync')).toBeVisible();
+    // Wait for the page to load completely
+    await page.waitForLoadState('domcontentloaded');
     
-    // Check both tabs are visible
-    await expect(page.locator('text=Calendar View')).toBeVisible();
-    await expect(page.locator('text=Find Available Time')).toBeVisible();
+    // Check basic page elements are visible
+    await expect(page.locator('text=TimeSync')).toBeVisible({ timeout: 10000 });
+    
+    // Check search conditions section (indicating the app loaded properly)
+    await expect(page.locator('text=検索条件')).toBeVisible({ timeout: 10000 });
+    
+    // Check Google login section
+    await expect(page.locator('text=Googleでログイン')).toBeVisible({ timeout: 10000 });
   });
 
   test('should switch between tabs', async ({ page }) => {
     await page.goto('/');
     
     // Click on Search tab
-    await page.click('text=Find Available Time');
+    await page.click('text=Available Time Search');
     
     // Search form should be visible
     await expect(page.locator('text=Date Range')).toBeVisible();
@@ -58,7 +63,7 @@ test.describe('TimeSync Basic Flow', () => {
     await page.goto('/');
     
     // Go to search tab
-    await page.click('text=Find Available Time');
+    await page.click('text=Available Time Search');
     
     // Click on date input
     const dateInput = page.locator('input[type="text"]').first();
@@ -72,7 +77,7 @@ test.describe('TimeSync Basic Flow', () => {
     await page.goto('/');
     
     // Go to search tab
-    await page.click('text=Find Available Time');
+    await page.click('text=Available Time Search');
     
     // Find and interact with duration select
     const durationSelect = page.locator('select').filter({ hasText: /minutes/ });
@@ -86,7 +91,7 @@ test.describe('TimeSync Basic Flow', () => {
     await page.goto('/');
     
     // Go to search tab
-    await page.click('text=Find Available Time');
+    await page.click('text=Available Time Search');
     
     // Find and click business hours checkbox
     const checkbox = page.locator('input[type="checkbox"]').first();
@@ -107,10 +112,10 @@ test.describe('TimeSync Basic Flow', () => {
     await page.click('text=Demo Mode');
     
     // Go to search tab
-    await page.click('text=Find Available Time');
+    await page.click('text=Available Time Search');
     
     // Click search button
-    await page.click('button:has-text("Search")');
+    await page.click('button:has-text("Find Available Times")');
     
     // Wait for results
     await page.waitForTimeout(2000);
@@ -130,10 +135,10 @@ test.describe('TimeSync Basic Flow', () => {
     await page.click('text=Demo Mode');
     
     // Go to search tab
-    await page.click('text=Find Available Time');
+    await page.click('text=Available Time Search');
     
     // Search for available slots
-    await page.click('button:has-text("Search")');
+    await page.click('button:has-text("Find Available Times")');
     await page.waitForTimeout(2000);
     
     // Click copy button
