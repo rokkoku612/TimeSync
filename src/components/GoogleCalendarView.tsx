@@ -237,9 +237,11 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
         : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       
       if (firstDay.getMonth() === lastDay.getMonth()) {
-        return `${shortMonthNames[firstDay.getMonth()]} ${firstDay.getDate()}-${lastDay.getDate()}, ${firstDay.getFullYear()}`;
+        // Same month: "8月 24-30, 2025" -> "8月 24-30,2025" (remove space after comma)
+        return `${shortMonthNames[firstDay.getMonth()]} ${firstDay.getDate()}-${lastDay.getDate()},${firstDay.getFullYear()}`;
       } else {
-        return `${shortMonthNames[firstDay.getMonth()]} ${firstDay.getDate()}-${shortMonthNames[lastDay.getMonth()]} ${lastDay.getDate()}`;
+        // Different months: more compact format
+        return `${shortMonthNames[firstDay.getMonth()]}${firstDay.getDate()}-${shortMonthNames[lastDay.getMonth()]}${lastDay.getDate()}`;
       }
     }
   };
@@ -265,7 +267,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
         {/* First row - Title, Navigation and Calendar Selector */}
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center gap-2">
-            <h2 className={`font-medium text-slate-900 ${viewMode === 'week' ? 'text-base sm:text-lg' : 'text-lg'}`}>
+            <h2 className={`font-medium text-slate-900 ${viewMode === 'week' ? 'text-sm sm:text-base md:text-lg' : 'text-lg'}`}>
               {getHeaderTitle()}
             </h2>
             <div className="flex items-center gap-1">
