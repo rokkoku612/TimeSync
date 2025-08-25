@@ -33,24 +33,39 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
   };
 
   const handleHoursInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    if (inputValue === '' || inputValue === '-') {
-      return; // Allow empty for typing
+    const inputValue = e.target.value.replace(/[^0-9]/g, '');
+    
+    if (inputValue === '') {
+      // Clear the entire time if hours is cleared
+      onChange('');
+      return;
     }
+    
     const parsed = parseInt(inputValue);
-    if (!isNaN(parsed)) {
-      handleHoursChange(parsed);
+    if (!isNaN(parsed) && parsed >= 0 && parsed <= 23) {
+      const currentMinutes = hasValue ? minutes : 0;
+      onChange(`${parsed.toString().padStart(2, '0')}:${currentMinutes.toString().padStart(2, '0')}`);
     }
   };
 
   const handleMinutesInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    if (inputValue === '' || inputValue === '-') {
-      return; // Allow empty for typing
+    const inputValue = e.target.value.replace(/[^0-9]/g, '');
+    
+    if (inputValue === '') {
+      // Keep hours but clear minutes
+      if (hasValue && hours >= 0) {
+        onChange(`${hours.toString().padStart(2, '0')}:00`);
+      }
+      return;
     }
+    
     const parsed = parseInt(inputValue);
-    if (!isNaN(parsed)) {
-      handleMinutesChange(parsed);
+    if (!isNaN(parsed) && parsed >= 0 && parsed <= 59) {
+      const currentHours = hasValue ? hours : 9;
+      // Round to nearest 15 minutes
+      const roundedMinutes = Math.round(parsed / 15) * 15;
+      const finalMinutes = roundedMinutes === 60 ? 0 : roundedMinutes;
+      onChange(`${currentHours.toString().padStart(2, '0')}:${finalMinutes.toString().padStart(2, '0')}`);
     }
   };
 

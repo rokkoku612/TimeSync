@@ -194,7 +194,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
           <div className="animate-fadeIn">
             <div className="flex items-center gap-2">
               <div className="flex-1">
-                <div className="text-[10px] text-gray-600 mb-0.5">{language.texts.before}</div>
+                <div className="text-[10px] text-gray-600 mb-0.5 text-center">{language.texts.before}</div>
                 <div className="flex justify-center">
                   <TimePickerInline
                     value={excludeBeforeTime}
@@ -205,7 +205,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               </div>
               <div className="text-xs text-gray-400 mt-4">〜</div>
               <div className="flex-1">
-                <div className="text-[10px] text-gray-600 mb-0.5">{language.texts.after}</div>
+                <div className="text-[10px] text-gray-600 mb-0.5 text-center">{language.texts.after}</div>
                 <div className="flex justify-center">
                   <TimePickerInline
                     value={excludeAfterTime}
