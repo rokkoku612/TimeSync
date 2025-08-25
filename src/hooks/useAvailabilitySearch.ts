@@ -6,10 +6,10 @@ import googleAuthDirect from '../services/googleAuthDirect';
 import { useLocalStorage } from './useLocalStorage';
 
 export const useAvailabilitySearch = () => {
-  // 設定をローカルストレージに保存（デフォルト値: 9:00-23:00）
+  // 設定をローカルストレージに保存（デフォルトは未設定）
   const [minDuration, setMinDuration] = useLocalStorage('timeSync_minDuration', 30);
-  const [workingHoursStart, setWorkingHoursStart] = useLocalStorage('timeSync_workingHoursStart', '09:00');
-  const [workingHoursEnd, setWorkingHoursEnd] = useLocalStorage('timeSync_workingHoursEnd', '23:00');
+  const [workingHoursStart, setWorkingHoursStart] = useLocalStorage('timeSync_workingHoursStart', '');
+  const [workingHoursEnd, setWorkingHoursEnd] = useLocalStorage('timeSync_workingHoursEnd', '');
   const [showAdvanced, setShowAdvanced] = useLocalStorage('timeSync_showAdvanced', false);
   const [availableSlots, setAvailableSlots] = useState<(TimeSlot | null)[]>([]);
   const [isLoading, setIsLoading] = useState(false);

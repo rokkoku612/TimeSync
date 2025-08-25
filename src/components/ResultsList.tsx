@@ -20,15 +20,22 @@ const ResultsList: React.FC<ResultsListProps> = ({
     const date = new Date(slot.start);
     const endDate = new Date(slot.end);
     
+    // Check if end time is 23:59 (end of day)
+    const isEndOfDay = endDate.getHours() === 23 && endDate.getMinutes() === 59;
+    
     if (language.code === 'ja') {
       const month = date.getMonth() + 1;
       const day = date.getDate();
       const days = ['日', '月', '火', '水', '木', '金', '土'];
       const dayOfWeek = days[date.getDay()];
       const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-      const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
       
-      return `${month}月${day}日(${dayOfWeek}) ${startTime} - ${endTime}`;
+      if (isEndOfDay) {
+        return `${month}月${day}日(${dayOfWeek}) ${startTime}〜`;
+      } else {
+        const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
+        return `${month}月${day}日(${dayOfWeek}) ${startTime} - ${endTime}`;
+      }
     } else {
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -36,9 +43,13 @@ const ResultsList: React.FC<ResultsListProps> = ({
       const day = date.getDate();
       const dayOfWeek = days[date.getDay()];
       const startTime = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-      const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
       
-      return `${month} ${day} (${dayOfWeek}) ${startTime} - ${endTime}`;
+      if (isEndOfDay) {
+        return `${month} ${day} (${dayOfWeek}) ${startTime}〜`;
+      } else {
+        const endTime = `${endDate.getHours().toString().padStart(2, '0')}:${endDate.getMinutes().toString().padStart(2, '0')}`;
+        return `${month} ${day} (${dayOfWeek}) ${startTime} - ${endTime}`;
+      }
     }
   };
 

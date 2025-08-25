@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, X } from 'lucide-react';
 
 interface TimePickerInlineProps {
   value: string;
@@ -12,8 +12,9 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
   onChange,
   label,
 }) => {
-  // Parse the time value
-  const [hours, minutes] = value ? value.split(':').map(Number) : [9, 0];
+  // Parse the time value - if empty, show placeholder
+  const [hours, minutes] = value ? value.split(':').map(Number) : [0, 0];
+  const hasValue = Boolean(value);
 
   const handleHoursChange = (newHours: number) => {
     // Ensure hours are within 0-23 range
@@ -28,21 +29,41 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
   };
 
   const incrementHours = () => {
+    if (!hasValue) {
+      onChange('09:00'); // Start with 9:00 when first clicking
+      return;
+    }
     handleHoursChange(hours < 23 ? hours + 1 : 0);
   };
 
   const decrementHours = () => {
+    if (!hasValue) {
+      onChange('09:00'); // Start with 9:00 when first clicking
+      return;
+    }
     handleHoursChange(hours > 0 ? hours - 1 : 23);
   };
 
   const incrementMinutes = () => {
+    if (!hasValue) {
+      onChange('09:00'); // Start with 9:00 when first clicking
+      return;
+    }
     const newMinutes = minutes >= 45 ? 0 : minutes + 15;
     handleMinutesChange(newMinutes);
   };
 
   const decrementMinutes = () => {
+    if (!hasValue) {
+      onChange('09:00'); // Start with 9:00 when first clicking
+      return;
+    }
     const newMinutes = minutes <= 0 ? 45 : minutes - 15;
     handleMinutesChange(newMinutes);
+  };
+
+  const clearValue = () => {
+    onChange('');
   };
 
   return (
@@ -50,66 +71,77 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
       <label className="block text-xs font-medium text-gray-700 mb-1.5">
         {label}
       </label>
-      <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
+      <div className="flex items-center gap-1 bg-white px-2 py-1.5 rounded-lg border border-gray-200">
         {/* Hours */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={decrementHours}
-            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             style={{ padding: 0 }}
           >
-            <ChevronDown size={12} />
+            <ChevronDown size={10} />
           </button>
           <input
             type="number"
             min="0"
             max="23"
-            value={hours.toString().padStart(2, '0')}
-            onChange={(e) => handleHoursChange(parseInt(e.target.value) || 0)}
-            className="w-9 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
+            value={hasValue ? hours.toString().padStart(2, '0') : '--'}
+            readOnly
+            className={`w-7 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none mx-0.5 tabular-nums`}
           />
           <button
             type="button"
             onClick={incrementHours}
-            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             style={{ padding: 0 }}
           >
-            <ChevronUp size={12} />
+            <ChevronUp size={10} />
           </button>
         </div>
 
         {/* Separator */}
-        <div className="text-gray-300 font-light text-sm">:</div>
+        <div className="text-gray-300 font-light text-xs">:</div>
 
         {/* Minutes */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={decrementMinutes}
-            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             style={{ padding: 0 }}
           >
-            <ChevronDown size={12} />
+            <ChevronDown size={10} />
           </button>
           <input
             type="number"
             min="0"
             max="59"
             step="15"
-            value={minutes.toString().padStart(2, '0')}
-            onChange={(e) => handleMinutesChange(parseInt(e.target.value) || 0)}
-            className="w-9 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
+            value={hasValue ? minutes.toString().padStart(2, '0') : '--'}
+            readOnly
+            className={`w-7 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none mx-0.5 tabular-nums`}
           />
           <button
             type="button"
             onClick={incrementMinutes}
-            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
             style={{ padding: 0 }}
           >
-            <ChevronUp size={12} />
+            <ChevronUp size={10} />
           </button>
         </div>
+
+        {/* Clear button */}
+        {hasValue && (
+          <button
+            type="button"
+            onClick={clearValue}
+            className="ml-1 w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+          >
+            <X size={12} />
+          </button>
+        )}
       </div>
     </div>
   );
