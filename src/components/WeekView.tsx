@@ -131,13 +131,13 @@ const WeekView: React.FC<WeekViewProps> = ({
       <div className="relative overflow-y-auto" style={{ maxHeight: 'calc(100% - 52px)' }}>
         <div className="flex">
           {/* Time axis - outside the table */}
-          <div className="w-16 flex-shrink-0 relative bg-white">
+          <div className="w-12 flex-shrink-0 relative bg-white">
             {hours.map(hour => (
               <div 
                 key={hour} 
-                className="h-[60px] flex items-start justify-end pr-1 text-xs text-gray-500 relative"
+                className="h-[60px] flex items-start justify-start pl-1 text-xs text-gray-500 relative"
               >
-                <span className="absolute -top-2 right-1">
+                <span className="absolute -top-2 left-1">
                   {`${hour.toString().padStart(2, '0')}:00`}
                 </span>
               </div>
