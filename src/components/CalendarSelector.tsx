@@ -182,17 +182,17 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
       <button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-1.5 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
         disabled={loading}
       >
-        <Calendar size={16} />
+        <Calendar size={14} />
         <span>
           {language.code === 'ja' 
             ? `カレンダー (${selectedCount}/${calendars.length})`
             : `Calendars (${selectedCount}/${calendars.length})`
           }
         </span>
-        <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown size={12} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
