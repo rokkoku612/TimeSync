@@ -34,6 +34,8 @@ interface MainContentProps {
   // Calendar props
   selectedCalendarIds: string[];
   onCalendarSelectionChange: (ids: string[]) => void;
+  weekStart: 0 | 1;
+  onWeekStartChange: (start: 0 | 1) => void;
   showResults: boolean;
 }
 
@@ -62,6 +64,8 @@ const MainContent: React.FC<MainContentProps> = ({
   onCopyAll,
   selectedCalendarIds,
   onCalendarSelectionChange,
+  weekStart,
+  onWeekStartChange,
   showResults,
 }) => {
   return (
@@ -76,6 +80,7 @@ const MainContent: React.FC<MainContentProps> = ({
             excludeAfterTime={excludeAfterTime}
             showAdvanced={showAdvanced}
             language={currentLanguage}
+            weekStart={weekStart}
             onStartDateTimeChange={(date) => {
               // 開始日時が終了日時より後の場合、終了日時も調整
               if (date > endDateTime) {
@@ -150,6 +155,8 @@ const MainContent: React.FC<MainContentProps> = ({
             language={currentLanguage}
             selectedCalendarIds={selectedCalendarIds}
             onCalendarSelectionChange={onCalendarSelectionChange}
+            weekStart={weekStart}
+            onWeekStartChange={onWeekStartChange}
           />
         </>
       )}

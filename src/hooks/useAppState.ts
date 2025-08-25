@@ -20,9 +20,20 @@ export const useAppState = () => {
     return [];
   });
 
+  // Week start setting (0: Sunday, 1: Monday)
+  const [weekStart, setWeekStart] = useState<0 | 1>(() => {
+    const saved = localStorage.getItem('weekStart');
+    return saved ? (parseInt(saved) as 0 | 1) : 0; // Default to Sunday (0)
+  });
+
   const handleCalendarSelectionChange = (ids: string[]) => {
     setSelectedCalendarIds(ids);
     localStorage.setItem('selectedCalendarIds', JSON.stringify(ids));
+  };
+
+  const handleWeekStartChange = (start: 0 | 1) => {
+    setWeekStart(start);
+    localStorage.setItem('weekStart', start.toString());
   };
 
   const closeAllModals = () => {
@@ -41,6 +52,7 @@ export const useAppState = () => {
     isMenuOpen,
     activeTab,
     selectedCalendarIds,
+    weekStart,
     setShowManual,
     setShowContact,
     setShowTerms,
@@ -48,6 +60,7 @@ export const useAppState = () => {
     setIsMenuOpen,
     setActiveTab,
     handleCalendarSelectionChange,
+    handleWeekStartChange,
     closeAllModals,
   };
 };

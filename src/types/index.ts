@@ -119,6 +119,7 @@ export interface CalendarPopupProps {
   calendarYear: number;
   calendarMonth: number;
   language: Language;
+  weekStart?: 0 | 1;
   onMonthChange: (year: number, month: number) => void;
   onDateSelect: (date: Date) => void;
   onTimeChange: (hours: number, minutes: number) => void;
@@ -132,6 +133,7 @@ export interface SearchFormProps {
   excludeAfterTime: string;
   showAdvanced: boolean;
   language: Language;
+  weekStart?: 0 | 1;
   onStartDateTimeChange: (date: Date) => void;
   onEndDateTimeChange: (date: Date) => void;
   onMinDurationChange: (duration: number) => void;

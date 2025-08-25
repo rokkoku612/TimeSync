@@ -23,6 +23,7 @@ const App: React.FC = () => {
     isMenuOpen,
     activeTab,
     selectedCalendarIds,
+    weekStart,
     setShowManual,
     setShowContact,
     setShowTerms,
@@ -30,6 +31,7 @@ const App: React.FC = () => {
     setIsMenuOpen,
     setActiveTab,
     handleCalendarSelectionChange,
+    handleWeekStartChange,
   } = useAppState();
   
   // Custom hooks for state management
@@ -163,6 +165,8 @@ const App: React.FC = () => {
               onCopyAll={copyToClipboard}
               selectedCalendarIds={selectedCalendarIds}
               onCalendarSelectionChange={handleCalendarSelectionChange}
+              weekStart={weekStart}
+              onWeekStartChange={handleWeekStartChange}
               showResults={showResults}
             />
           )}

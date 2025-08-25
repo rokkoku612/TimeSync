@@ -7,13 +7,24 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
   calendarYear, 
   calendarMonth, 
   language, 
+  weekStart = 0,
   onMonthChange, 
   onDateSelect, 
   onTimeChange 
 }) => {
-  const { monthNames, weekDays } = language.texts;
+  const { monthNames } = language.texts;
   
-  const firstDay = new Date(calendarYear, calendarMonth, 1).getDay();
+  // Adjust weekDays based on weekStart setting
+  const defaultWeekDays = language.texts.weekDays || [];
+  const weekDays = weekStart === 1 
+    ? [...defaultWeekDays.slice(1), defaultWeekDays[0]]
+    : defaultWeekDays;
+  
+  const firstDayOfMonth = new Date(calendarYear, calendarMonth, 1).getDay();
+  // Adjust firstDay based on weekStart setting
+  const firstDay = weekStart === 1 
+    ? (firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1)
+    : firstDayOfMonth;
   const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
   const today = new Date();
   today.setHours(0, 0, 0, 0);

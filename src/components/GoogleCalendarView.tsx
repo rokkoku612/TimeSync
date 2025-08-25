@@ -26,6 +26,8 @@ interface GoogleCalendarViewProps {
   isDemoMode?: boolean;
   selectedCalendarIds: string[];
   onCalendarSelectionChange: (ids: string[]) => void;
+  weekStart: 0 | 1;
+  onWeekStartChange: (start: 0 | 1) => void;
 }
 
 const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
@@ -33,7 +35,9 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
   isSignedIn,
   isDemoMode = false,
   selectedCalendarIds,
-  onCalendarSelectionChange
+  onCalendarSelectionChange,
+  weekStart,
+  onWeekStartChange
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<Event[]>([]);
@@ -44,11 +48,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showDayModal, setShowDayModal] = useState(false);
   // Calendar selection is now managed by parent component
-  
-  const [weekStart, setWeekStart] = useState<0 | 1>(() => {
-    const saved = localStorage.getItem('weekStart');
-    return saved ? (parseInt(saved) as 0 | 1) : 0; // Default to Sunday (0)
-  });
+  // Week start setting is now managed by parent component
 
   const monthNames = language.texts.monthNames;
   
@@ -300,7 +300,7 @@ const GoogleCalendarView: React.FC<GoogleCalendarViewProps> = ({
           <div className="flex items-center gap-2">
             <WeekStartSelector
               language={language}
-              onWeekStartChange={(start) => setWeekStart(start)}
+              onWeekStartChange={onWeekStartChange}
             />
             <div className="flex items-center gap-1">
               <button

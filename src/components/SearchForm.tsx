@@ -14,6 +14,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   excludeAfterTime,
   showAdvanced,
   language,
+  weekStart = 0,
   onStartDateTimeChange,
   onEndDateTimeChange,
   onMinDurationChange,
@@ -103,6 +104,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               calendarYear={startCalendarYear}
               calendarMonth={startCalendarMonth}
               language={language}
+              weekStart={weekStart}
               onMonthChange={handleStartMonthChange}
               onDateSelect={handleStartDateSelect}
               onTimeChange={handleStartTimeChange}
@@ -118,6 +120,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               calendarYear={endCalendarYear}
               calendarMonth={endCalendarMonth}
               language={language}
+              weekStart={weekStart}
               onMonthChange={handleEndMonthChange}
               onDateSelect={handleEndDateSelect}
               onTimeChange={handleEndTimeChange}
