@@ -117,16 +117,16 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           {label}
         </label>
       )}
-      <div className="inline-flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
+      <div className="inline-flex items-center gap-2 bg-white px-3 py-2.5 rounded-lg border border-gray-200 min-w-fit">
         {/* Hours */}
         <div className="flex items-center gap-0.5">
           <button
             type="button"
             onClick={decrementHours}
-            className="w-8 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0 active:scale-95"
+            className="w-10 h-9 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0 active:scale-95"
             aria-label="Decrease hours"
           >
-            <ChevronDown size={16} />
+            <ChevronDown size={20} />
           </button>
           <input
             type="number"
@@ -136,30 +136,30 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             onChange={handleHoursInput}
             onFocus={(e) => e.target.select()}
             placeholder="--"
-            className={`w-10 text-center text-base font-normal ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
+            className={`w-12 text-center text-base font-normal ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums flex-shrink-0`}
           />
           <button
             type="button"
             onClick={incrementHours}
-            className="w-8 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0 active:scale-95"
+            className="w-10 h-9 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0 active:scale-95"
             aria-label="Increase hours"
           >
-            <ChevronUp size={16} />
+            <ChevronUp size={20} />
           </button>
         </div>
 
         {/* Separator */}
-        <div className="text-gray-400 font-normal text-base">:</div>
+        <div className="text-gray-400 font-normal text-base flex-shrink-0">:</div>
 
         {/* Minutes */}
         <div className="flex items-center gap-0.5">
           <button
             type="button"
             onClick={decrementMinutes}
-            className="w-8 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0 active:scale-95"
+            className="w-10 h-9 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0 active:scale-95"
             aria-label="Decrease minutes"
           >
-            <ChevronDown size={16} />
+            <ChevronDown size={20} />
           </button>
           <input
             type="number"
@@ -170,15 +170,15 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             onChange={handleMinutesInput}
             onFocus={(e) => e.target.select()}
             placeholder="--"
-            className={`w-10 text-center text-base font-normal ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
+            className={`w-12 text-center text-base font-normal ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums flex-shrink-0`}
           />
           <button
             type="button"
             onClick={incrementMinutes}
-            className="w-8 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0 active:scale-95"
+            className="w-10 h-9 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0 active:scale-95"
             aria-label="Increase minutes"
           >
-            <ChevronUp size={16} />
+            <ChevronUp size={20} />
           </button>
         </div>
 
@@ -187,10 +187,10 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           <button
             type="button"
             onClick={clearValue}
-            className="ml-1 w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors duration-200"
+            className="ml-1 w-9 h-9 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors duration-200 flex-shrink-0"
             aria-label="Clear time"
           >
-            <X size={14} />
+            <X size={18} />
           </button>
         )}
       </div>
