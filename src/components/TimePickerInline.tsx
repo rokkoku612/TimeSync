@@ -113,16 +113,16 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           {label}
         </label>
       )}
-      <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
+      <div className="inline-flex items-center gap-1 bg-white px-2 py-1.5 rounded-lg border border-gray-200">
         {/* Hours */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={decrementHours}
-            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 flex-shrink-0"
             style={{ padding: 0 }}
           >
-            <ChevronDown size={12} />
+            <ChevronDown size={11} />
           </button>
           <input
             type="number"
@@ -132,30 +132,31 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             onChange={handleHoursInput}
             onFocus={(e) => e.target.select()}
             placeholder="--"
-            className={`w-9 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none mx-0.5 tabular-nums`}
+            className={`w-7 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
+            style={{ margin: '0 2px' }}
           />
           <button
             type="button"
             onClick={incrementHours}
-            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 flex-shrink-0"
             style={{ padding: 0 }}
           >
-            <ChevronUp size={12} />
+            <ChevronUp size={11} />
           </button>
         </div>
 
         {/* Separator */}
-        <div className="text-gray-300 font-light text-sm">:</div>
+        <div className="text-gray-300 font-light text-xs px-0.5">:</div>
 
         {/* Minutes */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={decrementMinutes}
-            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 flex-shrink-0"
             style={{ padding: 0 }}
           >
-            <ChevronDown size={12} />
+            <ChevronDown size={11} />
           </button>
           <input
             type="number"
@@ -166,15 +167,16 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             onChange={handleMinutesInput}
             onFocus={(e) => e.target.select()}
             placeholder="--"
-            className={`w-9 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none mx-0.5 tabular-nums`}
+            className={`w-7 text-center text-xs font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
+            style={{ margin: '0 2px' }}
           />
           <button
             type="button"
             onClick={incrementMinutes}
-            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200 flex-shrink-0"
             style={{ padding: 0 }}
           >
-            <ChevronUp size={12} />
+            <ChevronUp size={11} />
           </button>
         </div>
 
