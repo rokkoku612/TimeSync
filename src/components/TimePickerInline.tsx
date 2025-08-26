@@ -117,7 +117,7 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           {label}
         </label>
       )}
-      <div className="inline-flex items-center gap-2 bg-white px-3 py-2.5 rounded-lg border border-gray-200 min-w-fit">
+      <div className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-gray-200 min-w-fit">
         {/* Hours */}
         <div className="flex items-center gap-0.5">
           <button
@@ -182,17 +182,20 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           </button>
         </div>
 
-        {/* Clear button */}
-        {hasValue && (
-          <button
-            type="button"
-            onClick={clearValue}
-            className="ml-1 w-9 h-9 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors duration-200 flex-shrink-0"
-            aria-label="Clear time"
-          >
-            <X size={18} />
-          </button>
-        )}
+        {/* Clear button - Always visible */}
+        <button
+          type="button"
+          onClick={clearValue}
+          className={`ml-1 w-9 h-9 flex items-center justify-center rounded transition-colors duration-200 flex-shrink-0 ${
+            hasValue 
+              ? 'text-gray-400 hover:text-red-500 hover:bg-red-50' 
+              : 'text-gray-200 cursor-not-allowed'
+          }`}
+          aria-label="Clear time"
+          disabled={!hasValue}
+        >
+          <X size={18} />
+        </button>
       </div>
     </div>
   );
