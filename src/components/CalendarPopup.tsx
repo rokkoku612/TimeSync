@@ -183,26 +183,26 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
             <button
               type="button"
               onClick={() => decrementTime('hours')}
-              className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
               style={{ padding: 0 }}
             >
-              <ChevronDown size={12} strokeWidth={1.5} />
+              <ChevronDown size={14} strokeWidth={1.5} />
             </button>
             <input
               type="number"
               min="0"
               max="23"
-              className="w-9 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
+              className="w-11 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
               value={String(currentDate.getHours()).padStart(2, '0')}
               onChange={(e) => updateTime('hours', parseInt(e.target.value) || 0)}
             />
             <button
               type="button"
               onClick={() => incrementTime('hours')}
-              className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
               style={{ padding: 0 }}
             >
-              <ChevronUp size={12} strokeWidth={1.5} />
+              <ChevronUp size={14} strokeWidth={1.5} />
             </button>
           </div>
           
@@ -213,27 +213,27 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
             <button
               type="button"
               onClick={() => decrementTime('minutes')}
-              className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
               style={{ padding: 0 }}
             >
-              <ChevronDown size={12} strokeWidth={1.5} />
+              <ChevronDown size={14} strokeWidth={1.5} />
             </button>
             <input
               type="number"
               min="0"
               max="59"
               step="15"
-              className="w-9 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
+              className="w-11 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
               value={String(currentDate.getMinutes()).padStart(2, '0')}
               onChange={(e) => updateTime('minutes', parseInt(e.target.value) || 0)}
             />
             <button
               type="button"
               onClick={() => incrementTime('minutes')}
-              className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
               style={{ padding: 0 }}
             >
-              <ChevronUp size={12} strokeWidth={1.5} />
+              <ChevronUp size={14} strokeWidth={1.5} />
             </button>
           </div>
         </div>
