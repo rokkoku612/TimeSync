@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronUp, ChevronDown, X } from 'lucide-react';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 
 interface TimePickerInlineProps {
   value: string;
@@ -33,7 +33,7 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
   };
 
   const handleHoursInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.replace(/[^0-9]/g, '');
+    const inputValue = e.target.value;
     
     if (inputValue === '') {
       // Clear the entire time if hours is cleared
@@ -49,11 +49,13 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
   };
 
   const handleMinutesInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.replace(/[^0-9]/g, '');
+    const inputValue = e.target.value;
     
     if (inputValue === '') {
-      // Keep hours but clear minutes
-      if (hasValue && hours >= 0) {
+      // Clear entire time if minutes is cleared and no hours
+      if (!hasValue || !hours) {
+        onChange('');
+      } else {
         onChange(`${hours.toString().padStart(2, '0')}:00`);
       }
       return;
@@ -103,9 +105,6 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
     handleMinutesChange(newMinutes);
   };
 
-  const clearValue = () => {
-    onChange('');
-  };
 
   return (
     <div>
@@ -179,17 +178,6 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           </button>
         </div>
 
-        {/* Clear button */}
-        {hasValue && (
-          <button
-            type="button"
-            onClick={clearValue}
-            className="ml-2 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors duration-200 rounded hover:bg-red-50"
-            aria-label="Clear time"
-          >
-            <X size={16} strokeWidth={2} />
-          </button>
-        )}
       </div>
     </div>
   );
