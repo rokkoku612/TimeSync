@@ -63,12 +63,12 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                 </div>
                 <div>
                   <h3 className="font-medium text-ink mb-1">
-                    {language.code === 'ja' ? 'Googleカレンダー連携' : 'Connect Google Calendar'}
+                    {language.code === 'ja' ? 'Googleカレンダー連携またはデモモード' : 'Connect Google Calendar or Demo Mode'}
                   </h3>
                   <p className="text-charcoal text-sm">
                     {language.code === 'ja' 
-                      ? 'Googleアカウントでログインして、カレンダーの予定を自動取得します。' 
-                      : 'Sign in with your Google account to automatically fetch your calendar events.'}
+                      ? 'Googleアカウントでログインしてカレンダーの予定を自動取得、またはデモモードで機能を体験できます。' 
+                      : 'Sign in with Google to fetch calendar events, or try Demo Mode to experience the features.'}
                   </p>
                 </div>
               </div>
@@ -228,8 +228,8 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                 <div className="pl-6 space-y-3">
                   <p className="text-charcoal text-sm leading-relaxed">
                     {language.code === 'ja' 
-                      ? '稼働時間を設定することで、指定した時間内のみを空き時間として表示できます。未設定の場合は全時間帯が対象となります。'
-                      : 'Set working hours to display only available slots within those hours. If not set, all time slots are considered.'}
+                      ? '稼働時間を設定することで、指定した時間内のみを空き時間として表示できます。未設定の場合は全時間帯が対象となります。時刻はクリアボタン（×）でリセットできます。'
+                      : 'Set working hours to display only available slots within those hours. If not set, all time slots are considered. Times can be reset with the clear button (×).'}
                   </p>
                   <div className="space-y-2">
                     <div className="flex items-start gap-3">
@@ -385,6 +385,26 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                   {language.texts.mobileSupportDesc}
                 </p>
               </div>
+              <div className="p-4 bg-soft-white rounded-lg border-l-4 border-charcoal">
+                <h3 className="font-medium text-ink mb-2">
+                  {language.code === 'ja' ? 'デモモード' : 'Demo Mode'}
+                </h3>
+                <p className="text-charcoal text-sm leading-relaxed">
+                  {language.code === 'ja' 
+                    ? 'Googleアカウントがなくても、デモモードで全機能を体験できます。サンプルデータで操作を試すことができ、実際の使用感を確認できます。' 
+                    : 'Experience all features without a Google account using Demo Mode. Try operations with sample data to get a feel for actual usage.'}
+                </p>
+              </div>
+              <div className="p-4 bg-soft-white rounded-lg border-l-4 border-charcoal">
+                <h3 className="font-medium text-ink mb-2">
+                  {language.code === 'ja' ? 'タブ切り替え機能' : 'Tab Navigation'}
+                </h3>
+                <p className="text-charcoal text-sm leading-relaxed">
+                  {language.code === 'ja' 
+                    ? '検索、設定、お問い合わせ、規約の各機能をタブで簡単に切り替えできます。検索タブからいつでも他の機能にアクセス可能です。' 
+                    : 'Easily switch between Search, Settings, Contact, and Terms tabs. Access any function anytime from the search tab.'}
+                </p>
+              </div>
             </div>
           </section>
 
@@ -429,6 +449,34 @@ const ManualPage: React.FC<ManualPageProps> = ({ isOpen, onClose, language }) =>
                 </summary>
                 <div className="p-4 text-charcoal text-sm leading-relaxed">
                   {language.texts.faqDataStorageAnswer}
+                </div>
+              </details>
+
+              <details className="group">
+                <summary className="flex items-center justify-between p-4 bg-soft-white rounded-lg cursor-pointer hover:bg-pearl transition-colors duration-200">
+                  <span className="font-medium text-ink">
+                    {language.code === 'ja' ? '時刻選択の操作方法は？' : 'How to use time selection?'}
+                  </span>
+                  <ChevronRight size={16} className="text-graphite group-open:rotate-90 transition-transform duration-200" />
+                </summary>
+                <div className="p-4 text-charcoal text-sm leading-relaxed">
+                  {language.code === 'ja' 
+                    ? '時刻選択は上下の矢印ボタンで調整できます。直接数字を入力することも可能です。クリアボタン（×）で時刻をリセットできます。スマートフォンでも操作しやすいよう、ボタンサイズを最適化しています。'
+                    : 'Adjust time with up/down arrow buttons. Direct number input is also possible. Reset time with the clear button (×). Button sizes are optimized for easy smartphone operation.'}
+                </div>
+              </details>
+
+              <details className="group">
+                <summary className="flex items-center justify-between p-4 bg-soft-white rounded-lg cursor-pointer hover:bg-pearl transition-colors duration-200">
+                  <span className="font-medium text-ink">
+                    {language.code === 'ja' ? '週の開始曜日は変更できますか？' : 'Can I change the start day of the week?'}
+                  </span>
+                  <ChevronRight size={16} className="text-graphite group-open:rotate-90 transition-transform duration-200" />
+                </summary>
+                <div className="p-4 text-charcoal text-sm leading-relaxed">
+                  {language.code === 'ja' 
+                    ? '設定タブから週の開始曜日を日曜日または月曜日に変更できます。この設定は保存され、次回アクセス時も維持されます。'
+                    : 'You can change the start day of the week to Sunday or Monday from the Settings tab. This setting is saved and maintained for your next visit.'}
                 </div>
               </details>
             </div>
