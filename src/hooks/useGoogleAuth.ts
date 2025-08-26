@@ -106,9 +106,12 @@ export const useGoogleAuth = (): UseGoogleAuthReturn => {
     setError(null);
     try {
       if (isDemoMode) {
-        // Demo mode - just clear the state
+        // Demo mode - clear the state and local storage
         setIsSignedIn(false);
         setUser(null);
+        // Clear demo mode flag to prevent auto-login with demo on next Google sign-in
+        localStorage.removeItem('timeSync_isDemoMode');
+        setIsDemoMode(false);
       } else {
         googleAuthDirect.signOut();
         setIsSignedIn(false);

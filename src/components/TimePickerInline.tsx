@@ -113,16 +113,16 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
           {label}
         </label>
       )}
-      <div className="inline-flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
+      <div className="inline-flex items-center gap-3 bg-white px-5 py-3 rounded-xl border border-gray-200 shadow-sm">
         {/* Hours */}
-        <div className="flex items-center gap-0.5">
+        <div className="flex items-center gap-1">
           <button
             type="button"
             onClick={decrementHours}
-            className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0"
+            className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 flex-shrink-0 active:scale-95"
             aria-label="Decrease hours"
           >
-            <ChevronDown size={14} />
+            <ChevronDown size={18} />
           </button>
           <input
             type="number"
@@ -132,30 +132,30 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             onChange={handleHoursInput}
             onFocus={(e) => e.target.select()}
             placeholder="--"
-            className={`w-9 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
+            className={`w-12 text-center text-lg font-semibold ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
           />
           <button
             type="button"
             onClick={incrementHours}
-            className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0"
+            className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 flex-shrink-0 active:scale-95"
             aria-label="Increase hours"
           >
-            <ChevronUp size={14} />
+            <ChevronUp size={18} />
           </button>
         </div>
 
         {/* Separator */}
-        <div className="text-gray-300 font-light text-sm">:</div>
+        <div className="text-gray-400 font-medium text-lg">:</div>
 
         {/* Minutes */}
-        <div className="flex items-center gap-0.5">
+        <div className="flex items-center gap-1">
           <button
             type="button"
             onClick={decrementMinutes}
-            className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0"
+            className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 flex-shrink-0 active:scale-95"
             aria-label="Decrease minutes"
           >
-            <ChevronDown size={14} />
+            <ChevronDown size={18} />
           </button>
           <input
             type="number"
@@ -166,15 +166,15 @@ const TimePickerInline: React.FC<TimePickerInlineProps> = ({
             onChange={handleMinutesInput}
             onFocus={(e) => e.target.select()}
             placeholder="--"
-            className={`w-9 text-center text-sm font-medium ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
+            className={`w-12 text-center text-lg font-semibold ${hasValue ? 'text-gray-900' : 'text-gray-400'} bg-transparent border-none outline-none tabular-nums`}
           />
           <button
             type="button"
             onClick={incrementMinutes}
-            className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded transition-colors duration-200 flex-shrink-0"
+            className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all duration-200 flex-shrink-0 active:scale-95"
             aria-label="Increase minutes"
           >
-            <ChevronUp size={14} />
+            <ChevronUp size={18} />
           </button>
         </div>
 
