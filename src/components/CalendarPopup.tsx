@@ -172,7 +172,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1" style={{ minHeight: '240px' }}>
+        <div className="grid grid-cols-7 gap-1 h-[288px]">
           {days}
         </div>
       </div>
