@@ -24,46 +24,34 @@ const SearchForm: React.FC<SearchFormProps> = ({
   onSearch,
   isLoading
 }) => {
-  // Calendar display states - we need to manage these internally
-  const [startCalendarYear, setStartCalendarYear] = React.useState(startDateTime.getFullYear());
-  const [startCalendarMonth, setStartCalendarMonth] = React.useState(startDateTime.getMonth());
-  const [endCalendarYear, setEndCalendarYear] = React.useState(endDateTime.getFullYear());
-  const [endCalendarMonth, setEndCalendarMonth] = React.useState(endDateTime.getMonth());
-  
-  // Refs for scrolling on mobile
-  const endCalendarRef = React.useRef<HTMLDivElement>(null);
+  // State for single calendar
+  const [isSelectingEnd, setIsSelectingEnd] = React.useState(false);
+  const [calendarYear, setCalendarYear] = React.useState(startDateTime.getFullYear());
+  const [calendarMonth, setCalendarMonth] = React.useState(startDateTime.getMonth());
 
-  const handleStartMonthChange = React.useCallback((year: number, month: number) => {
-    setStartCalendarYear(year);
-    setStartCalendarMonth(month);
+  const handleMonthChange = React.useCallback((year: number, month: number) => {
+    setCalendarYear(year);
+    setCalendarMonth(month);
   }, []);
 
-  const handleEndMonthChange = React.useCallback((year: number, month: number) => {
-    setEndCalendarYear(year);
-    setEndCalendarMonth(month);
-  }, []);
-
-  const handleStartDateSelect = React.useCallback((date: Date) => {
-    onStartDateTimeChange(date);
-    setStartCalendarYear(date.getFullYear());
-    setStartCalendarMonth(date.getMonth());
-  }, [onStartDateTimeChange]);
-
-  const handleEndDateSelect = React.useCallback((date: Date) => {
-    onEndDateTimeChange(date);
-    setEndCalendarYear(date.getFullYear());
-    setEndCalendarMonth(date.getMonth());
-  }, [onEndDateTimeChange]);
-  
-  // Auto-scroll on mobile when calendar is interacted with
-  React.useEffect(() => {
-    if (window.innerWidth <= 640 && endCalendarRef.current) {
-      // Small delay to ensure DOM is updated
-      setTimeout(() => {
-        endCalendarRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
+  const handleDateSelect = React.useCallback((date: Date) => {
+    if (!isSelectingEnd) {
+      // Selecting start date
+      onStartDateTimeChange(date);
+      setIsSelectingEnd(true);
+    } else {
+      // Selecting end date
+      if (date < startDateTime) {
+        // If end date is before start date, swap them
+        onEndDateTimeChange(startDateTime);
+        onStartDateTimeChange(date);
+      } else {
+        onEndDateTimeChange(date);
+      }
+      setIsSelectingEnd(false);
     }
-  }, [endCalendarMonth, endCalendarYear]);
+  }, [isSelectingEnd, startDateTime, onStartDateTimeChange, onEndDateTimeChange]);
+  
 
   const handleStartTimeChange = React.useCallback((hours: number, minutes: number) => {
     const newDate = new Date(startDateTime);
@@ -94,37 +82,53 @@ const SearchForm: React.FC<SearchFormProps> = ({
             content={language.texts.helpPeriodDesc}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
-          {/* Start Date Picker */}
-          <div className="space-y-2">
-            <div className="text-xs text-gray-500 uppercase tracking-wider font-medium">{language.texts.start}</div>
+        {/* Single Calendar */}
+        <div className="mb-4 -mx-6 md:-mx-8 lg:-mx-12">
+          <div className="text-xs text-gray-500 uppercase tracking-wider font-medium mb-2 text-center">
+            {isSelectingEnd ? language.texts.end : language.texts.start}
+          </div>
+          <div className="w-full px-4 md:px-6 lg:px-8">
             <CalendarPopup
-              type="start"
-              currentDate={startDateTime}
-              calendarYear={startCalendarYear}
-              calendarMonth={startCalendarMonth}
+              type={isSelectingEnd ? "end" : "start"}
+              currentDate={isSelectingEnd ? endDateTime : startDateTime}
+              calendarYear={calendarYear}
+              calendarMonth={calendarMonth}
               language={language}
               weekStart={weekStart}
-              onMonthChange={handleStartMonthChange}
-              onDateSelect={handleStartDateSelect}
-              onTimeChange={handleStartTimeChange}
+              startDate={startDateTime}
+              endDate={endDateTime}
+              onMonthChange={handleMonthChange}
+              onDateSelect={handleDateSelect}
+              onTimeChange={isSelectingEnd ? handleEndTimeChange : handleStartTimeChange}
             />
           </div>
-
-          {/* End Date Picker */}
-          <div className="space-y-2" ref={endCalendarRef}>
-            <div className="text-xs text-gray-500 uppercase tracking-wider font-medium">{language.texts.end}</div>
-            <CalendarPopup
-              type="end"
-              currentDate={endDateTime}
-              calendarYear={endCalendarYear}
-              calendarMonth={endCalendarMonth}
-              language={language}
-              weekStart={weekStart}
-              onMonthChange={handleEndMonthChange}
-              onDateSelect={handleEndDateSelect}
-              onTimeChange={handleEndTimeChange}
-            />
+        </div>
+        
+        {/* Time Pickers for Start and End */}
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <div className="text-xs text-gray-500 uppercase tracking-wider font-medium mb-2">{language.texts.start}</div>
+            <div className="flex justify-center">
+              <TimePickerInline
+                value={`${startDateTime.getHours().toString().padStart(2, '0')}:${startDateTime.getMinutes().toString().padStart(2, '0')}`}
+                onChange={(time) => {
+                  const [hours, minutes] = time.split(':').map(Number);
+                  handleStartTimeChange(hours, minutes);
+                }}
+              />
+            </div>
+          </div>
+          <div>
+            <div className="text-xs text-gray-500 uppercase tracking-wider font-medium mb-2">{language.texts.end}</div>
+            <div className="flex justify-center">
+              <TimePickerInline
+                value={`${endDateTime.getHours().toString().padStart(2, '0')}:${endDateTime.getMinutes().toString().padStart(2, '0')}`}
+                onChange={(time) => {
+                  const [hours, minutes] = time.split(':').map(Number);
+                  handleEndTimeChange(hours, minutes);
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>

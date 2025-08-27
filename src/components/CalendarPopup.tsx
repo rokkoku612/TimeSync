@@ -1,13 +1,16 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { CalendarPopupProps } from '../types';
 
 const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({ 
+  type,
   currentDate, 
   calendarYear, 
   calendarMonth, 
   language, 
   weekStart = 0,
+  startDate,
+  endDate,
   onMonthChange, 
   onDateSelect, 
   onTimeChange 
@@ -20,24 +23,19 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
     ? [...defaultWeekDays.slice(1), defaultWeekDays[0]]
     : defaultWeekDays;
   
-  const firstDayOfMonth = new Date(calendarYear, calendarMonth, 1).getDay();
-  // Adjust firstDay based on weekStart setting
-  const firstDay = weekStart === 1 
-    ? (firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1)
-    : firstDayOfMonth;
-  const daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   const changeMonth = (direction: number) => {
-    let newMonth = calendarMonth + direction;
+    let newMonth = calendarMonth + direction * 2; // Change by 2 months
     let newYear = calendarYear;
     
-    if (newMonth < 0) {
-      newMonth = 11;
+    while (newMonth < 0) {
+      newMonth += 12;
       newYear--;
-    } else if (newMonth > 11) {
-      newMonth = 0;
+    }
+    while (newMonth > 11) {
+      newMonth -= 12;
       newYear++;
     }
     
@@ -49,192 +47,157 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
     onDateSelect(selectedDate);
   };
 
-  const updateTime = (field: 'hours' | 'minutes', value: number) => {
-    if (field === 'hours') {
-      const clampedHours = Math.max(0, Math.min(23, value));
-      onTimeChange(clampedHours, currentDate.getMinutes());
-    } else {
-      const clampedMinutes = Math.max(0, Math.min(59, value));
-      onTimeChange(currentDate.getHours(), clampedMinutes);
-    }
-  };
-
-  const incrementTime = (field: 'hours' | 'minutes') => {
-    if (field === 'hours') {
-      const newHours = (currentDate.getHours() + 1) % 24;
-      onTimeChange(newHours, currentDate.getMinutes());
-    } else {
-      const currentMinutes = currentDate.getMinutes();
-      const newMinutes = currentMinutes >= 45 ? 0 : currentMinutes + 15;
-      const newHours = currentMinutes >= 45 ? (currentDate.getHours() + 1) % 24 : currentDate.getHours();
-      onTimeChange(newHours, newMinutes);
-    }
-  };
-
-  const decrementTime = (field: 'hours' | 'minutes') => {
-    if (field === 'hours') {
-      const newHours = currentDate.getHours() === 0 ? 23 : currentDate.getHours() - 1;
-      onTimeChange(newHours, currentDate.getMinutes());
-    } else {
-      const currentMinutes = currentDate.getMinutes();
-      const newMinutes = currentMinutes === 0 ? 45 : currentMinutes - 15;
-      const newHours = currentMinutes === 0 ? (currentDate.getHours() === 0 ? 23 : currentDate.getHours() - 1) : currentDate.getHours();
-      onTimeChange(newHours, newMinutes);
-    }
-  };
-
-  const days = [];
-  
-  // Previous month days
-  const prevMonthDays = new Date(calendarYear, calendarMonth, 0).getDate();
-  for (let i = firstDay - 1; i >= 0; i--) {
-    const day = prevMonthDays - i;
-    days.push(
-      <button
-        key={`prev-${day}`}
-        className="w-8 h-8 flex items-center justify-center text-xs text-gray-400 opacity-30 hover:opacity-60 transition-all duration-200 rounded-full"
-        onClick={() => selectDate(day, calendarMonth - 1, calendarMonth === 0 ? calendarYear - 1 : calendarYear)}
-      >
-        {day}
-      </button>
-    );
-  }
-  
-  // Current month days
-  for (let day = 1; day <= daysInMonth; day++) {
-    const date = new Date(calendarYear, calendarMonth, day);
-    date.setHours(0, 0, 0, 0);
-    const isToday = date.getTime() === today.getTime();
-    const isSelected = currentDate && 
-                      date.getDate() === currentDate.getDate() &&
-                      date.getMonth() === currentDate.getMonth() &&
-                      date.getFullYear() === currentDate.getFullYear();
+  // Generate calendar for a specific month
+  const generateMonthDays = (year: number, month: number) => {
+    const days = [];
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const firstDay = weekStart === 1 
+      ? (firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1)
+      : firstDayOfMonth;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
     
-    days.push(
-      <button
-        key={`current-${day}`}
-        className={`w-8 h-8 flex items-center justify-center text-xs rounded-full transition-all duration-200 relative ${
-          isSelected 
-            ? 'bg-gray-900 text-white font-medium' 
-            : 'text-gray-900 hover:bg-gray-100 hover:scale-110'
-        } ${isToday && !isSelected ? 'after:absolute after:bottom-1 after:left-1/2 after:transform after:-translate-x-1/2 after:w-1 after:h-1 after:bg-gray-600 after:rounded-full' : ''}
-        ${isToday && isSelected ? 'after:absolute after:bottom-1 after:left-1/2 after:transform after:-translate-x-1/2 after:w-1 after:h-1 after:bg-white after:rounded-full' : ''}`}
-        onClick={() => selectDate(day, calendarMonth, calendarYear)}
-      >
-        {day}
-      </button>
-    );
-  }
+    // Previous month days
+    const prevMonthDays = new Date(year, month, 0).getDate();
+    for (let i = firstDay - 1; i >= 0; i--) {
+      const day = prevMonthDays - i;
+      days.push(
+        <button
+          key={`${year}-${month}-prev-${day}`}
+          className="w-8 h-8 flex items-center justify-center text-xs text-gray-400 opacity-30 hover:opacity-60 transition-all duration-200 rounded-full"
+          onClick={() => selectDate(day, month - 1, month === 0 ? year - 1 : year)}
+        >
+          {day}
+        </button>
+      );
+    }
+    
+    // Current month days
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month, day);
+      date.setHours(0, 0, 0, 0);
+      const isToday = date.getTime() === today.getTime();
+      const isSelected = currentDate && 
+                        date.getDate() === currentDate.getDate() &&
+                        date.getMonth() === currentDate.getMonth() &&
+                        date.getFullYear() === currentDate.getFullYear();
+      
+      // Check if date is in range between start and end
+      let isInRange = false;
+      let isRangeStart = false;
+      let isRangeEnd = false;
+      
+      if (startDate && endDate) {
+        const startTime = new Date(startDate).setHours(0, 0, 0, 0);
+        const endTime = new Date(endDate).setHours(0, 0, 0, 0);
+        const currentTime = date.getTime();
+        
+        isInRange = currentTime >= startTime && currentTime <= endTime;
+        isRangeStart = currentTime === startTime;
+        isRangeEnd = currentTime === endTime;
+      }
+      
+      days.push(
+        <button
+          key={`${year}-${month}-current-${day}`}
+          className={`w-8 h-8 flex items-center justify-center text-xs transition-all duration-200 relative ${
+            isSelected 
+              ? 'bg-gray-900 text-white font-medium rounded-full z-10' 
+              : isInRange
+              ? `${isRangeStart ? 'rounded-l-full' : isRangeEnd ? 'rounded-r-full' : ''} ${
+                isRangeStart || isRangeEnd ? 'bg-blue-500 text-white font-medium' : 'bg-blue-100 text-gray-900'
+              }`
+              : 'text-gray-900 hover:bg-gray-100 hover:scale-110 rounded-full'
+          } ${isToday && !isSelected ? 'after:absolute after:bottom-1 after:left-1/2 after:transform after:-translate-x-1/2 after:w-1 after:h-1 after:bg-gray-600 after:rounded-full' : ''}
+          ${isToday && isSelected ? 'after:absolute after:bottom-1 after:left-1/2 after:transform after:-translate-x-1/2 after:w-1 after:h-1 after:bg-white after:rounded-full' : ''}`}
+          onClick={() => selectDate(day, month, year)}
+        >
+          {day}
+        </button>
+      );
+    }
+    
+    // Fill remaining cells to complete the grid
+    const totalCells = firstDay + daysInMonth;
+    const remainingCells = 42 - totalCells;
+    for (let day = 1; day <= remainingCells; day++) {
+      days.push(
+        <button
+          key={`${year}-${month}-next-${day}`}
+          className="w-8 h-8 flex items-center justify-center text-xs text-gray-400 opacity-30 hover:opacity-60 transition-all duration-200 rounded-full"
+          onClick={() => selectDate(day, month + 1, month === 11 ? year + 1 : year)}
+        >
+          {day}
+        </button>
+      );
+    }
+    
+    return days;
+  };
+
+  // Generate days for both months
+  const firstMonthDays = generateMonthDays(calendarYear, calendarMonth);
   
-  // Always fill to 42 cells (6 rows) to maintain consistent height
-  const totalCells = firstDay + daysInMonth;
-  const remainingCells = 42 - totalCells;
-  for (let day = 1; day <= remainingCells; day++) {
-    days.push(
-      <button
-        key={`next-${day}`}
-        className="w-8 h-8 flex items-center justify-center text-xs text-gray-400 opacity-30 hover:opacity-60 transition-all duration-200 rounded-full"
-        onClick={() => selectDate(day, calendarMonth + 1, calendarMonth === 11 ? calendarYear + 1 : calendarYear)}
-      >
-        {day}
-      </button>
-    );
+  // Calculate next month's year and month
+  let nextMonth = calendarMonth + 1;
+  let nextYear = calendarYear;
+  if (nextMonth > 11) {
+    nextMonth = 0;
+    nextYear++;
   }
+  const secondMonthDays = generateMonthDays(nextYear, nextMonth);
   
   return (
-    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
-      <div className="flex justify-between items-center px-2 py-1.5 bg-gray-50 border-b border-gray-100">
-        <span className="text-sm font-medium text-gray-900 tracking-tight">
-          {monthNames[calendarMonth]} {calendarYear}
-        </span>
-        <div className="flex gap-2">
-          <button
-            className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
-            onClick={() => changeMonth(-1)}
-            style={{ padding: 0 }}
-          >
-            <ChevronLeft size={12} />
-          </button>
-          <button
-            className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
-            onClick={() => changeMonth(1)}
-            style={{ padding: 0 }}
-          >
-            <ChevronRight size={12} />
-          </button>
+    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 w-full">
+      <div className="flex justify-between items-center px-3 py-1.5 bg-gray-50 border-b border-gray-100">
+        <button
+          className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
+          onClick={() => changeMonth(-1)}
+          style={{ padding: 0 }}
+        >
+          <ChevronLeft size={12} />
+        </button>
+        <div className="flex gap-4 md:gap-8 items-center">
+          <span className="text-sm font-medium text-gray-900 tracking-tight">
+            {monthNames[calendarMonth]} {calendarYear}
+          </span>
+          <span className="text-sm font-medium text-gray-900 tracking-tight">
+            {monthNames[nextMonth]} {nextYear}
+          </span>
         </div>
+        <button
+          className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
+          onClick={() => changeMonth(1)}
+          style={{ padding: 0 }}
+        >
+          <ChevronRight size={12} />
+        </button>
       </div>
-      <div className="px-3 py-2">
-        <div className="grid grid-cols-7 gap-1 mb-1">
-          {weekDays.map((day, index) => (
-            <div key={index} className="w-8 h-6 flex items-center justify-center text-xs font-medium text-gray-400 tracking-wide">
-              {day}
-            </div>
-          ))}
-        </div>
-        <div className="grid grid-cols-7 gap-1 h-[288px]">
-          {days}
-        </div>
-      </div>
-      <div className="flex justify-center items-center py-3 bg-gray-50 border-t border-gray-100">
-        <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
-          {/* Hours */}
-          <div className="flex items-center">
-            <button
-              type="button"
-              onClick={() => decrementTime('hours')}
-              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
-              style={{ padding: 0 }}
-            >
-              <ChevronDown size={14} strokeWidth={1.5} />
-            </button>
-            <input
-              type="number"
-              min="0"
-              max="23"
-              className="w-11 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
-              value={String(currentDate.getHours()).padStart(2, '0')}
-              onChange={(e) => updateTime('hours', parseInt(e.target.value) || 0)}
-            />
-            <button
-              type="button"
-              onClick={() => incrementTime('hours')}
-              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
-              style={{ padding: 0 }}
-            >
-              <ChevronUp size={14} strokeWidth={1.5} />
-            </button>
+      <div className="flex flex-row gap-6 md:gap-8 px-4 py-3">
+        {/* First Month */}
+        <div className="flex-1">
+          <div className="grid grid-cols-7 gap-1 mb-1">
+            {weekDays.map((day, index) => (
+              <div key={`first-${index}`} className="w-8 h-6 flex items-center justify-center text-xs font-medium text-gray-400 tracking-wide">
+                {day}
+              </div>
+            ))}
           </div>
-          
-          <div className="text-gray-300 font-light text-sm">:</div>
-          
-          {/* Minutes */}
-          <div className="flex items-center">
-            <button
-              type="button"
-              onClick={() => decrementTime('minutes')}
-              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
-              style={{ padding: 0 }}
-            >
-              <ChevronDown size={14} strokeWidth={1.5} />
-            </button>
-            <input
-              type="number"
-              min="0"
-              max="59"
-              step="15"
-              className="w-11 text-center text-sm font-medium text-gray-900 bg-transparent border-none outline-none mx-0.5 tabular-nums"
-              value={String(currentDate.getMinutes()).padStart(2, '0')}
-              onChange={(e) => updateTime('minutes', parseInt(e.target.value) || 0)}
-            />
-            <button
-              type="button"
-              onClick={() => incrementTime('minutes')}
-              className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
-              style={{ padding: 0 }}
-            >
-              <ChevronUp size={14} strokeWidth={1.5} />
-            </button>
+          <div className="grid grid-cols-7 gap-1">
+            {firstMonthDays}
+          </div>
+        </div>
+        
+        {/* Second Month */}
+        <div className="flex-1">
+          <div className="grid grid-cols-7 gap-1 mb-1">
+            {weekDays.map((day, index) => (
+              <div key={`second-${index}`} className="w-8 h-6 flex items-center justify-center text-xs font-medium text-gray-400 tracking-wide">
+                {day}
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-7 gap-1">
+            {secondMonthDays}
           </div>
         </div>
       </div>

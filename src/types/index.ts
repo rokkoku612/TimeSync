@@ -120,6 +120,8 @@ export interface CalendarPopupProps {
   calendarMonth: number;
   language: Language;
   weekStart?: 0 | 1;
+  startDate?: Date;
+  endDate?: Date;
   onMonthChange: (year: number, month: number) => void;
   onDateSelect: (date: Date) => void;
   onTimeChange: (hours: number, minutes: number) => void;
