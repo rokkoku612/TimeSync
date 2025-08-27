@@ -147,34 +147,29 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
   const secondMonthDays = generateMonthDays(nextYear, nextMonth);
   
   return (
-    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 w-full">
-      <div className="flex justify-between items-center px-3 py-1.5 bg-gray-50 border-b border-gray-100">
+    <div className="w-full">
+      <div className="flex justify-between items-center mb-3">
         <button
-          className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
+          className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-gray-600 hover:bg-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
           onClick={() => changeMonth(-1)}
           style={{ padding: 0 }}
         >
           <ChevronLeft size={12} />
         </button>
-        <div className="flex gap-4 md:gap-8 items-center">
-          <span className="text-sm font-medium text-gray-900 tracking-tight">
-            {monthNames[calendarMonth]} {calendarYear}
-          </span>
-          <span className="text-sm font-medium text-gray-900 tracking-tight">
-            {monthNames[nextMonth]} {nextYear}
-          </span>
-        </div>
         <button
-          className="w-8 h-8 flex items-center justify-center bg-white border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-900 hover:border-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
+          className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-gray-600 hover:bg-gray-900 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95"
           onClick={() => changeMonth(1)}
           style={{ padding: 0 }}
         >
           <ChevronRight size={12} />
         </button>
       </div>
-      <div className="flex flex-row gap-6 md:gap-8 px-4 py-3">
+      <div className="flex flex-row gap-3">
         {/* First Month */}
         <div className="flex-1">
+          <div className="text-sm font-medium text-gray-900 tracking-tight text-center mb-2">
+            {calendarYear}年 {monthNames[calendarMonth]}
+          </div>
           <div className="grid grid-cols-7 gap-1 mb-1">
             {weekDays.map((day, index) => (
               <div key={`first-${index}`} className="w-8 h-6 flex items-center justify-center text-xs font-medium text-gray-400 tracking-wide">
@@ -187,8 +182,14 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
           </div>
         </div>
         
+        {/* Divider */}
+        <div className="w-px bg-gray-200"></div>
+        
         {/* Second Month */}
         <div className="flex-1">
+          <div className="text-sm font-medium text-gray-900 tracking-tight text-center mb-2">
+            {nextYear}年 {monthNames[nextMonth]}
+          </div>
           <div className="grid grid-cols-7 gap-1 mb-1">
             {weekDays.map((day, index) => (
               <div key={`second-${index}`} className="w-8 h-6 flex items-center justify-center text-xs font-medium text-gray-400 tracking-wide">

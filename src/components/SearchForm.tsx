@@ -83,11 +83,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
           />
         </div>
         {/* Single Calendar */}
-        <div className="mb-4 -mx-6 md:-mx-8 lg:-mx-12">
+        <div className="mb-4">
           <div className="text-xs text-gray-500 uppercase tracking-wider font-medium mb-2 text-center">
             {isSelectingEnd ? language.texts.end : language.texts.start}
           </div>
-          <div className="w-full px-4 md:px-6 lg:px-8">
+          <div className="w-full">
             <CalendarPopup
               type={isSelectingEnd ? "end" : "start"}
               currentDate={isSelectingEnd ? endDateTime : startDateTime}
@@ -105,10 +105,10 @@ const SearchForm: React.FC<SearchFormProps> = ({
         </div>
         
         {/* Time Pickers for Start and End */}
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-4">
           <div>
             <div className="text-xs text-gray-500 uppercase tracking-wider font-medium mb-2">{language.texts.start}</div>
-            <div className="flex justify-center">
+            <div className="flex justify-center overflow-x-auto">
               <TimePickerInline
                 value={`${startDateTime.getHours().toString().padStart(2, '0')}:${startDateTime.getMinutes().toString().padStart(2, '0')}`}
                 onChange={(time) => {
@@ -120,7 +120,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
           </div>
           <div>
             <div className="text-xs text-gray-500 uppercase tracking-wider font-medium mb-2">{language.texts.end}</div>
-            <div className="flex justify-center">
+            <div className="flex justify-center overflow-x-auto">
               <TimePickerInline
                 value={`${endDateTime.getHours().toString().padStart(2, '0')}:${endDateTime.getMinutes().toString().padStart(2, '0')}`}
                 onChange={(time) => {
@@ -139,12 +139,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
           <div className="grid grid-cols-2 text-sm text-gray-600 relative">
             <div className="pr-3">
               <div className="text-xs text-gray-400 uppercase tracking-wider font-medium mb-1">{language.texts.start}</div>
-              <div className="font-mono text-xs text-gray-900">{formatCurrentDateTime(startDateTime, language)}</div>
+              <div className="font-mono text-xs sm:text-sm text-gray-900">{formatCurrentDateTime(startDateTime, language)}</div>
             </div>
             <div className="w-px bg-gray-200 absolute left-1/2 top-0 bottom-0 -translate-x-1/2"></div>
             <div className="pl-3">
               <div className="text-xs text-gray-400 uppercase tracking-wider font-medium mb-1">{language.texts.end}</div>
-              <div className="font-mono text-xs text-gray-900">{formatCurrentDateTime(endDateTime, language)}</div>
+              <div className="font-mono text-xs sm:text-sm text-gray-900">{formatCurrentDateTime(endDateTime, language)}</div>
             </div>
           </div>
         </div>
