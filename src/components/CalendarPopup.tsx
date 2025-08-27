@@ -126,9 +126,9 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
     );
   }
   
-  // Next month days
+  // Always fill to 42 cells (6 rows) to maintain consistent height
   const totalCells = firstDay + daysInMonth;
-  const remainingCells = totalCells <= 35 ? 35 - totalCells : 42 - totalCells;
+  const remainingCells = 42 - totalCells;
   for (let day = 1; day <= remainingCells; day++) {
     days.push(
       <button
@@ -172,7 +172,7 @@ const CalendarPopup: React.FC<CalendarPopupProps> = React.memo(({
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-1" style={{ minHeight: '240px' }}>
           {days}
         </div>
       </div>
